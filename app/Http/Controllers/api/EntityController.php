@@ -46,7 +46,7 @@ class EntityController extends Controller
         FileGenerator::generateController($entity);
 
         Artisan::call("make:model", ['name' => $entity->name]);
-        // Artisan::call("make:controller", ['name' => 'api\\' . $entity->name . 'Controller', '--resource' => true]);
+       
 
         // generate 
 $txt = "import Model from './Model';

@@ -5502,12 +5502,6 @@ var Model = function () {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Models_Entity__ = __webpack_require__(186);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Models_Mentor__ = __webpack_require__(187);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Models_Youth__ = __webpack_require__(188);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Models_Candidate__ = __webpack_require__(189);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Models_Partner__ = __webpack_require__(190);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Models_TeamMember__ = __webpack_require__(191);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Models_Section__ = __webpack_require__(192);
 /**
  * Import your models(Entities) in here 
  * These models are then automatically available everywhere in vue.
@@ -5516,23 +5510,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-
-
-
-
-
-
 /**
  * define your models in the models object
  */
 window.models = {
-	entity: __WEBPACK_IMPORTED_MODULE_0__Models_Entity__["a" /* default */],
-	mentor: __WEBPACK_IMPORTED_MODULE_1__Models_Mentor__["a" /* default */],
-	youth: __WEBPACK_IMPORTED_MODULE_2__Models_Youth__["a" /* default */],
-	candidate: __WEBPACK_IMPORTED_MODULE_3__Models_Candidate__["a" /* default */],
-	partner: __WEBPACK_IMPORTED_MODULE_4__Models_Partner__["a" /* default */],
-	teamMember: __WEBPACK_IMPORTED_MODULE_5__Models_TeamMember__["a" /* default */],
-	section: __WEBPACK_IMPORTED_MODULE_6__Models_Section__["a" /* default */]
+  entity: __WEBPACK_IMPORTED_MODULE_0__Models_Entity__["a" /* default */]
 };
 
 /***/ }),
@@ -68164,14 +68146,13 @@ window.Factory = new (function () {
 	function _class() {
 		_classCallCheck(this, _class);
 
-		this.classNames = ['mentor', 'youth'];
+		this.classNames = [];
 	}
 
 	_createClass(_class, [{
-		key: 'getInstanceOf',
+		key: "getInstanceOf",
 		value: function getInstanceOf(className) {
 			var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
 
 			className = Helper.lcfirst(className);
 			this.classNames.push(className);
@@ -68179,7 +68160,7 @@ window.Factory = new (function () {
 			return new models[className](data);
 		}
 	}, {
-		key: 'getStaticInstance',
+		key: "getStaticInstance",
 		value: function getStaticInstance(className) {
 			className = Helper.lcfirst(className);
 			this.classNames.push(className);
@@ -69316,429 +69297,12 @@ var Entity = function (_Model) {
 /* harmony default export */ __webpack_exports__["a"] = (Entity);
 
 /***/ }),
-/* 187 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Model__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__App_Validator__ = __webpack_require__(5);
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-var Mentor = function (_Model) {
-    _inherits(Mentor, _Model);
-
-    function Mentor() {
-        var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-        _classCallCheck(this, Mentor);
-
-        var _this = _possibleConstructorReturn(this, (Mentor.__proto__ || Object.getPrototypeOf(Mentor)).call(this, data));
-
-        _this.fields = {
-            first_name: {
-                type: 'text',
-                translation: 'Voornaam',
-                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
-                    required: true
-                })
-            },
-
-            last_name: {
-                type: 'text',
-                translation: 'Achternaam',
-                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
-                    required: true
-                })
-            },
-
-            description: {
-                type: 'textarea',
-                translation: 'Over de mentor',
-                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
-                    required: true
-                })
-            },
-
-            date_of_birth: {
-                type: 'date',
-                translation: 'Geboortedatum',
-                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
-                    required: true
-                })
-            },
-
-            photo: {
-                type: 'photo',
-                translation: 'Kies een foto',
-                dimensions: { "3x2": 'landscape', "1x1": 'portrait' },
-                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
-                    required: true
-                })
-            }
-
-        };
-
-        return _this;
-    }
-
-    return Mentor;
-}(__WEBPACK_IMPORTED_MODULE_0__Model__["a" /* default */]);
-
-/* harmony default export */ __webpack_exports__["a"] = (Mentor);
-
-/***/ }),
-/* 188 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Model__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__App_Validator__ = __webpack_require__(5);
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-var Youth = function (_Model) {
-    _inherits(Youth, _Model);
-
-    function Youth() {
-        var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-        _classCallCheck(this, Youth);
-
-        var _this = _possibleConstructorReturn(this, (Youth.__proto__ || Object.getPrototypeOf(Youth)).call(this, data));
-
-        _this.fields = {
-            first_name: {
-                type: 'text',
-                translation: 'Voornaam',
-                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
-                    required: true
-                })
-            },
-
-            last_name: {
-                type: 'text',
-                translation: 'Achternaam',
-                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
-                    required: true
-                })
-            },
-
-            description: {
-                type: 'textarea',
-                translation: 'Over de jongere',
-                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
-                    required: true
-                })
-            },
-
-            date_of_birth: {
-                type: 'date',
-                translation: 'Geboortedatum',
-                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
-                    required: true
-                }),
-                format: ['d-m-y']
-            },
-
-            photo: {
-                type: 'photo',
-                translation: 'Kies een foto',
-                dimensions: { "3x2": 'landscape', "1x1": 'portrait' },
-                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
-                    required: true
-                })
-            }
-        };
-
-        return _this;
-    }
-
-    return Youth;
-}(__WEBPACK_IMPORTED_MODULE_0__Model__["a" /* default */]);
-
-/* harmony default export */ __webpack_exports__["a"] = (Youth);
-
-/***/ }),
-/* 189 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Model__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__App_Validator__ = __webpack_require__(5);
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-var Candidate = function (_Model) {
-    _inherits(Candidate, _Model);
-
-    function Candidate() {
-        var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-        _classCallCheck(this, Candidate);
-
-        var _this = _possibleConstructorReturn(this, (Candidate.__proto__ || Object.getPrototypeOf(Candidate)).call(this, data));
-
-        _this.fields = {
-
-            first_name: {
-                type: 'text',
-                translation: 'Voornaam',
-                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
-                    required: true
-                })
-            },
-
-            last_name: {
-                type: 'text',
-                translation: 'Achternaam',
-                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
-                    required: true
-                })
-            },
-
-            telephone_number: {
-                type: 'text',
-                translation: 'Telefoonnummer',
-                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
-                    required: true
-                })
-            },
-
-            email_address: {
-                type: 'text',
-                translation: 'E-mailadres',
-                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
-                    required: true
-                })
-            },
-
-            date_of_birth: {
-                type: 'date',
-                translation: 'Geboortedatum',
-                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
-                    required: true
-                })
-            },
-
-            message: {
-                type: 'textarea',
-                translation: 'Bericht',
-                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
-                    required: true
-                })
-            }
-
-        };
-
-        return _this;
-    }
-
-    return Candidate;
-}(__WEBPACK_IMPORTED_MODULE_0__Model__["a" /* default */]);
-
-/* harmony default export */ __webpack_exports__["a"] = (Candidate);
-
-/***/ }),
-/* 190 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Model__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__App_Validator__ = __webpack_require__(5);
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-var Partner = function (_Model) {
-    _inherits(Partner, _Model);
-
-    function Partner() {
-        var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-        _classCallCheck(this, Partner);
-
-        var _this = _possibleConstructorReturn(this, (Partner.__proto__ || Object.getPrototypeOf(Partner)).call(this, data));
-
-        _this.fields = {
-            name: {
-                type: 'text',
-                translation: 'Naam',
-                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
-                    required: true
-                })
-            },
-
-            description: {
-                type: 'textarea',
-                translation: 'Beschrijving',
-                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
-                    required: true
-                })
-            },
-
-            date_started: {
-                type: 'date',
-                translation: 'Datum start samenwerking',
-                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
-                    required: true
-                })
-            }
-        };
-
-        return _this;
-    }
-
-    return Partner;
-}(__WEBPACK_IMPORTED_MODULE_0__Model__["a" /* default */]);
-
-/* harmony default export */ __webpack_exports__["a"] = (Partner);
-
-/***/ }),
-/* 191 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Model__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__App_Validator__ = __webpack_require__(5);
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-var TeamMember = function (_Model) {
-    _inherits(TeamMember, _Model);
-
-    function TeamMember() {
-        var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-        _classCallCheck(this, TeamMember);
-
-        var _this = _possibleConstructorReturn(this, (TeamMember.__proto__ || Object.getPrototypeOf(TeamMember)).call(this, data));
-
-        _this.fields = {
-            first_name: {
-                type: 'text',
-                translation: 'Voornaam',
-                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
-                    required: true
-                })
-            },
-
-            last_name: {
-                type: 'text',
-                translation: 'Achternaam',
-                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
-                    required: true
-                })
-            },
-
-            description: {
-                type: 'textarea',
-                translation: 'Voornaam',
-                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
-                    required: true
-                })
-            },
-
-            role: {
-                type: 'text',
-                translation: 'Role',
-                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
-                    required: true
-                })
-            }
-
-        };
-
-        return _this;
-    }
-
-    return TeamMember;
-}(__WEBPACK_IMPORTED_MODULE_0__Model__["a" /* default */]);
-
-/* harmony default export */ __webpack_exports__["a"] = (TeamMember);
-
-/***/ }),
-/* 192 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Model__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__App_Validator__ = __webpack_require__(5);
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-var Section = function (_Model) {
-    _inherits(Section, _Model);
-
-    function Section() {
-        var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-        _classCallCheck(this, Section);
-
-        var _this = _possibleConstructorReturn(this, (Section.__proto__ || Object.getPrototypeOf(Section)).call(this, data));
-
-        _this.fields = {
-            title: {
-                type: 'text',
-                translation: 'Titel',
-                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
-                    required: true
-                })
-            },
-
-            body: {
-                type: 'textarea',
-                translation: 'Inhoud',
-                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
-                    required: true
-                })
-            }
-        };
-
-        return _this;
-    }
-
-    return Section;
-}(__WEBPACK_IMPORTED_MODULE_0__Model__["a" /* default */]);
-
-/* harmony default export */ __webpack_exports__["a"] = (Section);
-
-/***/ }),
+/* 187 */,
+/* 188 */,
+/* 189 */,
+/* 190 */,
+/* 191 */,
+/* 192 */,
 /* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
