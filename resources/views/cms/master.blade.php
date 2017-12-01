@@ -13,12 +13,12 @@
         <link rel="stylesheet" type="text/css" href="/CMS_CSS/css/app.css">
         <meta id="token" name="csrf-token" value="{{ csrf_token() }}">
         <script>
-    window.Laravel = <?php echo json_encode([
-        'csrfToken' => csrf_token(),
-    ]); ?>
+            window.Laravel = <?php echo json_encode([
+                'csrfToken' => csrf_token(),
+            ]); ?>
 
-    window.user_id = <?php echo json_encode(Auth::user()->id); ?>
-</script>
+            window.user_id = <?php echo json_encode(Auth::user()->id); ?>
+        </script>
     </head>
     <body class="bg-secondary">
         <!-- top bar -->
