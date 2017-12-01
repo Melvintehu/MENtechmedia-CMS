@@ -1,0 +1,59 @@
+/* --------------------------------------------- ANIMATIONS -------------------------------------------- */
+
+
+/* ----------------------- */
+/* || --base settings-- || */
+/* ----------------------- */
+
+/* ----------------- */
+/* || --classes-- || */
+/* ----------------- */
+
+
+/* ---- transitions ---- */
+
+
+.transition-xs-slow {
+	-webkit-transition: 1500ms;
+    -moz-transition: 1500ms;
+    -o-transition: 1500ms;
+    transition: 1500ms;
+}
+
+
+.transition-slow {
+	-webkit-transition: 1000ms;
+    -moz-transition: 1000ms;
+    -o-transition: 1000ms;
+    transition: 1000ms;
+}
+
+
+.transition-normal {
+	-webkit-transition: 500ms;
+    -moz-transition: 500ms;
+    -o-transition: 500ms;
+    transition: 500ms;
+}
+
+
+.transition-fast {
+	-webkit-transition: 200ms;
+    -moz-transition: 200ms;
+    -o-transition: 200ms;
+    transition: 200ms;
+}
+
+
+/* ------------------ */
+/* || -- hovers -- || */
+/* ------------------ */
+.scale-hover-xs:hover{
+  -moz-transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+/* ----------------------- */
+/* || --media queries-- || */
+/* ----------------------- */

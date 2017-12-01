@@ -1,9 +1,127 @@
 
-// Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "node_modules/animate.css/animate.min";
+@import "node_modules/owl-carousel-2/assets/owl.carousel.min";
+@import "node_modules/owl-carousel-2/assets/owl.theme.default.min";
 
-// Variables
-@import "variables";
+div[class^="col-"] { padding-left: 7px; } 
+div[class^="col-"] { padding-right: 7px; }
 
-// Bootstrap
-@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+@import "common_used_classes";
+@import "huisstijl";
+@import "partials/backgrounds";
+@import "partials/buttons";
+@import "partials/form-elements";
+@import "partials/borders";
+@import "partials/text-and-heading-colors";
+@import "partials/text-transforms-and-font-classes";
+@import "partials/animations";
+@import "partials/shadows";
+@import "partials/client-manipulators";
+@import "partials/images";
+@import "partials/shapes";
+@import "partials/floats";
+@import "partials/block-limits";
+@import "partials/blocks";
+@import "partials/layers";
+@import "partials/positioning";
+
+@import "base-rules";
+@import "custom";
+
+@import "toastr";
+
+.preload * {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -ms-transition: none !important;
+  -o-transition: none !important;
+}
+
+
+.cut-out-top-left{
+    position: relative;
+  }
+  
+  
+  .cut-out-top-left:before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    border-top: 75px solid white;
+    border-right: 60px solid $main-color;
+    width: 0;
+  }
+
+
+
+        /* Large desktops and laptops */
+        @media (min-width: 1200px) {
+            
+         }
+    
+        /* Landscape tablets and medium desktops */
+        @media (min-width: 992px) and (max-width: 1199px) {
+            .cut-out-top-left:before {
+                display: none;
+            }
+        }
+    
+        /* Portrait tablets and small desktops */
+        @media (min-width: 768px) and (max-width: 991px) { 
+            .cut-out-top-left:before {
+                display: none;
+            }
+        }
+    
+        /* Landscape phones and portrait tablets */
+        @media (max-width: 767px) { 
+            .cut-out-top-left:before {
+                display: none;
+            }
+        }
+    
+        /* Portrait phones and smaller */
+        @media (max-width: 480px) { 
+            .cut-out-top-left:before {
+                display: none;
+            }
+        }
+
+
+.navbar-default{
+	background-color: $main-color;
+	border-color: $main-color;
+
+    position: relative;
+    right: 20px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
+    color: $secondary-color;
+    background-color: transparent;
+}
+
+.navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
+    color: $secondary-color;
+    background-color: transparent;
+}
+
+.navbar-default .navbar-nav > li > a, .navbar-default .navbar-nav > li > a {
+    color: white;
+    background-color: transparent;
+    font-size: 12px;
+    margin: 0px;
+    padding: 0px;
+    margin-right: 20px;
+
+}
+
+
+
+
+
