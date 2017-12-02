@@ -23,6 +23,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
  */
 
 Route::resource('entity', 'api\EntityController');
+Route::resource('section', 'api\SectionController');
+
 
  /**
   * Custom routes here

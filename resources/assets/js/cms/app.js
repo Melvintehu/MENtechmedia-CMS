@@ -51,3 +51,4 @@ Vue.component('validation-display', require('./components/validation/validation_
 
  Vue.component('editable-section', require('./components/crud/live-text-editors/editable-section.vue'));
  Vue.component('editable-title', require('./components/crud/live-text-editors/editable-title.vue'));
+ Vue.component('editable-text', require('./components/crud/live-text-editors/text.vue'));

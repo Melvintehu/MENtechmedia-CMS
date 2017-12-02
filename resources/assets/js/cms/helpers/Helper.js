@@ -5,6 +5,10 @@
  */
 window.Helper = new class
 {   
+
+
+
+
    constructor()
       {}
       /**
@@ -19,6 +23,12 @@ window.Helper = new class
             // return string[0].toUpperCase() + string.slice(1);
       }
 
+      nl2br (str, is_xhtml) {
+       
+        var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br ' + '/>' : '<br>';
+      
+        return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+      }
 
       lcfirst(str) {
         

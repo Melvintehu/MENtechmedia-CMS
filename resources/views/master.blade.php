@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title> @yield('title') | Mentor4you</title>
+    <title> @yield('title') | PAGE TITLE</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,700" rel="stylesheet">
@@ -26,9 +26,9 @@
     <meta property="og:description"   content="Mentor4you is een mentorprogramma voor jongeren tussen de 12 en 25 jaar oud." />
     <meta property="og:image"         content="" />
 
-    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
-    <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
-    <script>
+    {{--  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />  --}}
+    {{--  <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>  --}}
+    {{--  <script>
         window.addEventListener("load", function(){
             window.cookieconsent.initialise({
                 "palette": {
@@ -48,20 +48,15 @@
                     "link": "Lees meer"
                 }
             })});
-    </script>
+    </script>  --}}
 </head>
 <body>
+
     <div id="app">
-        @include('components.header.header')
         
         @yield('content')
 
-        {{--  @include('components/footer')  --}}
     </div>
-
-    {{--  footer  --}}
-    @include('components.footer')
-
     <script type="text/javascript" src="/js/app.js"></script>
     
 </body>

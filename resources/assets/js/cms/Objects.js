@@ -4,12 +4,14 @@
  * 
  */
 
-
 import Entity from './Models/Entity';
+import Section from './Models/Section';
+
 
 /**
  * define your models in the models object
  */
 window.models = {
 	entity: Entity,
+	section: Section,
 };

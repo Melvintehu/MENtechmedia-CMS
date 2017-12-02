@@ -36,6 +36,7 @@
 		props: {
 			ask_confirm: "",
 			confirm_message: "",
+			identifier: null,
 		},
 		data() {
 			return {
@@ -52,6 +53,10 @@
 			});
 
 			Event.listen('overlay:open', () => {
+				this.show();
+			});
+
+			Event.listen('overlay:open' + this.identifier, () => {
 
 				this.show();
 			});

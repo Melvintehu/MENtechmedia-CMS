@@ -5502,6 +5502,7 @@ var Model = function () {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Models_Entity__ = __webpack_require__(186);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Models_Section__ = __webpack_require__(192);
 /**
  * Import your models(Entities) in here 
  * These models are then automatically available everywhere in vue.
@@ -5510,11 +5511,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+
 /**
  * define your models in the models object
  */
 window.models = {
-  entity: __WEBPACK_IMPORTED_MODULE_0__Models_Entity__["a" /* default */]
+  entity: __WEBPACK_IMPORTED_MODULE_0__Models_Entity__["a" /* default */],
+  section: __WEBPACK_IMPORTED_MODULE_1__Models_Section__["a" /* default */]
 };
 
 /***/ }),
@@ -68090,6 +68093,7 @@ Vue.component('validation-display', __webpack_require__(292));
 
 Vue.component('editable-section', __webpack_require__(297));
 Vue.component('editable-title', __webpack_require__(300));
+Vue.component('editable-text', __webpack_require__(315));
 
 /***/ }),
 /* 173 */
@@ -68153,6 +68157,7 @@ window.Factory = new (function () {
 		key: "getInstanceOf",
 		value: function getInstanceOf(className) {
 			var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
 
 			className = Helper.lcfirst(className);
 			this.classNames.push(className);
@@ -68231,6 +68236,14 @@ window.Helper = new (function () {
          return string;
          // @todo : Cannot read property '0' of undefined
          // return string[0].toUpperCase() + string.slice(1);
+      }
+   }, {
+      key: 'nl2br',
+      value: function nl2br(str, is_xhtml) {
+
+         var breakTag = is_xhtml || typeof is_xhtml === 'undefined' ? '<br ' + '/>' : '<br>';
+
+         return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
       }
    }, {
       key: 'lcfirst',
@@ -69302,7 +69315,64 @@ var Entity = function (_Model) {
 /* 189 */,
 /* 190 */,
 /* 191 */,
-/* 192 */,
+/* 192 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Model__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__App_Validator__ = __webpack_require__(5);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var Section = function (_Model) {
+    _inherits(Section, _Model);
+
+    function Section() {
+        var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+        _classCallCheck(this, Section);
+
+        var _this = _possibleConstructorReturn(this, (Section.__proto__ || Object.getPrototypeOf(Section)).call(this, data));
+
+        _this.fields = {
+            id: {
+                type: 'number',
+                translation: 'Identifier'
+            },
+
+            title: {
+                type: 'text',
+                translation: 'Titel',
+                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
+                    required: true
+                })
+            },
+
+            body: {
+                type: 'textarea',
+                translation: 'De body van de sectie',
+                validation: new __WEBPACK_IMPORTED_MODULE_1__App_Validator__["a" /* default */]({
+                    required: true
+                })
+            }
+
+        };
+
+        return _this;
+    }
+
+    return Section;
+}(__WEBPACK_IMPORTED_MODULE_0__Model__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (Section);
+
+/***/ }),
 /* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -76395,7 +76465,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: {
 		ask_confirm: "",
-		confirm_message: ""
+		confirm_message: "",
+		identifier: null
 	},
 	data: function data() {
 		return {
@@ -76412,6 +76483,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		});
 
 		Event.listen('overlay:open', function () {
+			_this.show();
+		});
+
+		Event.listen('overlay:open' + this.identifier, function () {
 
 			_this.show();
 		});
@@ -76790,6 +76865,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -76799,11 +76879,60 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     data: function data() {
         return {
-            section: null
-
+            section: null,
+            contents: null,
+            body: null
         };
     },
-    mounted: function mounted() {}
+    mounted: function mounted() {
+        var _this = this;
+
+        Factory.getStaticInstance('section').find(this.id).then(function (section) {
+            _this.section = section;
+
+            _this.setUpReference();
+            _this.populateHtml(section.body);
+            _this.populateInput();
+        });
+    },
+
+
+    methods: {
+        openOverlay: function openOverlay() {
+            Event.fire('overlay:open' + this.id + 'section');
+        },
+        setUpReference: function setUpReference() {
+            this.contents = $('#body' + this.id + ' span.__text_content__');
+        },
+        populateHtml: function populateHtml(body) {
+            var amountOfParts = this.contents.length;
+            var bodyInParts = body.split(" ");
+
+            for (var i = 1; i <= amountOfParts; i++) {
+                if (i < amountOfParts) {
+
+                    this.contents[i - 1].innerHTML = Helper.nl2br(bodyInParts.shift(), false);
+                } else {
+                    this.contents[i - 1].innerHTML = Helper.nl2br(bodyInParts.join(" "), false);
+                }
+            }
+        },
+        populateInput: function populateInput() {
+            this.body = _.map(this.contents, function (body) {
+                return body.innerHTML.replace(/<br\s*[\/]?>/gi, "");
+            }).join(' ');
+            this.body = this.body.replace(/<br\s*[\/]?>/gi, "");
+        },
+        update: function update() {
+            this.populateHtml(this.body);
+
+            this.section.body = this.body;
+            this.section.update().then(function () {
+                Event.fire('overlay:close');
+            });
+        }
+    }
+
 });
 
 /***/ }),
@@ -76814,7 +76943,58 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { attrs: { id: this.id } }, [_vm._t("default")], 2)
+  return _c(
+    "div",
+    {
+      attrs: { id: "body" + this.id },
+      on: {
+        dblclick: function($event) {
+          _vm.openOverlay()
+        }
+      }
+    },
+    [
+      _vm._t("default"),
+      _vm._v(" "),
+      _c("overlay", { attrs: { identifier: _vm.id + "section" } }, [
+        _c("textarea", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.body,
+              expression: "body"
+            }
+          ],
+          staticClass:
+            "border-accent full-width space-inside-sides-md space-inside-md",
+          staticStyle: { "border-color": "#f1f1f1" },
+          attrs: { rows: "8" },
+          domProps: { value: _vm.body },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.body = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass:
+              "text-color-light border-none space-inside-xs space-inside-sides-sm",
+            staticStyle: { background: "#E65100" },
+            on: { click: _vm.update }
+          },
+          [_vm._v(" aanpassen ")]
+        )
+      ])
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -76888,6 +77068,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -76898,27 +77083,55 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             section: null,
+            titles: null,
             title: null
         };
     },
     mounted: function mounted() {
         var _this = this;
 
+        console.log(window.Laravel);
         Factory.getStaticInstance('section').find(this.id).then(function (section) {
             _this.section = section;
-            Event.fire('editable-title:prepare', section);
-        });
-
-        Event.listen('editable-title:prepare', function (section) {
             _this.setUpReference();
-            console.log(_this.title);
+            _this.populateHtml(section.title);
+            _this.populateInput();
         });
     },
 
 
     methods: {
+        openOverlay: function openOverlay() {
+            Event.fire('overlay:open' + this.id + 'title');
+        },
         setUpReference: function setUpReference() {
-            this.title = $('#title' + this.id).children().html();
+            this.titles = $('#title' + this.id).find('span.__text_content__');
+        },
+        populateHtml: function populateHtml(title) {
+            var amountOfParts = this.titles.length;
+            var titleInParts = title.split(" ");
+
+            for (var i = 1; i <= amountOfParts; i++) {
+                if (i < amountOfParts) {
+
+                    this.titles[i - 1].innerHTML = titleInParts.shift();
+                } else {
+                    this.titles[i - 1].innerHTML = titleInParts.join(" ");
+                }
+            }
+        },
+        populateInput: function populateInput() {
+            this.title = _.map(this.titles, function (title) {
+                return title.innerHTML;
+            }).join(' ');
+        },
+        update: function update() {
+            this.populateHtml(this.title);
+
+            this.section.title = this.title;
+            this.section.update().then(function () {
+                Event.fire('overlay:close');
+            });
         }
     }
 
@@ -76932,7 +77145,57 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { attrs: { id: "title" + this.id } }, [_vm._t("default")], 2)
+  return _c(
+    "div",
+    {
+      attrs: { id: "title" + this.id },
+      on: {
+        dblclick: function($event) {
+          _vm.openOverlay()
+        }
+      }
+    },
+    [
+      _vm._t("default"),
+      _vm._v(" "),
+      _c("overlay", { attrs: { identifier: _vm.id + "title" } }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.title,
+              expression: "title"
+            }
+          ],
+          staticClass:
+            "border full-width space-inside-sides-md space-inside-md space-outside-down-xs",
+          staticStyle: { "border-color": "#f1f1f1" },
+          domProps: { value: _vm.title },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.title = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass:
+              "text-color-light border-none space-inside-xs space-inside-sides-sm",
+            staticStyle: { background: "#E65100" },
+            on: { click: _vm.update }
+          },
+          [_vm._v(" aanpassen ")]
+        )
+      ])
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -76955,6 +77218,101 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 305 */,
+/* 306 */,
+/* 307 */,
+/* 308 */,
+/* 309 */,
+/* 310 */,
+/* 311 */,
+/* 312 */,
+/* 313 */,
+/* 314 */,
+/* 315 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(316)
+/* template */
+var __vue_template__ = __webpack_require__(317)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\cms\\components\\crud\\live-text-editors\\text.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-0aea3728", Component.options)
+  } else {
+    hotAPI.reload("data-v-0aea3728", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 316 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/***/ }),
+/* 317 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("span", { staticClass: "__text_content__" }, [_vm._t("default")], 2)
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-0aea3728", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
