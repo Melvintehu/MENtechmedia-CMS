@@ -1,17 +1,27 @@
-/**
- * Import your models(Entities) in here 
- * These models are then automatically available everywhere in vue.
- * 
- */
+    /*
+    |--------------------------------------------------------------------------
+    | Import
+    |--------------------------------------------------------------------------
+    |
+    | Import your models here
+    | 
+    | 
+    |
+    */
+	
 
-import Entity from './Models/Entity';
-import Section from './Models/Section';
+    /*
+    |--------------------------------------------------------------------------
+    | Insert
+    |--------------------------------------------------------------------------
+    |
+    | Insert your models in the models object below.
+    | 
+    | 
+    |
+    */
 
+	window.models = {
 
-/**
- * define your models in the models object
- */
-window.models = {
-	entity: Entity,
-	section: Section,
-};
+	};
+

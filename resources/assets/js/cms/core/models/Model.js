@@ -1,4 +1,4 @@
-import Validator from '../App/Validator';
+import Validator from '../../app/Validator/Validator';
 
 class Model {
 
@@ -32,9 +32,7 @@ class Model {
         });
     }
 
-    static find(id) {
-        console.log(this.constructor.name.toLowerCase());
-        
+    static find(id) {        
         // TODO : throw an exception if Factory.className is undefined
         return new Promise((resolve, reject) => {
             

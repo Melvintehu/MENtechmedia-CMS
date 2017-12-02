@@ -49,7 +49,7 @@ class EntityController extends Controller
        
 
         // generate 
-$txt = "import Model from './Model';
+$txt = "import Model from '../core/models/Model';
 import Validator from '../App/Validator';
 
 class {$entity->name} extends Model {

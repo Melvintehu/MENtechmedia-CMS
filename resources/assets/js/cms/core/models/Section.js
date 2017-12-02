@@ -1,5 +1,5 @@
 import Model from './Model';
-import Validator from '../App/Validator';
+import Validator from '../../app/Validator/Validator';
 
 class Section extends Model {
 
