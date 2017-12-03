@@ -39,6 +39,7 @@
 
 				let attributeExceptions = [
 					'photo',
+					'id',
 				];
 
 				_.each(this.object.fields, (attribute, attributeName) => {

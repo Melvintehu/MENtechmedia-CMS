@@ -1,34 +1,43 @@
 <template>
-<div @keyup.9.capture.prevent.stop>
+	<div v-if="inputController !== null" @keyup.9.capture.prevent.stop>
 
-	<div class="col-lg-12 reset-padding " style="height: 100%;">
-		<p style="width: 100%; height: 100%;text-transform: capitalize" class="font-sm  text-bold inline-block  text-color-dark  space-inside-up-xs space-inside-down-sm ">{{ attribute.translation }}</p>
-	</div>
+		<!-- The attribute field's title -->
+		<div class="col-lg-12 reset-padding " style="height: 100%;">
+			<p 
+				style="width: 100%; height: 100%;text-transform: capitalize" 
+				class="
+					font-sm text-bold text-color-dark 
+					inline-block
+					space-inside-up-xs space-inside-down-sm 
+					"
+			>{{ attribute.translation }}</p>
 
-	<input 
-		@keyup="trackInput()"
-		:id="attributeName + identifier"
-		:placeholder="attribute.translation"
+		</div>
 
+		<!-- The input -->
+		<input 
+			@keyup="inputController.trackInput();"
+			:placeholder="attribute.translation"
+			v-model="inputController.input"
+			
+			class="
+				border border-secondary border-curved outline-none
+				space-inside-sides-md space-inside-sm 
+				inline-block 
+				full-width
+				bg-secondary
+				" 
+		required>
 		
+		<!-- A display to show the errors on the screen -->
+		<validation-display  v-if="attribute.validation !== undefined" :errors="attribute.validation.errors"> </validation-display>
 
-		class="
-			border border-secondary border-curved outline-none
-			space-inside-sides-md space-inside-sm 
-			inline-block 
-			full-width
-			bg-secondary
-			" 
-	 required>
-	 
-	 <!-- A display to display the errors -->
-	 <validation-display  v-if="attribute.validation !== undefined" :errors="attribute.validation.errors"> </validation-display>
-</div>
+	</div>
 </template>
 
-
-
 <script type="text/javascript">
+	import InputController from '../../../app/inputController/inputController';
+
 	export default {
 		props: {
 			attributeName: null,
@@ -39,70 +48,13 @@
 
 		data() {
 			return {
-				input: null,
+				inputController: null,
 			}
 		},
 
 		mounted() {
-			this.initInputs();
-
-			this.registerListeners();
-			
-			if(!Validator.required(this.attribute.validation, this.input.value)) {
-				Event.fire('progressbar:increment:' + this.identifier, this.attributeName); 
-			} 
+			this.inputController = new InputController(this.attributeName, this.attribute, this.identifier, this.value);
 		},
 
-		
-		methods: {
-			trackInput() {
-				
-				
-				// do validation
-				if(!Validator.valid(this.attribute.validation, this.input.value)) {
-				
-					Event.fire('progressbar:decrement:' + this.identifier, this.attributeName);
-					return; 
-				} 
-
-				Event.fire('progressbar:increment:' + this.identifier, this.attributeName);
-				Event.fire('input:updated:' + this.attributeName, this.input.value);
-			},
-
-			registerListeners() {
-
-				Event.listen('input:insertValues:' + this.identifier, () => {
-					$('#' + this.attributeName + this.identifier)[0].value = this.value[this.attributeName];
-					this.initInputs();
-
-					// do validation
-					if(Validator.valid(this.attribute.validation, this.input.value)) {
-						Event.fire('progressbar:increment:' + this.identifier, this.attributeName); 
-					}
-
-				});
-
-				// event for clearing the input
-				Event.listen('inputs:clear', () => {
-					this.input.value = "";
-
-
-					if(!Validator.required(this.attribute.validation, this.input.value)) {
-						Event.fire('progressbar:increment:' + this.identifier, this.attributeName); 
-					} 
-				});
-
-				Event.listen('validator:validate', () => {
-					Validator.valid(this.attribute.validation, this.input.value);
-				});
-			},
-
-			initInputs() {
-				this.input = $('#' + this.attributeName + this.identifier)[0];
-			},
-
-
-
-		}
 	}
 </script>

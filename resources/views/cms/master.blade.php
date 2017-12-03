@@ -23,17 +23,17 @@
     <body class="bg-secondary">
         <!-- top bar -->
         <div id="app" class="container-fluid no-overflow" >
-            <div style="position: fixed" class="col-lg-2 vertical-scrollbar no-overflow-x reset-padding bg-tertiary full-height  shadow-xs">
+            <div class="cms-navigation col-lg-2 col-md-2 col-xs-12 vertical-scrollbar no-overflow-x reset-padding bg-tertiary full-height  shadow-xs">
 
                 <div class="row">
                     <!-- user -->
-                    <div class="col-lg-12  space-inside-sides-xl space-inside-up-md text-center">
+                    <div class="col-lg-12 col-md-12  space-inside-sides-xl space-inside-up-md text-center">
                         <div class="circle image shadow-sm">
                             <img class="height-auto" src="/images/cms/avatar.jpg">
                         </div>
                     </div>
 
-                    <div class="col-lg-12 space-inside-sm space-inside-sides-xl text-center ">
+                    <div class="col-lg-12 col-md-12 space-inside-sm space-inside-sides-xl text-center ">
                         <p class="text-color-light  font-md text-thin">{{ Auth::user()->name }}</p>
                         <a class="text-color-light space-inside-md text-thin" href="/cms/user?type=user#user">Profiel bewerken</a>
                         <a class="text-color-light text-thin" href="/cms/logout">Uitloggen</a>
@@ -43,12 +43,10 @@
 
                     <!-- content divider -->
 
-                    <div style="height: 4px;" class="  col-lg-12 space-inside-xs">
+                    <div style="height: 4px;" class="col-lg-12 col-md-12 space-inside-xs">
                         <div style="height: 4px;" class="bg-tertiary-darken-xs border-dark border-top"></div>
                     </div>
                     <!-- end of content divider -->
-
-                    
 
 
                     @include('cms.nav')
@@ -56,15 +54,13 @@
                     <!-- end of navigation -->
                 </div>    
             </div>
-            <div class="col-lg-2"></div>
+            <div class="col-lg-2 col-md-2"></div>
 
 
             <!--  all content -->
-            <div  class="col-lg-10 reset-padding ">
+            <div  class="col-lg-10 col-md-10 col-xs-12 reset-padding ">
                 <div class="row"> 
-                    <div class="col-lg-12 space-outside-down-sm">
-                        <!-- <dashboard-search> </dashboard-search> -->
-
+                    <div class="col-lg-12 col-md-12 space-outside-down-sm">
                        @yield('content')
                     </div>
                 </div>
