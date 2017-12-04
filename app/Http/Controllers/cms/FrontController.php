@@ -13,10 +13,16 @@ class FrontController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {   
+
+        $coreEntities = [
+            'entity',
+            'section',
+        ];
+
         $entity = $request->get('type');
-        if($entity === 'entity') {
-            return view('cms.Core.entity.index');
+        if( in_array( $entity, $coreEntities ) ) {
+            return view("cms.Core.{$entity}.index");
         }
         
         $entity = Entity::where('name', $entity)->first();
