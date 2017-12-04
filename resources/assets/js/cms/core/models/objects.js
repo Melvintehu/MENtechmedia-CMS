@@ -11,11 +11,13 @@
 
     import Entity from './Entity';
     import Section from './Section';
-
+    import UserRole from './UserRole';
+    
 
     let models = {
         entity: Entity,
         section: Section,
+        userRole: UserRole,
     }
 
     /*

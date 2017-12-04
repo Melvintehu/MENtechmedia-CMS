@@ -5,7 +5,7 @@
     <p class="space-inside-sides-md text-color-main text-semi-bold font-xs space-outside-sm">Super admin</p>
 
     <nav-link id="entity" icon="description"> Entiteiten </nav-link>
-    
+    <nav-link id="section" icon="description"> Secties </nav-link>    
 </div>
 
 
