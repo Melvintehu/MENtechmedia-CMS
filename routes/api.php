@@ -16,3 +16,16 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+/**
+ * Core routes here
+ */
+
+Route::resource('entity', 'api\EntityController');
+Route::resource('section', 'api\SectionController');
+
+
+ /**
+  * Custom routes here
+  */

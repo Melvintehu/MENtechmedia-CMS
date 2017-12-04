@@ -12,5 +12,35 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('homepage');
 });
+
+
+
+
+/**
+ * CMS ROUTES
+ */
+
+Route::get('/cropper', 'cms\ImageHelperController@index');
+Route::resource('photo', 'cms\PhotosController');
+Route::post('photo/multi', 'cms\MultiPhotosController@store');
+
+Route::group(['prefix' => 'cms'],  function () {
+    Route::group(['middleware' => ['auth']], function(){
+
+    	// --- CORE ROUTES ONLY
+        Route::get('/logout', 'cms\LogoutController@logout');
+   		Route::get('/', 'cms\DashBoardController@index');
+        Route::get('/edit', 'cms\FrontController@edit');
+        // ----------------- GENERIC ROUTES FOR EVERY PROJECT GO HERE ----------
+
+
+        // ------ CUSTOM ROUTES GO UNDERNEATH HERE ----------------
+        Route::resource('entity', 'cms\FrontController');
+
+    });
+});
+
+Auth::routes();
+Route::get('home', 'cms\HomeController@index');
