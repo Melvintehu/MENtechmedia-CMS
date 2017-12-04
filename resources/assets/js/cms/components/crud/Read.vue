@@ -167,10 +167,6 @@
 			filterData(event) {
 				this.data = [];
 
-				
-				// for each field in the object
-				// check if the given string has a resemblance with the property value of one of the rows
-				
 				let search = new Search();
 
 				let results = search.find(event.target.value, this.referenceData, this.object.fields);

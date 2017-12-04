@@ -13,22 +13,12 @@ class Search {
      * The function skips the attributes that aren't included in the attributesToUse array|object 
      */
     find(searchValue, data, attributesToUse) {
-        let results = [];
-
-        for(let index in data) {
-            for(let field in attributesToUse) {
-                let record = data[index][field] + '';
-
-                // implement a search function here that returns the new result set.
-                if(_.includes(record.toLowerCase(), searchValue.toLowerCase())) {
-                    results.push(data[index]);
-                    break;
-                }
-                
-            }
-        } 
-        
-        return results;
+        return _.filter(data, (value, index) => {
+            return _.find(attributesToUse, (record, field) => {
+                let searchIn = value[field] + '';
+                return _.includes(searchIn.toLowerCase(), searchValue.toLowerCase());
+            }) !== undefined;   
+        });
     }
 
 }
