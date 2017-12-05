@@ -68235,18 +68235,18 @@ Vue.component('input-renderer-update', __webpack_require__(233));
 |
 */
 
+Vue.component('crud-boolean', __webpack_require__(272));
+Vue.component('crud-date', __webpack_require__(253));
+Vue.component('crud-model', __webpack_require__(261));
+Vue.component('crud-model-checkbox', __webpack_require__(267));
+Vue.component('crud-number', __webpack_require__(264));
+Vue.component('crud-photo', __webpack_require__(250));
+Vue.component('crud-select', __webpack_require__(244));
+Vue.component('crud-time', __webpack_require__(257));
 Vue.component('crud-textarea', __webpack_require__(238));
 Vue.component('crud-text', __webpack_require__(241));
-Vue.component('crud-select', __webpack_require__(244));
 Vue.component('crud-website', __webpack_require__(247));
-Vue.component('crud-photo', __webpack_require__(250));
-Vue.component('crud-date', __webpack_require__(253));
-Vue.component('crud-time', __webpack_require__(257));
-Vue.component('crud-model', __webpack_require__(261));
-Vue.component('crud-number', __webpack_require__(264));
-Vue.component('crud-model-checkbox', __webpack_require__(267));
-Vue.component('crud-boolean', __webpack_require__(272));
-Vue.component('editable-text', __webpack_require__(277));
+Vue.component('crud-youtube', __webpack_require__(320));
 
 /*
 |--------------------------------------------------------------------------
@@ -68261,6 +68261,7 @@ Vue.component('editable-text', __webpack_require__(277));
 
 Vue.component('editable-section', __webpack_require__(280));
 Vue.component('editable-title', __webpack_require__(283));
+Vue.component('editable-text', __webpack_require__(277));
 
 /*
 |--------------------------------------------------------------------------
@@ -68651,133 +68652,101 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * @type {API}
  */
 window.API = new (function () {
-   function _class() {
-      _classCallCheck(this, _class);
+  function _class() {
+    _classCallCheck(this, _class);
 
-      this.user_id = window.user_id;
-      this.vue = new Vue();
-      this.vue.data = {
-         data: null
-      };
-   }
+    this.user_id = window.user_id;
+    this.vue = new Vue();
+    this.vue.data = {
+      data: null
+    };
+  }
 
-   _createClass(_class, [{
-      key: 'version',
-      value: function version() {
-         return '/api/';
-      }
-   }, {
-      key: 'buildQueryString',
-      value: function buildQueryString(parameters) {
-         var data = "";
+  _createClass(_class, [{
+    key: 'version',
+    value: function version() {
+      return '/api/';
+    }
+  }, {
+    key: 'buildQueryString',
+    value: function buildQueryString(parameters) {
+      var data = "";
 
-         for (var field in parameters) {
-            data += field + '=' + parameters[field] + '&';
-         }
-
-         return data.substring(0, data.length - 1);
-      }
-   }, {
-      key: 'put',
-      value: function put(base, data) {
-         var _this = this;
-
-         return new Promise(function (resolve, reject) {
-            window.axios.put(_this.version() + base, data).then(function (response) {
-               resolve(response);
-            }, reject);
-         });
+      for (var field in parameters) {
+        data += field + '=' + parameters[field] + '&';
       }
 
-      /**
-       * Simple wrapper for vue delete request
-       * @param  {[base]} api route
-       * @param  {[id]} object id
-       * @return {[void]}
-       */
+      return data.substring(0, data.length - 1);
+    }
+  }, {
+    key: 'put',
+    value: function put(base, data) {
+      var _this = this;
 
-   }, {
-      key: 'delete',
-      value: function _delete(base, id) {
-         window.axios.delete(this.version() + base + '/' + id, {}).then(function () {}, function () {});
-      }
-      /**
-       * Deletes an object from an array, if the object exists in the database
-       * a call to the api is made to delete that object in the database
-       * @param  {[type]}  object  [ The object to delete ]
-       * @param  {[type]}  array   [ The target array ]
-       * @param  {String}  apiCall [ The call to the api (/users, /customers, /projects)]
-       * @param  {Boolean} confirm [ Ask the user for confirmation ]
-       * @return {[boolean]}          [Return a boolean if succeeded or not]
-       */
+      return new Promise(function (resolve, reject) {
+        window.axios.put(_this.version() + base, data).then(function (response) {
+          resolve(response);
+        }, reject);
+      });
+    }
 
-   }, {
-      key: 'deleteObjectFrom',
-      value: function deleteObjectFrom(object, array) {
-         var apiCall = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
-         var confirm = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+    /**
+     * Simple wrapper for vue delete request
+     * @param  {[base]} api route
+     * @param  {[id]} object id
+     * @return {[void]}
+     */
 
-         if (!Helper.hasProperty(object, 'id')) {
-            Helper.removeFromArray(array, object);
-            return false;
-         }
-         if (confirm == true) {
-            this.vue.$confirm('Weet u zeker dat u dit wilt verwijderen?', 'Warning', {
-               confirmButtonText: 'OK',
-               cancelButtonText: 'Cancel',
-               type: 'warning'
-            }).then(function () {
-               Helper.removeFromArray(array, object);
-               API.delete(apiCall, object.id);
-            }).catch(function () {});
-         } else {
-            Helper.removeFromArray(array, object);
-            API.delete(apiCall, object.id);
-         }
-      }
-      /**
-       * Simple wrapper for vue POST request.
-       * @param  {[base]}
-       * @return {[vue http request]}
-       */
+  }, {
+    key: 'delete',
+    value: function _delete(base, id) {
 
-   }, {
-      key: 'post',
-      value: function post(base, parameters) {
-         var _this2 = this;
+      wwindow.axios.delete(this.version() + base + '/' + id, {}).then(function () {}, function () {});
+    }
 
-         return new Promise(function (resolve, reject) {
-            parameters.user_id = _this2.user_id;
+    /**
+     * Simple wrapper for vue POST request.
+     * @param  {[base]}
+     * @return {[Axios http request]}
+     */
 
-            window.axios.post(_this2.version() + base, parameters).then(function (response) {
-               var data = response.data;
-               resolve(data);
-            }, reject);
-         });
-      }
+  }, {
+    key: 'post',
+    value: function post(base, parameters) {
+      var _this2 = this;
 
-      /**
-       * Simple wrapper for vue get request.
-       * @param  {[base]}
-       * @return {[vue http request]}
-       */
+      return new Promise(function (resolve, reject) {
+        parameters.user_id = _this2.user_id;
 
-   }, {
-      key: 'get',
-      value: function get(base) {
-         var _this3 = this;
+        window.axios.post(_this2.version() + base, parameters).then(function (response) {
+          var data = response.data;
+          resolve(data);
+        }, reject);
+      });
+    }
 
-         var parameters = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    /**
+     * Simple wrapper for vue get request.
+     * @param  {[base]}
+     * @return {[Axios http request]}
+     */
 
-         return new Promise(function (resolve, reject) {
-            window.axios.get(_this3.version() + base, parameters).then(function (response) {
-               resolve(response.data);
-            }, reject);
-         });
-      }
-   }]);
+  }, {
+    key: 'get',
+    value: function get(base) {
+      var _this3 = this;
 
-   return _class;
+      var parameters = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+      return new Promise(function (resolve, reject) {
+        window.axios.get(_this3.version() + base, parameters).then(function (response) {
+          resolve(response.data);
+        }, reject);
+      });
+    }
+  }]);
+
+  return _class;
 }())();
 
 /***/ }),
@@ -69340,6 +69309,15 @@ window.Validator = new (function () {
 						validator.errors.type = 'Het ingevoerde telefoonnummer is nog niet correct. Voorbeeld: 0612345678 of 0512123456';
 					}
 				}
+
+				/**
+     * Validate if it is a youtube link.
+     */
+				if (validator.validationRules.type === 'youtube') {
+					if (!this.validateYoutubeLink(value)) {
+						validator.errors.type = 'De ingevoerde youtube link is niet correct.';
+					}
+				}
 			}
 
 			if (Object.keys(validator.errors).length > 0) {
@@ -69360,8 +69338,14 @@ window.Validator = new (function () {
 			}
 		}
 
-		// Validators
+		// Validators	
 
+	}, {
+		key: 'validateYoutubeLink',
+		value: function validateYoutubeLink(url) {
+			var p = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+			return url.match(p) ? RegExp.$1 : false;
+		}
 	}, {
 		key: 'validateEmail',
 		value: function validateEmail(email) {
@@ -69602,11 +69586,13 @@ var Entity = function (_Model) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Model__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_Validator_Validator__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_WalkThrough_WalkThrough__ = __webpack_require__(324);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -69632,7 +69618,8 @@ var Section = function (_Model) {
                 translation: 'Titel',
                 validation: new __WEBPACK_IMPORTED_MODULE_1__app_Validator_Validator__["a" /* default */]({
                     required: true
-                })
+                }),
+                walkThrough: new __WEBPACK_IMPORTED_MODULE_2__app_WalkThrough_WalkThrough__["a" /* default */](["Het onderstaande invoerveld is bedoeld om tekst in te voeren." + "Klik met de muis op het vak. U kunt vervolgens beginnen met typen." + "Het systeem geeft u automatisch feedback op wat u op dat moment intypt.", 'Met titel bedoelen we de titel van deze sectie. ' + 'Deze zult u op de pagina zien, waar deze sectie door ons geplaatst is.', 'Secties aanpassen kunt het best doen op de pagina zelf. ' + 'Dat doet u door op de pagina zelf, op het "aanpassen" icoontje te drukken. U kunt vervolgens de gewenste tekst invoeren. '])
             },
 
             body: {
@@ -69660,11 +69647,13 @@ var Section = function (_Model) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Model__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_Validator_Validator__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_WalkThrough_WalkThrough__ = __webpack_require__(324);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -69682,10 +69671,11 @@ var UserRole = function (_Model) {
         _this.fields = {
             name: {
                 type: 'text',
-                translation: 'Naam',
+                translation: 'Rolnaam',
                 validation: new __WEBPACK_IMPORTED_MODULE_1__app_Validator_Validator__["a" /* default */]({
                     required: true
-                })
+                }),
+                walkThrough: new __WEBPACK_IMPORTED_MODULE_2__app_WalkThrough_WalkThrough__["a" /* default */](["In de websitebeheertool kunt u verschillende beheerdersrollen aanmaken. " + "Met deze beheerdersrollen kunt u de toegang tot verschillende delen van de websitebeheertool beperken." + "Deze rollen kunnen enkel door de hoofdbeheerder( uzelf ) worden toegevoegd. "])
             },
 
             title: {
@@ -69694,6 +69684,7 @@ var UserRole = function (_Model) {
                 validation: new __WEBPACK_IMPORTED_MODULE_1__app_Validator_Validator__["a" /* default */]({
                     required: true
                 })
+
             },
 
             level: {
@@ -71538,17 +71529,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 	methods: {
+
+		/**
+  * Filter by using a search function.
+   */
 		filterData: function filterData(event) {
-			this.data = [];
+			this.data = new __WEBPACK_IMPORTED_MODULE_0__app_search_search__["a" /* default */]().find(event.target.value, this.referenceData, this.object.fields);
 
-			var search = new __WEBPACK_IMPORTED_MODULE_0__app_search_search__["a" /* default */]();
-
-			var results = search.find(event.target.value, this.referenceData, this.object.fields);
-
-			if (results.length === 0) {
+			if (this.data.length === 0) {
 				this.data = this.referenceData;
-			} else {
-				this.data = results;
 			}
 		},
 		getRelatedModels: function getRelatedModels(model) {
@@ -72095,6 +72084,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -72281,6 +72275,16 @@ var render = function() {
                         _vm._v(" "),
                         attribute.type == "website"
                           ? _c("crud-website", {
+                              attrs: {
+                                identifier: _vm.identifier,
+                                attributeName: attributeName,
+                                attribute: attribute
+                              }
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        attribute.type == "youtube"
+                          ? _c("crud-youtube", {
                               attrs: {
                                 identifier: _vm.identifier,
                                 attributeName: attributeName,
@@ -72666,6 +72670,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -72790,14 +72797,7 @@ var render = function() {
               "div",
               { staticClass: "col-lg-12 space-inside-xs reset-padding" },
               [
-                attribute.type != "textarea" &&
-                attribute.type != "select" &&
-                attribute.type != "website" &&
-                attribute.type != "photo" &&
-                attribute.type != "date" &&
-                attribute.type != "time" &&
-                attribute.type != "model" &&
-                attribute.type != "number"
+                attribute.type == "text"
                   ? _c("crud-text", {
                       attrs: {
                         identifier: _vm.identifier,
@@ -72822,6 +72822,18 @@ var render = function() {
                 _vm._v(" "),
                 attribute.type === "number"
                   ? _c("crud-number", {
+                      attrs: {
+                        identifier: _vm.identifier,
+                        value: _vm.innerValue,
+                        type: attribute.type,
+                        attributeName: attributeName,
+                        attribute: attribute
+                      }
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                attribute.type === "youtube"
+                  ? _c("crud-youtube", {
                       attrs: {
                         identifier: _vm.identifier,
                         value: _vm.innerValue,
@@ -73257,6 +73269,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -73312,15 +73331,24 @@ var render = function() {
                 "p",
                 {
                   staticClass:
-                    "\n\t\t\t\tfont-sm text-bold text-color-dark \n\t\t\t\tinline-block\n\t\t\t\tspace-inside-up-xs space-inside-down-sm \n\t\t\t\t",
-                  staticStyle: {
-                    width: "100%",
-                    height: "100%",
-                    "text-transform": "capitalize"
-                  }
+                    "\n\t\t\t\tfont-sm text-bold text-color-dark \n\t\t\t\tinline-block\n\t\t\t\tspace-inside-up-xs space-inside-down-sm space-inside-right-sm \n\t\t\t\t",
+                  staticStyle: { "text-transform": "capitalize" }
                 },
                 [_vm._v(_vm._s(_vm.attribute.translation))]
-              )
+              ),
+              _vm._v(" "),
+              _vm.attribute.walkThrough !== undefined
+                ? _c(
+                    "div",
+                    { staticClass: "inline-block" },
+                    [
+                      _c("tooltip", {
+                        attrs: { walkThrough: _vm.attribute.walkThrough }
+                      })
+                    ],
+                    1
+                  )
+                : _vm._e()
             ]
           ),
           _vm._v(" "),
@@ -77754,7 +77782,7 @@ exports = module.exports = __webpack_require__(3)(undefined);
 
 
 // module
-exports.push([module.i, "\n.test {\n\tposition: relative;\n    display: inline-block;\n}\n.test .tooltiptext {\n    /* Position the tooltip */\n    min-width: 300px;\n    position: absolute;\n    z-index: 1;\n}\n\n\n\n", ""]);
+exports.push([module.i, "\n.test {\n\t\tposition: relative;\n\t    display: inline-block;\n}\n.test .tooltiptext {\n\t    /* Position the tooltip */\n\t    min-width: 300px;\n\t    position: absolute;\n\t\t\tbottom: 20px;\n\t\t\tleft: 0px;\n\t    z-index: 1;\n}\n.fade-enter-active, .fade-leave-active {\n      -webkit-transition: opacity .5s;\n      transition: opacity .5s\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {\n      opacity: 0\n}\n\n\n\n", ""]);
 
 // exports
 
@@ -77795,8 +77823,71 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+	props: {
+		walkThrough: null
+	},
+
+	data: function data() {
+		return {
+			started: true,
+			transition: true
+		};
+	},
+
+
+	methods: {
+		toggleWalkThrough: function toggleWalkThrough() {
+			this.started = !this.started;
+		},
+		transitionWalkThrough: function transitionWalkThrough() {
+			var _this = this;
+
+			this.started = !this.started;
+
+			setTimeout(function () {
+				_this.started = !_this.started;
+			}, 400);
+		}
+	}
+});
 
 /***/ }),
 /* 307 */
@@ -77806,29 +77897,124 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0, false, false)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "test" }, [
+  return _c(
+    "div",
+    [
       _c(
-        "span",
+        "i",
         {
-          staticClass:
-            "\r\n  \t\t\ttext-color-light\r\n  \t\t\ttooltiptext \r\n  \t\t\tbg-main \r\n  \t\t\tspace-inside-sides-md space-inside-md\r\n  \t\t\t"
+          staticClass: "pointer text-color-main inline-block material-icons",
+          staticStyle: { position: "relative", top: "8px" },
+          on: {
+            click: function($event) {
+              _vm.toggleWalkThrough()
+            }
+          }
         },
-        [
-          _vm._v(
-            '\r\n  \tsleep het blauwe vlak op de gewenste positie en klik vervolgens op de knop "foto bijsnijden".\r\n  '
-          )
-        ]
-      )
-    ])
-  }
-]
+        [_vm._v("help_outline")]
+      ),
+      _vm._v(" "),
+      _c("transition", { attrs: { name: "fade" } }, [
+        _vm.started
+          ? _c("div", { staticClass: "test" }, [
+              _c(
+                "span",
+                {
+                  staticClass:
+                    "\r\n\t\t\t\t\tshadow-xs\r\n\t\t\t\t\ttext-color-light\r\n\t\t\t\t\tbg-main\r\n\t\t\t\t\ttooltiptext  \r\n\t\t\t\t\tspace-inside-sides-md space-inside-md\r\n\t\t\t\t\t"
+                },
+                [
+                  _c(
+                    "span",
+                    {
+                      staticClass: "right  block",
+                      staticStyle: { position: "relative", "z-index": "2500" },
+                      on: {
+                        click: function($event) {
+                          _vm.toggleWalkThrough()
+                          _vm.walkThrough.reset()
+                        }
+                      }
+                    },
+                    [
+                      _c(
+                        "i",
+                        {
+                          staticClass:
+                            "material-icons text-color-danger pointer"
+                        },
+                        [_vm._v("clear")]
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "block text-color-tertiary" }, [
+                    _vm._v(
+                      " Stap " +
+                        _vm._s(_vm.walkThrough.currentStep + 1) +
+                        " van " +
+                        _vm._s(_vm.walkThrough.steps.length) +
+                        " "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _vm.walkThrough !== null && _vm.transition
+                    ? _c("div", { staticClass: "space-inside-md" }, [
+                        _c("p", {
+                          staticClass: "font-md text-color-light",
+                          domProps: {
+                            textContent: _vm._s(_vm.walkThrough.current())
+                          }
+                        })
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "text-color-light" }, [
+                    _vm.walkThrough.currentStep - 1 >= 0
+                      ? _c(
+                          "button",
+                          {
+                            staticClass:
+                              "bg-tertiary border-none space-inside-xs space-inside-sides-sm",
+                            on: {
+                              click: function($event) {
+                                _vm.walkThrough.previous()
+                                _vm.transitionWalkThrough()
+                              }
+                            }
+                          },
+                          [_vm._v(" Vorige ")]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.walkThrough.currentStep + 1 <
+                    _vm.walkThrough.steps.length
+                      ? _c(
+                          "button",
+                          {
+                            staticClass:
+                              "bg-tertiary border-none space-inside-xs space-inside-sides-sm",
+                            on: {
+                              click: function($event) {
+                                _vm.walkThrough.next()
+                                _vm.transitionWalkThrough()
+                              }
+                            }
+                          },
+                          [_vm._v(" Volgende ")]
+                        )
+                      : _vm._e()
+                  ])
+                ]
+              )
+            ])
+          : _vm._e()
+      ])
+    ],
+    1
+  )
+}
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -77849,6 +78035,283 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 310 */,
+/* 311 */,
+/* 312 */,
+/* 313 */,
+/* 314 */,
+/* 315 */,
+/* 316 */,
+/* 317 */,
+/* 318 */,
+/* 319 */,
+/* 320 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(321)
+/* template */
+var __vue_template__ = __webpack_require__(322)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\cms\\components\\crud\\inputTypes\\youtube.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2b343de0", Component.options)
+  } else {
+    hotAPI.reload("data-v-2b343de0", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 321 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_inputController_inputController__ = __webpack_require__(11);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	props: {
+		attributeName: null,
+		attribute: null,
+		identifier: null,
+		value: ""
+	},
+
+	data: function data() {
+		return {
+			inputController: null
+		};
+	},
+	mounted: function mounted() {
+		this.inputController = new __WEBPACK_IMPORTED_MODULE_0__app_inputController_inputController__["a" /* default */](this.attributeName, this.attribute, this.identifier, this.value);
+	}
+});
+
+/***/ }),
+/* 322 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.inputController !== null
+    ? _c(
+        "div",
+        {
+          staticClass: "full-width",
+          on: {
+            "!keyup": function($event) {
+              if (!("button" in $event) && $event.keyCode !== 9) {
+                return null
+              }
+              $event.preventDefault()
+              $event.stopPropagation()
+            }
+          }
+        },
+        [
+          _vm._m(0, false, false),
+          _vm._v(" "),
+          _c(
+            "p",
+            {
+              staticClass:
+                "inline-block reset-padding space-inside-sides-md bg-tertiary text-color-light space-inside-sm"
+            },
+            [_vm._v("Youtube link")]
+          ),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.inputController.input,
+                expression: "inputController.input"
+              }
+            ],
+            staticClass:
+              "\n\t\t\t\treset-padding\n\t\t\t\tborder border-secondary border-right-curved outline-none\n\t\t\t\tspace-inside-sides-md space-inside-sm \n\t\t\t\tinline-block \n\t\t\t\tbg-secondary\n\t\t\t\t",
+            staticStyle: { width: "30%" },
+            attrs: {
+              id: _vm.attributeName + _vm.identifier,
+              placeholder: _vm.attribute.translation,
+              type: "text",
+              name: _vm.attributeName
+            },
+            domProps: { value: _vm.inputController.input },
+            on: {
+              keyup: function($event) {
+                _vm.inputController.trackInput()
+              },
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.inputController, "input", $event.target.value)
+              }
+            }
+          }),
+          _vm._v(" "),
+          _vm.attribute.validation !== undefined
+            ? _c("validation-display", {
+                attrs: { errors: _vm.attribute.validation.errors }
+              })
+            : _vm._e()
+        ],
+        1
+      )
+    : _vm._e()
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "col-lg-12 reset-padding ",
+        staticStyle: { height: "100%" }
+      },
+      [
+        _c(
+          "p",
+          {
+            staticClass:
+              "font-sm  text-bold inline-block  text-color-dark  space-inside-up-xs space-inside-down-sm ",
+            staticStyle: { width: "100%", height: "100%" }
+          },
+          [
+            _vm._v(
+              "\n                Plaats je youtube link hier. Deze wordt automatisch verwerkt voor de website.\n            "
+            )
+          ]
+        )
+      ]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2b343de0", module.exports)
+  }
+}
+
+/***/ }),
+/* 323 */,
+/* 324 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var WalkThrough = function () {
+    function WalkThrough(steps) {
+        _classCallCheck(this, WalkThrough);
+
+        this.steps = steps;
+        this.currentStep = 0;
+    }
+
+    _createClass(WalkThrough, [{
+        key: "current",
+        value: function current() {
+            return this.steps[this.currentStep];
+        }
+    }, {
+        key: "next",
+        value: function next() {
+            this.currentStep = this.currentStep < this.steps.length - 1 ? this.currentStep + 1 : this.currentStep;
+        }
+    }, {
+        key: "previous",
+        value: function previous() {
+            this.currentStep = this.currentStep > 0 ? this.currentStep - 1 : this.currentStep;
+        }
+    }, {
+        key: "reset",
+        value: function reset() {
+            this.currentStep = 0;
+        }
+    }]);
+
+    return WalkThrough;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (WalkThrough);
 
 /***/ })
 /******/ ]);

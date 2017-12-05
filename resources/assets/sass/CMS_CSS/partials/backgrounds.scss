@@ -262,6 +262,15 @@
 .bg-tertiary-hover-lighten-lg:hover { background: lighten($tertiary-color, 70%) !important; }
 .bg-tertiary-hover-lighten-xl:hover { background: lighten($tertiary-color, 90%) !important; }
 
+/* transparent bgs */
+
+
+.bg-dark-transparent-xs { background: rgba($dark-color, 0.1) !important; }
+.bg-dark-transparent-sm { background: rgba($dark-color, 0.3) !important; }
+.bg-dark-transparent-md { background: rgba($dark-color, 0.5) !important; }
+.bg-dark-transparent-lg { background: rgba($dark-color, .7) !important; }
+.bg-dark-transparent-xl { background: rgba($dark-color, .9) !important; }
+
 
 /*  opacity hovers */
 

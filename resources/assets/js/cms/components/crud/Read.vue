@@ -164,18 +164,14 @@
 
 		methods: {
 
+			/**
+			* Filter by using a search function.
+			 */
 			filterData(event) {
-				this.data = [];
+				this.data = new Search().find(event.target.value, this.referenceData, this.object.fields);
 
-				let search = new Search();
-
-				let results = search.find(event.target.value, this.referenceData, this.object.fields);
-
-				
-				if(results.length === 0) {
+				if(this.data.length === 0) {
 					this.data = this.referenceData;
-				} else {
-					this.data = results;
 				}
 				
 			},

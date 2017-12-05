@@ -54,6 +54,7 @@
 
 						<crud-select :identifier="identifier" v-if="attribute.type == 'select'" :attributeName="attributeName" :attribute="attribute"> </crud-select>
 						<crud-website :identifier="identifier" v-if="attribute.type == 'website'" :attributeName="attributeName" :attribute="attribute"> </crud-website>
+						<crud-youtube :identifier="identifier" v-if="attribute.type == 'youtube'" :attributeName="attributeName" :attribute="attribute"> </crud-youtube>
 						<crud-photo :identifier="identifier" v-if="attribute.type == 'photo'" :model_id="model_id" :type="type" :attributeName="attributeName" :attribute="attribute"> </crud-photo>
 						<crud-date :identifier="identifier" v-if="attribute.type == 'date'" :attributeName="attributeName" :attribute="attribute"> </crud-date>
 						<crud-time :identifier="identifier" v-if="attribute.type == 'time'" :attributeName="attributeName" :attribute="attribute"> </crud-time>
@@ -66,6 +67,10 @@
 
 						<crud-boolean :identifier="identifier" v-if="attribute.type == 'boolean'" :attributeName="attributeName" :attribute="attribute"></crud-boolean>
 					</div>
+
+					
+
+
 				</div>
 			</div>
 			<!-- End of inputs -->

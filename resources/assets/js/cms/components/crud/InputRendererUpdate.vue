@@ -34,14 +34,7 @@
                     :identifier="identifier"    
                     :value="innerValue"
                     v-if="
-                        attribute.type != 'textarea' && 
-                        attribute.type != 'select' && 
-                        attribute.type != 'website' &&
-                        attribute.type != 'photo' &&
-                        attribute.type != 'date' &&
-                        attribute.type != 'time' &&
-                        attribute.type != 'model' &&
-                        attribute.type != 'number'
+                        attribute.type == 'text' 
                     " 
                     :type="attribute.type" 
                     :attributeName="attributeName" 
@@ -72,6 +65,16 @@
                     :attribute="attribute"> 
                 </crud-number>
                 <!-- end of text input -->
+
+                <crud-youtube :identifier="identifier"    
+                    :value="innerValue"
+                    v-if="
+                        attribute.type === 'youtube'
+                    " 
+                    :type="attribute.type" 
+                    :attributeName="attributeName" 
+                    :attribute="attribute"> 
+                </crud-youtube>
 
                 <!-- display a text input if the type is text -->
                 <crud-select 

@@ -55,6 +55,15 @@ window.Validator = new class{
 					validator.errors.type = 'Het ingevoerde telefoonnummer is nog niet correct. Voorbeeld: 0612345678 of 0512123456';
 				}
 			}
+
+			/**
+			 * Validate if it is a youtube link.
+			 */
+			if(validator.validationRules.type === 'youtube') {
+				if(!this.validateYoutubeLink(value)) {
+					validator.errors.type = 'De ingevoerde youtube link is niet correct.';
+				}
+			}
 		}
 
 
@@ -76,7 +85,12 @@ window.Validator = new class{
 	}
 
 
-	// Validators
+	// Validators	
+
+	validateYoutubeLink(url) {
+		var p = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+		return (url.match(p)) ? RegExp.$1 : false;
+	}
 
 	validateEmail(email) {
 	    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

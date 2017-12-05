@@ -13897,6 +13897,28 @@ h5 {
   background: white !important;
 }
 
+/* transparent bgs */
+
+.bg-dark-transparent-xs {
+  background: rgba(33, 29, 30, 0.1) !important;
+}
+
+.bg-dark-transparent-sm {
+  background: rgba(33, 29, 30, 0.3) !important;
+}
+
+.bg-dark-transparent-md {
+  background: rgba(33, 29, 30, 0.5) !important;
+}
+
+.bg-dark-transparent-lg {
+  background: rgba(33, 29, 30, 0.7) !important;
+}
+
+.bg-dark-transparent-xl {
+  background: rgba(33, 29, 30, 0.9) !important;
+}
+
 /*  opacity hovers */
 
 .hover-opacity-transparent:hover {
