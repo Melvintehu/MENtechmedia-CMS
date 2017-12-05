@@ -76685,17 +76685,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         var _this = this;
 
-        Factory.getStaticInstance('section').find(this.id).then(function (section) {
-            _this.section = section;
-
-            _this.setUpReference();
-            _this.populateHtml(section.body);
-            _this.populateInput();
+        this.load();
+        Event.listen('editable:updates', function () {
+            _this.load();
         });
     },
 
 
     methods: {
+        load: function load() {
+            var _this2 = this;
+
+            Factory.getStaticInstance('section').find(this.id).then(function (section) {
+                _this2.section = section;
+
+                _this2.setUpReference();
+                _this2.populateHtml(section.body);
+                _this2.populateInput();
+            });
+        },
         isAuthorized: function isAuthorized() {
             return API.isAuthorized();
         },
@@ -76729,6 +76737,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.section.body = this.body;
             this.section.update().then(function () {
+                Event.fire('editable:updates');
                 Event.fire('overlay:close');
             });
         }
@@ -76899,17 +76908,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         var _this = this;
 
-        console.log(window.Laravel);
-        Factory.getStaticInstance('section').find(this.id).then(function (section) {
-            _this.section = section;
-            _this.setUpReference();
-            _this.populateHtml(section.title);
-            _this.populateInput();
+        this.load();
+        Event.listen('editable:updates', function () {
+            _this.load();
         });
     },
 
 
     methods: {
+        load: function load() {
+            var _this2 = this;
+
+            Factory.getStaticInstance('section').find(this.id).then(function (section) {
+                _this2.section = section;
+                _this2.setUpReference();
+                _this2.populateHtml(section.title);
+                _this2.populateInput();
+            });
+        },
         isAuthorized: function isAuthorized() {
             return API.isAuthorized();
         },
@@ -76943,6 +76959,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.section.title = this.title;
             this.section.update().then(function () {
+                Event.fire('editable:updates');
                 Event.fire('overlay:close');
             });
         }

@@ -30,7 +30,16 @@
 
         mounted() {
             
-            Factory.getStaticInstance('section').find(this.id).then((section) => {
+            this.load();
+            Event.listen('editable:updates', () => {
+                this.load();
+            });
+
+        },
+
+        methods: {
+            load() {
+                Factory.getStaticInstance('section').find(this.id).then((section) => {
                 this.section = section;
              
                 this.setUpReference();
@@ -38,11 +47,9 @@
                 this.populateInput();
             });
 
+            },
 
-        },
-
-        methods: {
-             isAuthorized() {
+            isAuthorized() {
                  return API.isAuthorized();
             },
 
@@ -85,6 +92,7 @@
 
                 this.section.body = this.body;
                 this.section.update().then(() => {
+                    Event.fire('editable:updates');
                     Event.fire('overlay:close');
                 });
             }

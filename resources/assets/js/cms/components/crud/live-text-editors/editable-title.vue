@@ -33,16 +33,22 @@
         },
 
         mounted() {
-             console.log(window.Laravel);
-            Factory.getStaticInstance('section').find(this.id).then((section) => {
-                this.section = section;
-                this.setUpReference();
-                this.populateHtml(section.title);
-                this.populateInput();
+            this.load();
+            Event.listen('editable:updates', () => {
+                this.load();
             });
         },
 
         methods: {
+            load() {
+                Factory.getStaticInstance('section').find(this.id).then((section) => {
+                    this.section = section;
+                    this.setUpReference();
+                    this.populateHtml(section.title);
+                    this.populateInput();
+                });
+            },
+
             isAuthorized() {
                  return API.isAuthorized();
             },
@@ -84,7 +90,9 @@
 
                 this.section.title = this.title;
                 this.section.update().then(() => {
+                    Event.fire('editable:updates');
                     Event.fire('overlay:close');
+                    
                 });
             }
         }
