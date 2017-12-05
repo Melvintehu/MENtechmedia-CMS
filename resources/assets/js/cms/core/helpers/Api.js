@@ -17,6 +17,11 @@
      }
      
 
+     isAuthorized() {
+      
+       return window.user_id !== null;
+     }
+
      buildQueryString(parameters) {
       let data = "";
 
@@ -46,7 +51,7 @@
      */
      delete(base, id) {
        
-         wwindow.axios.delete(this.version() + base + '/' + id,
+         window.axios.delete(this.version() + base + '/' + id,
          {}).then(function()
          {
             

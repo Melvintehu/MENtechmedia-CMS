@@ -14,10 +14,23 @@
 
     <link rel="stylesheet" type="text/css" href="/css/app.css">
     {{--  <script type="text/javascript" src="https://www.youtube.com/iframe_api" id="youtube_api"></script>  --}}
+    
+    <?php 
+        $id = null; 
+        
+        if(Auth::check()){ 
+            $id = json_encode(Auth::user()->id); 
+        } 
+    ?>
+
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
         ]); ?>
+
+
+
+     window.user_id =  <?php echo json_encode($id) ?>   
     </script>
     <script src='https://www.google.com/recaptcha/api.js'></script>
     <meta property="og:url"           content="mentor4you.nl" />

@@ -1,8 +1,8 @@
 <template>
     
-<div @dblclick="openOverlay()" :id="'body'+ this.id">
+<div @dblclick="openOverlay()" :id="'body'+ this.id" :class=" isAuthorized ? 'pointer' : ''">
     <slot></slot>
-    <overlay :identifier="id + 'section'">
+    <overlay  v-if="isAuthorized()" :identifier="id + 'section'">
     
         <textarea v-model="body" rows="8" style="border-color: #f1f1f1;" class="border-accent full-width space-inside-sides-md space-inside-md" > </textarea>
 
@@ -42,6 +42,10 @@
         },
 
         methods: {
+             isAuthorized() {
+                 return API.isAuthorized();
+            },
+
             openOverlay() {
                 Event.fire('overlay:open' + this.id + 'section');
             },

@@ -1,7 +1,12 @@
 <template>
-<div @dblclick="openOverlay()" :id="'title'+ this.id" class="">
+<div @dblclick="openOverlay()" :id="'title'+ this.id" :class=" isAuthorized ? 'pointer' : ''">
+
+    
+    <!-- Content of the title -->
     <slot></slot>
-    <overlay  :identifier="id + 'title'">
+
+    <!-- the overlay -->
+    <overlay v-if="isAuthorized()"  :identifier="id + 'title'">
         <input style="border-color: #f1f1f1;" class="border full-width space-inside-sides-md space-inside-md space-outside-down-xs" v-model="title"  />
 
 
@@ -38,7 +43,12 @@
         },
 
         methods: {
+            isAuthorized() {
+                 return API.isAuthorized();
+            },
+            
             openOverlay() {
+                    
                 Event.fire('overlay:open' + this.id + 'title');
             },
 

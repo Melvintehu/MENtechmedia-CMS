@@ -237,6 +237,7 @@
 
 			remove(object) {
 				Notifier.askConfirmation('Weet u zeker dat u dit wilt verwijderen ?', () => {
+					console.log('werkt dit niet meer?');
 					object.delete(this.type, () => {
 						setTimeout(() => {
 							Event.fire(this.type + ':deleted');

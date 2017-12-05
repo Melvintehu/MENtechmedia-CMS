@@ -72,7 +72,7 @@
 
 		data() {
 			return {
-				started: true,
+				started: false,
 				transition: true,
 			}
 		},
