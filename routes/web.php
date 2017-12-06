@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('homepage');
+    return view('cms.Core.setup.index');
 });
 
 
@@ -27,12 +27,18 @@ Route::resource('photo', 'cms\PhotosController');
 Route::post('photo/multi', 'cms\MultiPhotosController@store');
 
 Route::group(['prefix' => 'cms'],  function () {
+
     Route::group(['middleware' => ['auth']], function(){
 
     	// --- CORE ROUTES ONLY
         Route::get('/logout', 'cms\LogoutController@logout');
    		Route::get('/', 'cms\DashBoardController@index');
         Route::get('/edit', 'cms\FrontController@edit');
+        
+        // --- CORE POSt ROUTES ONLY
+        Route::post('/step1', 'cms\SetupController@step1');
+
+
         // ----------------- GENERIC ROUTES FOR EVERY PROJECT GO HERE ----------
 
 
