@@ -12,12 +12,14 @@
     import Entity from './Entity';
     import Section from './Section';
     import UserRole from './UserRole';
+    import User from './User';
     
 
     let models = {
         entity: Entity,
         section: Section,
         userRole: UserRole,
+        user: User,
     }
 
     /*
