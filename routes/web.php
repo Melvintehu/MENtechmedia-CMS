@@ -30,7 +30,8 @@ Route::group(['prefix' => 'cms'],  function () {
 
     Route::group(['middleware' => ['auth']], function(){
 
-    	// --- CORE ROUTES ONLY
+        // --- CORE ROUTES ONLY
+        Route::get('/profile/{id}/edit', 'cms\ProfileController@edit');
         Route::get('/logout', 'cms\LogoutController@logout');
    		Route::get('/', 'cms\DashBoardController@index');
         Route::get('/edit', 'cms\FrontController@edit');

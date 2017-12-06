@@ -29,13 +29,13 @@
                     <!-- user -->
                     <div class="col-lg-12 col-md-12  space-inside-sides-xl space-inside-up-md text-center">
                         <div class="circle image shadow-sm">
-                            <img class="height-auto" src="/images/cms/avatar.jpg">
+                            <img class="height-auto" src="{{ Auth::user()->portrait }}">
                         </div>
                     </div>
 
                     <div class="col-lg-12 col-md-12 space-inside-sm space-inside-sides-xl text-center ">
                         <p class="text-color-light  font-md text-thin">{{ Auth::user()->name }}</p>
-                        <a class="text-color-light space-inside-md text-thin" href="/cms/user?type=user#user">Profiel bewerken</a>
+                        <a class="text-color-light space-inside-md text-thin" href="/cms/profile/{{ Auth::user()->id }}/edit">Profiel bewerken</a>
                         <a class="text-color-light text-thin" href="/cms/logout">Uitloggen</a>
                     </div>
 
