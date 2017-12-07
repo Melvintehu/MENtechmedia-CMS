@@ -20,7 +20,6 @@
 		data() {
 			return {
 				object: Factory.getInstanceOf(this.type),
-				objectValue: Factory.getInstanceOf(this.type),
 				identifier: 'add',
 			}
 		},
@@ -53,7 +52,7 @@
 			},
 
 			save() {
-				// delete this.objectValue.fields
+				// delete this.object.fields
 				this.object.save().then((object) => {
 					Event.fire(this.type + ':added', object.id);
 				});

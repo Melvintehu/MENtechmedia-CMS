@@ -31,11 +31,11 @@
 
             this.type = 'User';
             this.identifier = 'user';
+            
             Event.listen('file:ready', () => {
-                console.log('teste');
-                console.log(window.user_id);
                 Event.fire(this.type.toLowerCase() + ":added", window.user_id);
             });
+
             setTimeout(() => {
                 this.loaded = true;
             }, 10);

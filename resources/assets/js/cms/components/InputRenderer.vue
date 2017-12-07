@@ -1,7 +1,6 @@
 <template>
 	<div>
 
-	
 		<!-- Loading spinner -->
 		<loading v-if="!loaded"></loading>
 
@@ -19,7 +18,7 @@
 
 			<!-- progressbar -->
 			<div class="col-lg-5">
-				<progressbar :identifier='identifier' :totalInputs="totalInputs"> </progressbar>
+				<progressbar :progressBar="progressBar" :identifier='identifier' :totalInputs="totalInputs"> </progressbar>
 			</div>
 
 
@@ -31,40 +30,40 @@
 					<!-- Each attribute has one input associated with it. You can find those inputs associations in every specific model. -->
 					<div class="col-lg-12 reset-padding space-inside-left-xs">
 
-						<crud-textarea :identifier="identifier" v-if="attribute.type == 'textarea'" :attributeName="attributeName" :attribute="attribute"> </crud-textarea>
+						<crud-textarea :identifier="identifier" v-if="attribute.type === 'textarea'" :attributeName="attributeName" :attribute="attribute"> </crud-textarea>
 						
 						<!-- Render text input  -->
 						<crud-text :identifier="identifier"	v-if="attribute.type === 'text'" :type="attribute.type" :name="attributeName" :attributeName="attributeName" :attribute="attribute"> </crud-text>
 
 						<!-- Render text input  -->
-						<crud-select :identifier="identifier" v-if="attribute.type == 'select'" :attributeName="attributeName" :attribute="attribute"> </crud-select>
+						<crud-select :identifier="identifier" v-if="attribute.type === 'select'" :attributeName="attributeName" :attribute="attribute"> </crud-select>
 						
 						<!-- Render website input  -->
-						<crud-website :identifier="identifier" v-if="attribute.type == 'website'" :attributeName="attributeName" :attribute="attribute"> </crud-website>
+						<crud-website :identifier="identifier" v-if="attribute.type === 'website'" :attributeName="attributeName" :attribute="attribute"> </crud-website>
 
 						<!-- Render youtube input  -->
-						<crud-youtube :identifier="identifier" v-if="attribute.type == 'youtube'" :attributeName="attributeName" :attribute="attribute"> </crud-youtube>
+						<crud-youtube :identifier="identifier" v-if="attribute.type === 'youtube'" :attributeName="attributeName" :attribute="attribute"> </crud-youtube>
 
 						<!-- Render photo input  -->
-						<crud-photo :identifier="identifier" v-if="attribute.type == 'photo'" :type="type" :attribute="attribute"> </crud-photo>
+						<crud-photo :identifier="identifier" v-if="attribute.type === 'photo'" :type="type" :attribute="attribute"> </crud-photo>
 
 						<!-- Render date input  -->
-						<crud-date :identifier="identifier" v-if="attribute.type == 'date'" :attributeName="attributeName" :attribute="attribute"> </crud-date>
+						<crud-date :identifier="identifier" v-if="attribute.type === 'date'" :attributeName="attributeName" :attribute="attribute"> </crud-date>
 						
 						<!-- Render time input  -->
-						<crud-time :identifier="identifier" v-if="attribute.type == 'time'" :attributeName="attributeName" :attribute="attribute"> </crud-time>
+						<crud-time :identifier="identifier" v-if="attribute.type === 'time'" :attributeName="attributeName" :attribute="attribute"> </crud-time>
 						
 						<!-- Render model input  -->
-						<crud-model :identifier="identifier" v-if="attribute.type == 'model'" :attributeName="attributeName" :attribute="attribute"> </crud-model>
+						<crud-model :identifier="identifier"  v-if="attribute.type === 'model'" :attributeName="attributeName" :attribute="attribute"> </crud-model>
 
 						<!-- Render modelCheckbox input  -->
-						<crud-model-checkbox :identifier="identifier" v-if="attribute.type == 'model_checkbox'" :attributeName="attributeName" :attribute="attribute"> </crud-model-checkbox>
+						<crud-model-checkbox :identifier="identifier" v-if="attribute.type === 'model_checkbox'" :attributeName="attributeName" :attribute="attribute"> </crud-model-checkbox>
 						
 						<!-- Render number input  -->
-						<crud-number :identifier="identifier" v-if="attribute.type == 'number'" :attributeName="attributeName" :attribute="attribute" > </crud-number>
+						<crud-number :identifier="identifier" v-if="attribute.type === 'number'" :attributeName="attributeName" :attribute="attribute" > </crud-number>
 
 						<!-- Render boolean input  -->
-						<crud-boolean :identifier="identifier" v-if="attribute.type == 'boolean'" :attributeName="attributeName" :attribute="attribute"></crud-boolean>
+						<crud-boolean :identifier="identifier" v-if="attribute.type === 'boolean'" :attributeName="attributeName" :attribute="attribute"></crud-boolean>
 					</div>
 
 				</div>
@@ -89,7 +88,8 @@
 </style>
 
 <script type="text/javascript" >
-	
+	import ProgressBar from '../app/ProgressBar/ProgressBar';
+
 	export default {
 		props: {
 			object: null,
@@ -100,10 +100,12 @@
 			return {
 				totalInputs: Object.keys(this.object.fields).length,
 				loaded: false,
+				progressBar: null,
 			}
 		}, 
 		mounted() {
-			
+			this.progressBar = new ProgressBar(this.totalInputs, this.identifier);
+
 			setTimeout(() => {
 				this.loaded = true;
 			}, 700)

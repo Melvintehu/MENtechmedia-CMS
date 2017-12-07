@@ -21,7 +21,7 @@
 				<!-- Displays all the photos with their croppers -->
 				<div>	
 
-					<!-- Place a cropper on the photo foreach dimension. -->
+					<!-- Place a cropper on the photo for each dimension. -->
 					<div v-if="inputController.photo !== null" :key="dimension" class="col-lg-6" v-for="(dimensionName, dimension) in attribute.dimensions">
 						<cropper  :photo="inputController.photo" :dir="dimensionName" :dimension="dimension" > </cropper>
 					</div>
@@ -49,7 +49,6 @@
 			}
 		},
 		mounted() {
-			console.log(this.attribute, this.type, this.identifier);
 			this.inputController = new PhotoInputController(this.attribute, this.identifier);
 		},
 		

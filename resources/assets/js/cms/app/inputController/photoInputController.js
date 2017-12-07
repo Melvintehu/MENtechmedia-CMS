@@ -17,8 +17,9 @@ class PhotoInputController {
         registerListeners() {
            
             /**
-             * When this input is used in a edit context, we need to insert the corresponding value
-             * by listening to this event, which passed us the correct value for this input.
+             * When this input is used in a edit context, we can always increment the progressbar, since either the 
+             * photo is set, or not mendatory. In both cases the progressbar should be incremented.
+             * 
              */
             Event.listen('input:insertValues:' + this.identifier, () => {
                 Event.fire('progressbar:increment:' + this.identifier, 'photo');

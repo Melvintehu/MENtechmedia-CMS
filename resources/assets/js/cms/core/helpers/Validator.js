@@ -2,6 +2,7 @@ window.Validator = new class{
 
 
 	constructor() {
+		
 	}
 
 	reset(validator) {

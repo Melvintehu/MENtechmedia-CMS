@@ -21,6 +21,7 @@ class FrontController extends Controller
         ];
 
         $entity = $request->get('type');
+        
         if( in_array( $entity, $coreEntities ) ) {
             return view("cms.Core.{$entity}.index");
         }

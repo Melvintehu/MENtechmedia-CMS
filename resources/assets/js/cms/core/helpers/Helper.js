@@ -23,6 +23,16 @@ window.Helper = new class
             // return string[0].toUpperCase() + string.slice(1);
       }
 
+      makeID() {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      
+        for (var i = 0; i < 5; i++)
+          text += possible.charAt(Math.floor(Math.random() * possible.length));
+      
+        return text;
+      }
+
       nl2br (str, is_xhtml) {
        
         var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br ' + '/>' : '<br>';

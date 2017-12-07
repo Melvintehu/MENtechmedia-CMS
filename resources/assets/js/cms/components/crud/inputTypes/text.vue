@@ -42,7 +42,6 @@
 		},
 
 		mounted() {
-			
 			this.inputController = new InputController(this.attributeName, this.attribute, this.identifier, this.value);
 		},
 

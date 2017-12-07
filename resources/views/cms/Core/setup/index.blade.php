@@ -35,10 +35,7 @@
                         <p class="font-md text-color-light"> We gaan het CMS samen configureren. Dit doen we in een paar korte simpele stappen.</p>
                     </div>
                 </div>
-                <div class="col-lg-12">
-                    <p class="font-md space-outside-sm space-inside-left-md"> Stel een profielfoto of avatar in. </p>
-                    <setup></setup>
-                </div>
+                
 
                 <form action="cms/step1" method="POST">
                      {{ csrf_field() }}
@@ -66,6 +63,11 @@
                                 inline-block 
                                 full-width
                                 bg-light"  />
+                    </div>
+
+                    <div class="col-lg-12 space-inside-down-md">
+                        <p class="font-md space-outside-down-sm space-inside-left-md"> Stel een profielfoto of avatar in. </p>
+                        <setup></setup>
                     </div>
 
                     <div class="col-lg-12">

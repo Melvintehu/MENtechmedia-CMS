@@ -3,6 +3,7 @@
     <div class="bg-secondary  reset-padding space-outside-down-sm">
         <div class="bg-main space-inside-sides-md space-inside-sm  border-curved width-over-time text-color-light"  :style="{width: currentWidth + '%'}" >{{ roundPercentage(currentWidth) }}%</div>
     </div>
+    
     <p class="float-right text-bold"> {{ completedInputs }} / {{ totalInputs }} velden correct ingevuld. </p>
 </div>  
 </template>
@@ -13,12 +14,14 @@
         props: {
             totalInputs: 0,
             identifier: null,
+            progressBar: null,
         },
         data() {
             return {
                 completedInputs: 0,
                 currentWidth: '1',
                 completed: {},
+                uniqueId: null,
             }
         },
         mounted() {
@@ -79,6 +82,7 @@
                         this.completedInputs++;
                     }
                 }
+
                 // we calculate the percentage
                 this.currentWidth = ((100 / this.totalInputs) * this.completedInputs) + '';
                 // if the percentage is @ 0% we change it to 1%

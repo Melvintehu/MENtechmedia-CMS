@@ -14,11 +14,12 @@
 
     <div class="col-lg-12 reset-padding space-outside-sm" style="margin-bottom: 20px;" v-if="photo != null"  >
         
-        <button  class="border-none outline-none bg-main shadow-xs text-color-light space-inside-sm space-inside-sides-md" style="display: inline-block"  @click="storePhoto">Foto bijsnijden</button>
+        <p  class="border-none outline-none bg-main shadow-xs inline-block text-color-light pointer space-inside-sm space-inside-sides-md" style="display: inline-block"  @click="storePhoto">Foto bijsnijden</p>
         
         <p style="display: inline-block; margin-top: 20px; margin-left: 20px;">
             <slot name="description"> </slot>
         </p>
+        
     </div>
 
 

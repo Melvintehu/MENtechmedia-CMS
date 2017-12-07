@@ -7,6 +7,8 @@ class InputController {
         this.attributeName = attributeName;
         this.attribute = attribute;
         this.identifier = identifier;
+
+        // In edit context
         this.value = value;
 
         this.registerListeners();
