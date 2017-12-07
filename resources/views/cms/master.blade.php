@@ -22,51 +22,51 @@
     </head>
     <body class="bg-secondary">
         <!-- top bar -->
+        <nav class="navbar navbar-default navbar-fixed-top bg-tertiary border-none shadow-xs">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand space-inside-left-md"  href="https://mentechmedia.nl" target="_blank">
+                        <img src="/images/cms/logo_m.png" style="width: 20px;"/>
+                    </a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right space-inside-right-md">
+                        <li class="dropdown">
+                        <a href="#" class="dropdown-toggle text-color-light" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
+                        <ul class="dropdown-menu space-inside-sides-md space-inside-md">
+                            <!-- user -->
+                            <li class="space-inside-down-sm">
+                                <div class="circle image shadow-sm">
+                                    <img class="height-auto" src="{{ Auth::user()->portrait }}">
+                                </div>
+                            </li>
+                            <li class="space-inside-down-sm">               
+                                <div class=" block bg-secondary text-center space-inside-sm ">
+                                    <p class=" text-color-tertiar text-bold"> Superadmin </p>
+                                </div> 
+                            </li>
+                            <li><a href="/cms/profile/edit">Profiel bewerken</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/cms/logout">Uitloggen</a></li>
+                            <!-- end of user -->
+                        </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
         <div id="app" class="container-fluid no-overflow" >
             <div class="cms-navigation col-lg-2 col-md-2 col-xs-12 vertical-scrollbar no-overflow-x reset-padding bg-tertiary full-height  shadow-xs">
 
-                <div class="row">
-                    <!-- user -->
-                    <div class="col-lg-12 col-md-12  space-inside-sides-xl space-inside-up-md text-center">
-                        <div class="circle image shadow-sm">
-                            <img class="height-auto" src="{{ Auth::user()->portrait }}">
-                        </div>
-                    </div>
-
-
-                    <div class="col-lg-12 col-md-12 space-inside-sm  text-center ">
-
-                        <div class=" block bg-secondary  space-inside-sm ">
-                            <p class=" text-bold font-md text-color-main">{{ Auth::user()->name }}</p>
-                            <p class=" text-color-tertiary"> Superadmin </p>
-                        </div> 
-                        
-                       
-
-                        <a
-                            class=" space-inside-sides-md space-inside-sm 
-                                block
-                                bg-hover-main
-                                transition-fast 
-                                outline-none
-                                text-color-secondary-darken-sm text-hover-light text-bold-hover text-bold font-sm  " href="/cms/profile/edit"> 
-                                Profiel bewerken
-                        </a>
-                                                    
-                        <a
-                            class=" space-inside-sides-md space-inside-sm 
-                                block
-                                bg-hover-main
-                                transition-fast 
-                                outline-none
-                                text-color-secondary-darken-sm text-hover-light text-bold-hover text-bold font-sm  " href="/cms/logout"> 
-                               Uitloggen
-                        </a>
-
-
-                    </div>
-
-                    <!-- end of user -->
+                <div class="row space-inside-up-md">
+ 
 
                     <!-- content divider -->
 

@@ -50,6 +50,15 @@
   position: fixed;
 }
 
+.navbar-default .navbar-nav > .open > a:focus {
+  background-color: $tertiary-color;
+  color: #fff;
+}
+
+.nav .open > a:focus {
+  background-color: $tertiary-color;
+}
+
 
 /* Large desktops and laptops */
 @media (min-width: 1200px) { }

@@ -1,4 +1,4 @@
-<div class="col-lg-12 space-inside-md bg-light shadow-xs space-outside-up-sm">
+<div class="col-lg-12 space-inside-md bg-light shadow-xs space-outside-up-xl">
 	<span class="inline-block space-inside-left-md" style="position: relative; bottom: 5px;">
 		<i  class="material-icons font-xl space-inside-right-sm"> {{ $icon ?? 'group' }} </i> 
 	</span>
