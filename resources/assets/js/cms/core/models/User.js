@@ -11,7 +11,9 @@ class User extends Model {
             name: {
                 type: 'text',
                 translation: 'Naam',
-
+                validation: new Validator({
+                    required: true,
+                }),
             },
 
             // email: {

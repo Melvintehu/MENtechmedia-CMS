@@ -9,4 +9,7 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+/public/images/section/*
 .env
+2017-12-06 50-dubai.jpg
+Cropper.vue

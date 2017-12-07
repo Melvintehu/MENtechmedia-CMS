@@ -5,6 +5,7 @@
 
     <div class="row">
 
+
     <div class="col-lg-12 reset-padding" style="text-align:center">
         <div class="" style="display: inline-block" v-if="photo != null"  >
             <img :id="getId()"  :src="getImage()">
@@ -12,11 +13,15 @@
     </div>
 
     <div class="col-lg-12 reset-padding space-outside-sm" style="margin-bottom: 20px;" v-if="photo != null"  >
+        
         <button  class="border-none outline-none bg-main shadow-xs text-color-light space-inside-sm space-inside-sides-md" style="display: inline-block"  @click="storePhoto">Foto bijsnijden</button>
+        
         <p style="display: inline-block; margin-top: 20px; margin-left: 20px;">
             <slot name="description"> </slot>
         </p>
     </div>
+
+
     <div v-if="croppedImage != null" class="col-lg-12">
         <p>Preview: </p>
     </div>
@@ -42,23 +47,20 @@
 <script>
     export default {
         props: {
-            route: "",
-            aspectheight: "",
-            aspectwidth: "",
+            dimension: "",
             dir: "",
-            multi: "",
+            photo: "",
         },
         data() {
             return {
                 image: null,
                 croppedImage: null,
                 cropper: null,
-                photo: null,
             }
         },
 
         created(){
-            this.photo = null;
+    
             Event.listen('imageCropped' + this.getId(), (croppedImage) => {
                 this.croppedImage = croppedImage;
             });
@@ -67,21 +69,12 @@
                 this.croppedImage = null;
             });
 
-            Event.listen('setCropper', (photo) => {
-               
-                  
-                    this.photo = null;
-                    setTimeout(() => {
-                        this.photo = photo;
-                    }, 500);
 
-                    setTimeout( () => {
-                        this.setCropper();
-                    }, 500);
 
-          
+            $(document).ready(() => {
+                console.log(this.photo, 'werkt niet');
+                this.setCropper(this.photo);
             });
-
 
             Event.listen('overlay:closing', () => {
                 this.storePhoto();
@@ -91,32 +84,39 @@
 
         methods: {
 
-            getImage(){
+
+            /**
+			 * Get the aspectwidth from the dimension.
+			 */
+			getAspectWidth(){
+				return this.dimension.split("x")[0];
+			},
+
+			/**
+			 * Get the aspectHeight from the dimension.
+			 */
+			getAspectHeight(){
+				return this.dimension.split("x")[1];
+			},
+
+            getImage() {
                 return '/images/'+ this.photo.type + '/' + this.photo.model_id + '/' + this.photo.filename + '?' + new Date().getTime();
             },
 
-            getId(){
+            getId() {
               
-                return this.route + this.aspectwidth + this.aspectheight;
+                return 'cropper' + this.getAspectWidth() + this.getAspectHeight();
             },
 
-            getCroppedImage(){
-                return '/'+this.croppedImage + '?' + new Date().getTime();
+            getCroppedImage() {
+                return '/' + this.croppedImage + '?' + new Date().getTime();
             },
 
-            setCropper() {
-                
+            setCropper() { 
                 var image = document.getElementById(this.getId());
-               
-                // console.log('route:' , this.route);
-                // console.log('aspectheight:', this.aspectheight);
-                // console.log('aspectwidth:', this.aspectwidth);
-                // console.log('dir:', this.dir);
-                // console.log('multi:', this.multi);
-                // console.log('imagetag:', image);
 
                 this.cropper = new Cropper(image, {
-                    aspectRatio: (this.aspectwidth / this.aspectheight),
+                    aspectRatio: (this.getAspectWidth() / this.getAspectHeight()),
                 });
             },
 
@@ -145,18 +145,17 @@
 
                 axios.get(
                     '/'+
-                    this.route +
+                    'cropper' +
                     '?width='+ cropWidthPercentage +
                     '&height=' + cropHeightPercentage +
                     '&x=' + xPercentage +
                     '&y=' + yPercentage +
                     '&dir=' + this.dir +
-                    '&photo=' + JSON.stringify(this.photo) +
-                    '&multi=' + this.multi
+                    '&photo=' + JSON.stringify(this.photo)
                 , {}).then((response) => {
                     setTimeout(() => {
                         Event.fire('imageCropped' + this.getId(), response.data.croppedImage);
-
+                        Notifier.success('Gelukt! De foto is succesvol bijgesneden');
                     });
                 });
                

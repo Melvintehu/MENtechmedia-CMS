@@ -9,8 +9,8 @@
     |
     */
 
-    require('./core/imports');
     require('./core/helpers/Classes');
+    require('./core/imports');
     require('./Objects');
     require('./core/models/objects');
     
@@ -59,8 +59,8 @@
     Vue.component('read', require('./components/crud/Read.vue'));
     Vue.component('input-renderer', require('./components/InputRenderer.vue'));
     Vue.component('input-renderer-update', require('./components/crud/InputRendererUpdate.vue'));
-    
-
+    Vue.component('attribute-title', require('./components/crud/attribute/attribute-title.vue'));
+    Vue.component('loading', require('./components/loading/loading.vue'));
 
     /*
     |--------------------------------------------------------------------------
@@ -113,7 +113,6 @@
     |
     */
 
-    Vue.component('image-display', require('./components/ImageDisplay.vue'));
     Vue.component('image-uploader', require('./components/ImageUploader.vue'));
     Vue.component('cropper', require('./components/Cropper.vue'));
     
@@ -145,7 +144,22 @@
 
     Vue.component('tooltip', require('./components/tutorials/tooltip.vue'));
 
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Setup
+    |--------------------------------------------------------------------------
+    | 
+    | When the CMS is first loaded, the CMS guides the user through some 
+    | settings that need to be configured before the CMS is fully operational.
+    | These components provide that functionality.
+    |
+    |
+    */
 
+    Vue.component('setup', require('./components/setup/setup.vue'));
+    Vue.component('setup-page', require('./components/setup/setup-page.vue'));
+    
     /*
     |--------------------------------------------------------------------------
     | 

@@ -1,25 +1,7 @@
 <template>
 	<div v-if="inputController !== null" @keyup.9.capture.prevent.stop>
 
-		<div class="col-lg-12 reset-padding " style="height: 100%;">
-
-			<!-- The attribute field's title -->
-			<p 
-				style=" text-transform: capitalize" 
-				class="
-					font-sm text-bold text-color-dark 
-					inline-block
-					space-inside-up-xs space-inside-down-sm space-inside-right-sm 
-					"
-			>{{ attribute.translation }}</p>
-
-
-			<!-- The WalkThrough for this input -->
-			<div v-if="attribute.walkThrough !== undefined" class="inline-block">
-				<tooltip :walkThrough="attribute.walkThrough"></tooltip>
-			</div>
-
-		</div>
+		<attribute-title :attribute="attribute"></attribute-title>
 
 		<!-- The input -->
 		<input 
@@ -60,6 +42,7 @@
 		},
 
 		mounted() {
+			
 			this.inputController = new InputController(this.attributeName, this.attribute, this.identifier, this.value);
 		},
 

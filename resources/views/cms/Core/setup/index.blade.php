@@ -17,12 +17,15 @@
             window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
             ]); ?>
+
+            window.user_id = <?php echo json_encode(Auth::user()->id); ?>
         </script>
     </head>
 
     <body class="bg-secondary container space-inside-xl">
         <!-- top bar -->
         <div id="app"  >
+
             <div class="row">
                 <div class="col-lg-12 space-outside-down-md"> 
                     <h1 class="text-color-tertiary"> Welkom, {{ Auth::user()->name }}. </h1>
@@ -32,11 +35,15 @@
                         <p class="font-md text-color-light"> We gaan het CMS samen configureren. Dit doen we in een paar korte simpele stappen.</p>
                     </div>
                 </div>
+                <div class="col-lg-12">
+                    <p class="font-md space-outside-sm space-inside-left-md"> Stel een profielfoto of avatar in. </p>
+                    <setup></setup>
+                </div>
 
                 <form action="cms/step1" method="POST">
                      {{ csrf_field() }}
                     <div class="col-lg-12 space-inside-md">
-                        <p class="font-md space-outside-down-sm space-inside-left-md"> Stel eerst uw nieuwe wachtwoord in, u bent dan de enige persoon met toegang tot dit account. </p>
+                        <p class="font-md space-outside-down-sm space-inside-left-md"> Stel eerst uw nieuwe wachtwoord in, u bent daarna de enige persoon met toegang tot dit account. </p>
                         <input 
                             name="password"
                             type="password"

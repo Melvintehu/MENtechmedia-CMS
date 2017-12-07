@@ -47,11 +47,6 @@
 		},
 		
 		mounted() {
-			
-			Event.listen('file:uploaded', () => {
-				this.show();
-			});
-
 			Event.listen('overlay:open', () => {
 				this.show();
 			});

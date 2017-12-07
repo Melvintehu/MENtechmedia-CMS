@@ -3,6 +3,11 @@
 
         <!-- CONTENT HERE -->
 
+        <!-- Loading spinner -->
+        <loading v-if="!loaded"></loading>
+
+    <div v-show="loaded">
+
         <!-- title -->
         <div class="col-lg-6 reset-padding space-inside-md" >
             <h1 class="text-color-dark text-left text-uppercase letter-spacing-sm text-bold">Aanpassen</h1>
@@ -147,6 +152,7 @@
                     "    onclick="window.history.back()">Terug naar overzicht</button>
         </div>
     
+    </div>
 
 </div>
 </template>
@@ -187,9 +193,13 @@
             this.totalInputs = Object.keys(this.object.fields).length;
             setTimeout(() => {
                  Event.fire('input:insertValues:' + this.identifier);
+                 
             })
 
             this.registerListeners();
+            setTimeout(() => {
+                this.loaded = true;
+            }, 500);
         },
 
         methods: {

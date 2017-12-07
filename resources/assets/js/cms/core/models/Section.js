@@ -9,10 +9,6 @@ class Section extends Model {
         super(data);
 
         this.fields = {
-            id: {
-                type: 'number',
-                translation: 'Identifier'
-            },
 
             title: {
                 type: 'text',
@@ -39,6 +35,15 @@ class Section extends Model {
                 translation: 'De body van de sectie',
                 validation: new Validator({
                     required: true,
+                }),
+            },
+
+            photo: {
+                type: 'photo',
+                translation: 'Kies een foto',
+                dimensions: {"1x1": 'portrait'},
+                validation: new Validator({
+                    required: true
                 }),
             },
 

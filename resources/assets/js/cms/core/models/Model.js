@@ -1,4 +1,5 @@
 import Validator from '../../app/Validator/Validator';
+import WalkThrough from '../../app/WalkThrough/WalkThrough';
 
 class Model {
 

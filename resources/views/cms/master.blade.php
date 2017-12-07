@@ -33,10 +33,35 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-12 col-md-12 space-inside-sm space-inside-sides-xl text-center ">
-                        <p class="text-color-light  font-md text-thin">{{ Auth::user()->name }}</p>
-                        <a class="text-color-light space-inside-md text-thin" href="/cms/profile/{{ Auth::user()->id }}/edit">Profiel bewerken</a>
-                        <a class="text-color-light text-thin" href="/cms/logout">Uitloggen</a>
+                    <div class="col-lg-12 col-md-12 space-inside-sm  text-center ">
+
+                        <div class=" block bg-secondary  space-inside-sm ">
+                            <p class=" text-bold font-md text-color-main">{{ Auth::user()->name }}</p>
+                            <p class=" text-color-tertiary"> Superadmin </p>
+                        </div> 
+                        
+                       
+
+                        <a
+                            class=" space-inside-sides-md space-inside-sm 
+                                block
+                                bg-hover-main
+                                transition-fast 
+                                outline-none
+                                text-color-secondary-darken-sm text-hover-light text-bold-hover text-bold font-sm  " href="/cms/profile/{{ Auth::user()->id }}/edit"> 
+                                Profiel bewerken
+                        </a>
+                                                    
+                        <a
+                            class=" space-inside-sides-md space-inside-sm 
+                                block
+                                bg-hover-main
+                                transition-fast 
+                                outline-none
+                                text-color-secondary-darken-sm text-hover-light text-bold-hover text-bold font-sm  " href="/cms/logout"> 
+                               Uitloggen
+                        </a>
+
                     </div>
 
                     <!-- end of user -->

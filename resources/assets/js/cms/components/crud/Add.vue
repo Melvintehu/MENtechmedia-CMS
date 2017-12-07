@@ -45,7 +45,7 @@
 				_.each(this.object.fields, (attribute, attributeName) => {
 					if(_.indexOf(attributeExceptions, attribute.type) === -1) {
 						Event.listen('input:updated:' + attributeName, (value) => {
-							this.objectValue[attributeName] = value;
+							this.object[attributeName] = value;
 						});
 					}
 				});
@@ -54,7 +54,7 @@
 
 			save() {
 				// delete this.objectValue.fields
-				this.objectValue.save().then((object) => {
+				this.object.save().then((object) => {
 					Event.fire(this.type + ':added', object.id);
 				});
 			
