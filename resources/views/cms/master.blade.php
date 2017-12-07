@@ -33,6 +33,7 @@
                         </div>
                     </div>
 
+
                     <div class="col-lg-12 col-md-12 space-inside-sm  text-center ">
 
                         <div class=" block bg-secondary  space-inside-sm ">
@@ -48,7 +49,7 @@
                                 bg-hover-main
                                 transition-fast 
                                 outline-none
-                                text-color-secondary-darken-sm text-hover-light text-bold-hover text-bold font-sm  " href="/cms/profile/{{ Auth::user()->id }}/edit"> 
+                                text-color-secondary-darken-sm text-hover-light text-bold-hover text-bold font-sm  " href="/cms/profile/edit"> 
                                 Profiel bewerken
                         </a>
                                                     
@@ -61,6 +62,7 @@
                                 text-color-secondary-darken-sm text-hover-light text-bold-hover text-bold font-sm  " href="/cms/logout"> 
                                Uitloggen
                         </a>
+
 
                     </div>
 
