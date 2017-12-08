@@ -10,6 +10,15 @@ class Entity extends Model
         'name',
         'title',
         'description',
+        'nav_group_id',
         'icon',
     ];
+
+    /**
+     * Get the NavGroup that owns the Entity.
+     */
+    public function navGroup()
+    {
+        return $this->belongsTo('App\NavGroup');
+    }
 }

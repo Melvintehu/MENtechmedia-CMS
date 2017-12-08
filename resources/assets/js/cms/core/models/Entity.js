@@ -32,6 +32,16 @@ class Entity extends Model {
                 }),
             },
 
+            nav_group_id: {
+                type: 'model',
+                model: 'navGroup',
+                attributeDisplay: 'name',
+                translation: 'Behoort tot Navigatiegroep',
+                validation: new Validator({
+                    required: true
+                }),
+            },
+
             icon: {
                 type: 'text',
                 translation: 'Kies een material design icon',

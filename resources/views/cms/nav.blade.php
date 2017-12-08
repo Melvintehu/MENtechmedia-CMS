@@ -2,12 +2,12 @@
 <div class="col-lg-12 space-inside-sm">
     
     <!-- header -->
-    <p class="space-inside-sides-md text-color-main text-semi-bold font-xs space-outside-sm">Super admin</p>
+    <p class="space-inside-sides-md text-color-main text-semi-bold font-xs space-outside-sm">Superadmin</p>
 
     <nav-link id="entity" icon="description"> Entiteiten </nav-link>
-    <nav-link id="section" icon="description"> Secties </nav-link>    
+    <nav-link id="section" icon="description"> Secties </nav-link>
+    <nav-link id="navGroup" icon="apps"> Navigatiegroep </nav-link>    
 </div>
-
 
 <!-- content divider -->
 <div style="height: 4px;" class="  col-lg-12 space-inside-xs">
@@ -15,19 +15,19 @@
 </div>
 <!-- end of content divider -->
 
+ @foreach($navGroups as $navGroup)
 <div class="col-lg-12 space-inside-sm">
-    
     <!-- header -->
-    <p class="space-inside-sides-md text-color-main text-semi-bold font-xs space-outside-sm">Beheer website</p>
-
-    @foreach($entities as $entity)
+    <p class="space-inside-sides-md text-color-main text-semi-bold font-xs space-outside-sm">{{ $navGroup->name }}</p>
+    @foreach($navGroup->entities as $entity)
         <nav-link id="{{ $entity->name }}" icon="{{ $entity->icon }}"> {{ $entity->title }} </nav-link>
     @endforeach
 </div>
 
-
 <!-- content divider -->
 <div style="height: 4px;" class="  col-lg-12 space-inside-xs">
     <div style="height: 4px;" class="bg-tertiary-darken-xs border-dark border-top"></div>
 </div>
 <!-- end of content divider -->
+
+@endforeach
