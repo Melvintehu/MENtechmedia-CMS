@@ -64,7 +64,7 @@ class Model {
 
     save() {
         return new Promise((resolve, reject) => {
-            API.post(this.constructor.name.toLowerCase(), this.data()).then((data) => {
+            API.post(Helper.lcfirst(this.constructor.name), this.data()).then((data) => {
                 resolve(data);
             }, reject);
         });
@@ -72,14 +72,14 @@ class Model {
 
     update() {
         return new Promise((resolve, reject) => {
-            API.put(`${this.constructor.name.toLowerCase()}/` + this.id, this.data()).then((data) => {
+            API.put(`${Helper.lcfirst(this.constructor.name)}/` + this.id, this.data()).then((data) => {
                 resolve(data);
             }, reject);
         });
     }
 
     delete(className, success) {
-        API.delete(className.toLowerCase(), this.id);
+        API.delete(Helper.lcfirst(className), this.id);
         success();
     }
 

@@ -13,12 +13,14 @@
     import Section from './Section';
     import UserRole from './UserRole';
     import User from './User';
+    import NavGroup from './NavGroup'
     
 
     let models = {
         entity: Entity,
         section: Section,
         userRole: UserRole,
+        navGroup: NavGroup,
         user: User,
     }
 

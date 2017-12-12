@@ -18,6 +18,7 @@ class FrontController extends Controller
         $coreEntities = [
             'entity',
             'section',
+            'navGroup',
         ];
 
         $entity = $request->get('type');

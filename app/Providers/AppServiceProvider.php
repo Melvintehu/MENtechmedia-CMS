@@ -16,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         view()->composer('cms.nav', function($view) {
+            $view->with('navGroups', \App\NavGroup::all());
             $view->with('entities', \App\Entity::all());
         });
     }
