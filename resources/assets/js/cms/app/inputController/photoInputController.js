@@ -3,6 +3,7 @@ class PhotoInputController {
     
         constructor(attribute, identifier) {
             this.photo = null;
+            this.progressBar = null;
 
             this.attribute = attribute;
             this.identifier = identifier;
@@ -15,21 +16,31 @@ class PhotoInputController {
          * register listeners here. 	
          */
         registerListeners() {
-           
+            
+
+            /**
+             * The cms broadcasts when a new progressbar is initialised. We can add it to our inputController,
+             * so we can call some functions on it.
+             */
+            Event.listen('progressBar:get:' + this.attributeName, (progressBar) => {
+                this.progressBar = progressBar;
+            });
+
+
             /**
              * When this input is used in a edit context, we can always increment the progressbar, since either the 
-             * photo is set, or not mendatory. In both cases the progressbar should be incremented.
+             * photo is set, or not mendatory. In both cases the progressbar should be incremented for the photo input.
              * 
              */
             Event.listen('input:insertValues:' + this.identifier, () => {
-                Event.fire('progressbar:increment:' + this.identifier, 'photo');
+                this.progressBar.increment('photo');
             });
 
             /**
              * When the uploaded file is ready for upload, we can increment the progressbar.
              */
             Event.listen('file:ready', () => {
-                Event.fire('progressbar:increment:' + this.identifier, 'photo');
+                this.progressBar.increment(this.attributeName);
             });
 
 
@@ -39,6 +50,12 @@ class PhotoInputController {
             Event.listen('file:uploaded', (photo) => {
                 this.photo = photo;
             });
+
+            Event.listen('inputs:clear', () => {
+                this.progressBar.decrement(this.attributeName);
+                this.checkRequired();
+            });
+            
         }
     
         /**
@@ -46,7 +63,7 @@ class PhotoInputController {
          */
         checkRequired() {
             if(!Validator.required(this.attribute.validation)) {
-                Event.fire('progressbar:increment:' + this.identifier, 'photo' );
+                this.progressBar.increment(this.attributeName);
             }
         }
 }

@@ -5,7 +5,7 @@ class TimeInputController {
             this.hour = "";
             this.minutes = "";
             this.input = "";
-
+            this.progressBar = null;
 
             this.attributeName = attributeName;
             this.attribute = attribute;
@@ -27,12 +27,12 @@ class TimeInputController {
                 
             // Do validation on the input's value.
             if(!Validator.valid(this.attribute.validation, this.input)) {
-                Event.fire('progressbar:decrement:' + this.identifier, this.attributeName);
+                this.progressBar.decrement(this.attributeName);
                 return;
             }
     
             // if nog validation error, we tell the progressbar to increment.
-            Event.fire('progressbar:increment:' + this.identifier, this.attributeName);
+            this.progressBar.increment(this.attributeName);
         }
     
     
@@ -57,7 +57,7 @@ class TimeInputController {
                
                 // do validation
                 if(Validator.valid(this.attribute.validation, this.input)) {
-                    Event.fire('progressbar:increment:' + this.identifier, this.attributeName); 
+                    this.progressBar.increment(this.attributeName);
                 }
     
             });
@@ -77,7 +77,9 @@ class TimeInputController {
              *	to be persisted to the database.
                 */
             Event.listen('validator:validate', () => {
-                Validator.valid(this.attribute.validation, this.input);
+                if(Validator.valid(this.attribute.validation, this.input)) {
+                    Event.fire('validator:no-errors');
+                }
             });
         }
     
@@ -86,7 +88,7 @@ class TimeInputController {
          */
         checkRequired() {
             if(!Validator.required(this.attribute.validation, this.input)) {
-                Event.fire('progressbar:increment:' + this.identifier, this.attributeName );
+                this.progressBar.increment(this.attributeName);
             }
         }
 

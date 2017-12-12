@@ -4583,7 +4583,7 @@ return hooks;
 
 })));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)(module)))
 
 /***/ }),
 /* 1 */
@@ -5106,7 +5106,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(198)
+var listToStyles = __webpack_require__(197)
 
 /*
 type StyleObject = {
@@ -5309,40 +5309,40 @@ function applyToTag (styleElement, obj) {
 
 /***/ }),
 /* 5 */
-/***/ (function(module, __webpack_exports__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/*
-|--------------------------------------------------------------------------
-| Import
-|--------------------------------------------------------------------------
-|
-| Import your models here
-| 
-| 
-|
-*/
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-/*
-|--------------------------------------------------------------------------
-| Insert
-|--------------------------------------------------------------------------
-|
-| Insert your models in the models object below.
-| 
-| 
-|
-*/
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-window.models = {};
+var Validator = function () {
+	function Validator(validationRules) {
+		_classCallCheck(this, Validator);
+
+		this.validationRules = validationRules;
+		this.errors = {};
+	}
+
+	_createClass(Validator, [{
+		key: "reset",
+		value: function reset() {
+			this.errors = {};
+		}
+	}]);
+
+	return Validator;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (Validator);
 
 /***/ }),
 /* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_Validator_Validator__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_WalkThrough_WalkThrough__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_Validator_Validator__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_WalkThrough_WalkThrough__ = __webpack_require__(7);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -5504,35 +5504,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Validator = function () {
-	function Validator(validationRules) {
-		_classCallCheck(this, Validator);
-
-		this.validationRules = validationRules;
-		this.errors = {};
-	}
-
-	_createClass(Validator, [{
-		key: "reset",
-		value: function reset() {
-			this.errors = {};
-		}
-	}]);
-
-	return Validator;
-}();
-
-/* harmony default export */ __webpack_exports__["a"] = (Validator);
-
-/***/ }),
-/* 8 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 var WalkThrough = function () {
     function WalkThrough(steps) {
         _classCallCheck(this, WalkThrough);
@@ -5569,7 +5540,7 @@ var WalkThrough = function () {
 /* harmony default export */ __webpack_exports__["a"] = (WalkThrough);
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5582,6 +5553,7 @@ var InputController = function () {
         _classCallCheck(this, InputController);
 
         this.input = "";
+        this.progressBar = null;
 
         this.attributeName = attributeName;
         this.attribute = attribute;
@@ -5603,12 +5575,12 @@ var InputController = function () {
 
             // Do validation on the input's value.
             if (!Validator.valid(this.attribute.validation, this.input)) {
-                Event.fire('progressbar:decrement:' + this.identifier, this.attributeName);
+                this.progressBar.decrement(this.attributeName);
                 return;
             }
 
             // if nog validation error, we tell the progressbar to increment.
-            Event.fire('progressbar:increment:' + this.identifier, this.attributeName);
+            this.progressBar.increment(this.attributeName);
         }
 
         /**
@@ -5619,6 +5591,14 @@ var InputController = function () {
         key: 'registerListeners',
         value: function registerListeners() {
             var _this = this;
+
+            /**
+             * The cms broadcasts when a new progressbar is initialised. We can add it to our inputController,
+             * so we can call some functions on it.
+             */
+            Event.listen('progressBar:get:' + this.attributeName, function (progressBar) {
+                _this.progressBar = progressBar;
+            });
 
             /**
              * When this input is used in a edit context, we need to insert the corresponding value
@@ -5633,7 +5613,7 @@ var InputController = function () {
 
                 // do validation
                 if (Validator.valid(_this.attribute.validation, _this.input)) {
-                    Event.fire('progressbar:increment:' + _this.identifier, _this.attributeName);
+                    _this.progressBar.increment(_this.attributeName);
                 }
             });
 
@@ -5642,6 +5622,8 @@ var InputController = function () {
              */
             Event.listen('inputs:clear', function () {
                 _this.input = "";
+
+                _this.progressBar.decrement(_this.attributeName);
 
                 _this.checkRequired();
             });
@@ -5663,7 +5645,7 @@ var InputController = function () {
         key: 'checkRequired',
         value: function checkRequired() {
             if (!Validator.required(this.attribute.validation, this.input)) {
-                Event.fire('progressbar:increment:' + this.identifier, this.attributeName);
+                this.progressBar.increment(this.attributeName);
             }
         }
     }]);
@@ -5674,7 +5656,7 @@ var InputController = function () {
 /* harmony default export */ __webpack_exports__["a"] = (InputController);
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -5702,7 +5684,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports) {
 
 var g;
@@ -5729,7 +5711,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5827,6 +5809,34 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 module.exports = defaults;
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(134)))
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports) {
+
+/*
+|--------------------------------------------------------------------------
+| Import
+|--------------------------------------------------------------------------
+|
+| Import your models here
+| 
+| 
+|
+*/
+
+/*
+|--------------------------------------------------------------------------
+| Insert
+|--------------------------------------------------------------------------
+|
+| Insert your models in the models object below.
+| 
+| 
+|
+*/
+
+window.models = {};
 
 /***/ }),
 /* 13 */
@@ -27969,8 +27979,8 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(140);
-__webpack_require__(325);
-module.exports = __webpack_require__(326);
+__webpack_require__(326);
+module.exports = __webpack_require__(327);
 
 
 /***/ }),
@@ -45447,7 +45457,7 @@ window.axios.defaults.headers.common['X-CSRF-TOKEN'] = Laravel.csrfToken;
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11), __webpack_require__(10)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10), __webpack_require__(9)(module)))
 
 /***/ }),
 /* 145 */
@@ -47221,7 +47231,7 @@ window.axios.defaults.headers.common['X-CSRF-TOKEN'] = Laravel.csrfToken;
 
 }).call(this);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)(module)))
 
 /***/ }),
 /* 146 */
@@ -53180,7 +53190,7 @@ module.exports = __webpack_require__(149);
 var utils = __webpack_require__(2);
 var bind = __webpack_require__(133);
 var Axios = __webpack_require__(151);
-var defaults = __webpack_require__(12);
+var defaults = __webpack_require__(11);
 
 /**
  * Create an instance of Axios
@@ -53263,7 +53273,7 @@ function isSlowBuffer (obj) {
 "use strict";
 
 
-var defaults = __webpack_require__(12);
+var defaults = __webpack_require__(11);
 var utils = __webpack_require__(2);
 var InterceptorManager = __webpack_require__(160);
 var dispatchRequest = __webpack_require__(161);
@@ -53804,7 +53814,7 @@ module.exports = InterceptorManager;
 var utils = __webpack_require__(2);
 var transformData = __webpack_require__(162);
 var isCancel = __webpack_require__(137);
-var defaults = __webpack_require__(12);
+var defaults = __webpack_require__(11);
 var isAbsoluteURL = __webpack_require__(163);
 var combineURLs = __webpack_require__(164);
 
@@ -67933,7 +67943,7 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11), __webpack_require__(169).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10), __webpack_require__(169).setImmediate))
 
 /***/ }),
 /* 169 */
@@ -68185,7 +68195,7 @@ exports.clearImmediate = clearImmediate;
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11), __webpack_require__(134)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10), __webpack_require__(134)))
 
 /***/ }),
 /* 171 */
@@ -68218,8 +68228,8 @@ var require;var require;var __WEBPACK_AMD_DEFINE_RESULT__;!function(e,t,n){"use 
 
 __webpack_require__(174);
 __webpack_require__(187);
-__webpack_require__(5);
-__webpack_require__(190);
+__webpack_require__(12);
+__webpack_require__(189);
 
 /*
 |--------------------------------------------------------------------------
@@ -68233,19 +68243,19 @@ __webpack_require__(190);
 */
 
 // dashboard
-Vue.component('dashboard-search', __webpack_require__(195));
+Vue.component('dashboard-search', __webpack_require__(194));
 
 // progress
-Vue.component('progressbar', __webpack_require__(201));
+Vue.component('progressbar', __webpack_require__(200));
 
 // Password forget
-Vue.component('forgot-password', __webpack_require__(204));
+Vue.component('forgot-password', __webpack_require__(203));
 
 // navigation
-Vue.component('nav-link', __webpack_require__(209));
-Vue.component('pull-menu-cms', __webpack_require__(212));
+Vue.component('nav-link', __webpack_require__(208));
+Vue.component('pull-menu-cms', __webpack_require__(211));
 
-Vue.component('overlay', __webpack_require__(217));
+Vue.component('overlay', __webpack_require__(216));
 
 /*
 |--------------------------------------------------------------------------
@@ -68258,12 +68268,12 @@ Vue.component('overlay', __webpack_require__(217));
 |
 */
 
-Vue.component('add', __webpack_require__(222));
-Vue.component('read', __webpack_require__(225));
-Vue.component('input-renderer', __webpack_require__(231));
-Vue.component('input-renderer-update', __webpack_require__(237));
-Vue.component('attribute-title', __webpack_require__(242));
-Vue.component('loading', __webpack_require__(245));
+Vue.component('add', __webpack_require__(221));
+Vue.component('read', __webpack_require__(224));
+Vue.component('input-renderer', __webpack_require__(230));
+Vue.component('input-renderer-update', __webpack_require__(236));
+Vue.component('attribute-title', __webpack_require__(241));
+Vue.component('loading', __webpack_require__(244));
 
 /*
 |--------------------------------------------------------------------------
@@ -68276,18 +68286,18 @@ Vue.component('loading', __webpack_require__(245));
 |
 */
 
-Vue.component('crud-boolean', __webpack_require__(248));
+Vue.component('crud-boolean', __webpack_require__(247));
 Vue.component('crud-date', __webpack_require__(253));
 Vue.component('crud-model', __webpack_require__(257));
 Vue.component('crud-model-checkbox', __webpack_require__(260));
-Vue.component('crud-number', __webpack_require__(265));
-Vue.component('crud-photo', __webpack_require__(268));
-Vue.component('crud-select', __webpack_require__(272));
-Vue.component('crud-time', __webpack_require__(275));
-Vue.component('crud-textarea', __webpack_require__(279));
-Vue.component('crud-text', __webpack_require__(282));
-Vue.component('crud-website', __webpack_require__(285));
-Vue.component('crud-youtube', __webpack_require__(288));
+Vue.component('crud-number', __webpack_require__(266));
+Vue.component('crud-photo', __webpack_require__(269));
+Vue.component('crud-select', __webpack_require__(273));
+Vue.component('crud-time', __webpack_require__(276));
+Vue.component('crud-textarea', __webpack_require__(280));
+Vue.component('crud-text', __webpack_require__(283));
+Vue.component('crud-website', __webpack_require__(286));
+Vue.component('crud-youtube', __webpack_require__(289));
 
 /*
 |--------------------------------------------------------------------------
@@ -68300,9 +68310,9 @@ Vue.component('crud-youtube', __webpack_require__(288));
 |
 */
 
-Vue.component('editable-section', __webpack_require__(291));
-Vue.component('editable-title', __webpack_require__(294));
-Vue.component('editable-text', __webpack_require__(297));
+Vue.component('editable-section', __webpack_require__(292));
+Vue.component('editable-title', __webpack_require__(295));
+Vue.component('editable-text', __webpack_require__(298));
 
 /*
 |--------------------------------------------------------------------------
@@ -68315,8 +68325,8 @@ Vue.component('editable-text', __webpack_require__(297));
 |
 */
 
-Vue.component('image-uploader', __webpack_require__(300));
-Vue.component('cropper', __webpack_require__(306));
+Vue.component('image-uploader', __webpack_require__(301));
+Vue.component('cropper', __webpack_require__(307));
 
 /*
 |--------------------------------------------------------------------------
@@ -68329,7 +68339,7 @@ Vue.component('cropper', __webpack_require__(306));
 |
 */
 
-Vue.component('validation-display', __webpack_require__(309));
+Vue.component('validation-display', __webpack_require__(310));
 
 /*
 |--------------------------------------------------------------------------
@@ -68342,7 +68352,7 @@ Vue.component('validation-display', __webpack_require__(309));
 |
 */
 
-Vue.component('tooltip', __webpack_require__(314));
+Vue.component('tooltip', __webpack_require__(315));
 
 /*
 |--------------------------------------------------------------------------
@@ -68356,8 +68366,8 @@ Vue.component('tooltip', __webpack_require__(314));
 |
 */
 
-Vue.component('setup', __webpack_require__(319));
-Vue.component('setup-page', __webpack_require__(322));
+Vue.component('setup', __webpack_require__(320));
+Vue.component('setup-page', __webpack_require__(323));
 
 /*
 |--------------------------------------------------------------------------
@@ -69541,16 +69551,15 @@ $(function () {
 });
 
 /***/ }),
-/* 189 */,
-/* 190 */
+/* 189 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Entity__ = __webpack_require__(191);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Section__ = __webpack_require__(192);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__UserRole__ = __webpack_require__(193);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__User__ = __webpack_require__(194);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Entity__ = __webpack_require__(190);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Section__ = __webpack_require__(191);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__UserRole__ = __webpack_require__(192);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__User__ = __webpack_require__(193);
 /*
 |--------------------------------------------------------------------------
 | Core models
@@ -69587,12 +69596,12 @@ var models = {
 };window.models = Object.assign(window.models, models);
 
 /***/ }),
-/* 191 */
+/* 190 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Model__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_Validator_Validator__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_Validator_Validator__ = __webpack_require__(5);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -69657,13 +69666,13 @@ var Entity = function (_Model) {
 /* harmony default export */ __webpack_exports__["a"] = (Entity);
 
 /***/ }),
-/* 192 */
+/* 191 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Model__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_Validator_Validator__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_WalkThrough_WalkThrough__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_Validator_Validator__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_WalkThrough_WalkThrough__ = __webpack_require__(7);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -69695,18 +69704,11 @@ var Section = function (_Model) {
                 walkThrough: new __WEBPACK_IMPORTED_MODULE_2__app_WalkThrough_WalkThrough__["a" /* default */](["Het onderstaande invoerveld is bedoeld om tekst in te voeren." + "Klik met de muis op het vak. U kunt vervolgens beginnen met typen." + "Het systeem geeft u automatisch feedback op wat u op dat moment intypt.", 'Met titel bedoelen we de titel van deze sectie. ' + 'Deze zult u op de pagina zien, waar deze sectie door ons geplaatst is.', 'Secties aanpassen kunt het best doen op de pagina zelf. ' + 'Dat doet u door op de pagina zelf, op het "aanpassen" icoontje te drukken. U kunt vervolgens de gewenste tekst invoeren. '])
             },
 
-            body: {
-                type: 'textarea',
-                translation: 'De body van de sectie',
-                validation: new __WEBPACK_IMPORTED_MODULE_1__app_Validator_Validator__["a" /* default */]({
-                    required: true
-                })
-            },
-
-            photo: {
-                type: 'photo',
-                translation: 'Kies een foto',
-                dimensions: { "1x1": 'portrait' },
+            facility_id: {
+                type: 'model-checkbox',
+                model: 'section',
+                attributeDisplay: 'title',
+                translation: 'Secties test',
                 validation: new __WEBPACK_IMPORTED_MODULE_1__app_Validator_Validator__["a" /* default */]({
                     required: true
                 })
@@ -69723,13 +69725,13 @@ var Section = function (_Model) {
 /* harmony default export */ __webpack_exports__["a"] = (Section);
 
 /***/ }),
-/* 193 */
+/* 192 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Model__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_Validator_Validator__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_WalkThrough_WalkThrough__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_Validator_Validator__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_WalkThrough_WalkThrough__ = __webpack_require__(7);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -69788,13 +69790,13 @@ var UserRole = function (_Model) {
 /* harmony default export */ __webpack_exports__["a"] = (UserRole);
 
 /***/ }),
-/* 194 */
+/* 193 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Model__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_Validator_Validator__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_WalkThrough_WalkThrough__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_Validator_Validator__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_WalkThrough_WalkThrough__ = __webpack_require__(7);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -69851,19 +69853,19 @@ var User = function (_Model) {
 /* harmony default export */ __webpack_exports__["a"] = (User);
 
 /***/ }),
-/* 195 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(196)
+  __webpack_require__(195)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(199)
+var __vue_script__ = __webpack_require__(198)
 /* template */
-var __vue_template__ = __webpack_require__(200)
+var __vue_template__ = __webpack_require__(199)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -69903,13 +69905,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 196 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(197);
+var content = __webpack_require__(196);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -69929,7 +69931,7 @@ if(false) {
 }
 
 /***/ }),
-/* 197 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(undefined);
@@ -69943,7 +69945,7 @@ exports.push([module.i, "\n.fade-enter-active, .fade-leave-active {\n  -webkit-t
 
 
 /***/ }),
-/* 198 */
+/* 197 */
 /***/ (function(module, exports) {
 
 /**
@@ -69976,7 +69978,7 @@ module.exports = function listToStyles (parentId, list) {
 
 
 /***/ }),
-/* 199 */
+/* 198 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -70038,7 +70040,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 200 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -70122,15 +70124,15 @@ if (false) {
 }
 
 /***/ }),
-/* 201 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(202)
+var __vue_script__ = __webpack_require__(201)
 /* template */
-var __vue_template__ = __webpack_require__(203)
+var __vue_template__ = __webpack_require__(202)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -70170,7 +70172,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 202 */
+/* 201 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -70189,92 +70191,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
-        totalInputs: 0,
-        identifier: null,
         progressBar: null
-    },
-    data: function data() {
-        return {
-            completedInputs: 0,
-            currentWidth: '1',
-            completed: {},
-            uniqueId: null
-        };
-    },
-    mounted: function mounted() {
-        this.registerListeners();
-    },
-
-
-    methods: {
-        registerListeners: function registerListeners() {
-            var _this = this;
-
-            // reset the progressbar when this event is fired
-            Event.listen('progressbar:reset:' + this.identifier, function () {
-                _this.resetProgressbar();
-                _this.updateProgressbar();
-            });
-
-            // increment the progressbar when this event is fired
-            Event.listen('progressbar:increment:' + this.identifier, function (identifier) {
-
-                _this.completed[identifier] = true;
-                _this.updateProgressbar();
-            });
-
-            // decrement the progressbar when this event is fired
-            Event.listen('progressbar:decrement:' + this.identifier, function (identifier) {
-                _this.completed[identifier] = false;
-                _this.updateProgressbar();
-            });
-
-            // when this event is fired check if the progressbar is @ 100%
-            // if this is not the case, notify the user 
-            // if this is the case, fire an event that tells the application
-            // that the progressbar is @ 100%
-            Event.listen('progressbar:isCompleted:' + this.identifier, function () {
-
-                if (_this.totalInputs != _this.completedInputs) {
-                    Notifier.info('U heeft nog niet alle velden correct ingevuld.');
-                    Event.fire('progressbar:incomplete:' + _this.identifier);
-                    Event.remove('progressbar:complete:' + _this.identifier);
-                } else {
-                    Event.fire('progressbar:complete:' + _this.identifier);
-                    Event.remove('progressbar:complete:' + _this.identifier);
-                }
-            });
-        },
-        updateProgressbar: function updateProgressbar() {
-            // we reset the completed inputs
-            this.completedInputs = 0;
-
-            // we recount all the fields that are filled in 
-            for (var attribute in this.completed) {
-                if (this.completed[attribute]) {
-                    this.completedInputs++;
-                }
-            }
-
-            // we calculate the percentage
-            this.currentWidth = 100 / this.totalInputs * this.completedInputs + '';
-            // if the percentage is @ 0% we change it to 1%
-            if (this.currentWidth === '0') {
-                this.currentWidth = '1';
-            }
-        },
-        resetProgressbar: function resetProgressbar() {
-            this.completed = {};
-            this.completedInputs = 0;
-        },
-        roundPercentage: function roundPercentage(percentage) {
-            return Helper.roundPercentage(percentage);
-        }
     }
 });
 
 /***/ }),
-/* 203 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -70294,9 +70216,15 @@ var render = function() {
             {
               staticClass:
                 "bg-main space-inside-sides-md space-inside-sm  border-curved width-over-time text-color-light",
-              style: { width: _vm.currentWidth + "%" }
+              style: { width: _vm.progressBar.currentWidth + "%" }
             },
-            [_vm._v(_vm._s(_vm.roundPercentage(_vm.currentWidth)) + "%")]
+            [
+              _vm._v(
+                _vm._s(
+                  _vm.progressBar.roundPercentage(_vm.progressBar.currentWidth)
+                ) + "%"
+              )
+            ]
           )
         ]
       ),
@@ -70304,9 +70232,9 @@ var render = function() {
       _c("p", { staticClass: "float-right text-bold" }, [
         _vm._v(
           " " +
-            _vm._s(_vm.completedInputs) +
+            _vm._s(_vm.progressBar.completedInputs) +
             " / " +
-            _vm._s(_vm.totalInputs) +
+            _vm._s(_vm.progressBar.totalInputs) +
             " velden correct ingevuld. "
         )
       ])
@@ -70324,19 +70252,19 @@ if (false) {
 }
 
 /***/ }),
-/* 204 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(205)
+  __webpack_require__(204)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(207)
+var __vue_script__ = __webpack_require__(206)
 /* template */
-var __vue_template__ = __webpack_require__(208)
+var __vue_template__ = __webpack_require__(207)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -70376,13 +70304,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 205 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(206);
+var content = __webpack_require__(205);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -70402,7 +70330,7 @@ if(false) {
 }
 
 /***/ }),
-/* 206 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(undefined);
@@ -70416,7 +70344,7 @@ exports.push([module.i, "", ""]);
 
 
 /***/ }),
-/* 207 */
+/* 206 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -70466,7 +70394,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 208 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -70551,15 +70479,15 @@ if (false) {
 }
 
 /***/ }),
-/* 209 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(210)
+var __vue_script__ = __webpack_require__(209)
 /* template */
-var __vue_template__ = __webpack_require__(211)
+var __vue_template__ = __webpack_require__(210)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -70599,7 +70527,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 210 */
+/* 209 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -70651,7 +70579,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 211 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -70694,19 +70622,19 @@ if (false) {
 }
 
 /***/ }),
-/* 212 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(213)
+  __webpack_require__(212)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(215)
+var __vue_script__ = __webpack_require__(214)
 /* template */
-var __vue_template__ = __webpack_require__(216)
+var __vue_template__ = __webpack_require__(215)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -70746,13 +70674,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 213 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(214);
+var content = __webpack_require__(213);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -70772,7 +70700,7 @@ if(false) {
 }
 
 /***/ }),
-/* 214 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(undefined);
@@ -70786,7 +70714,7 @@ exports.push([module.i, "\n.pull-out-menu {\n  font-weight: 100;\n  background: 
 
 
 /***/ }),
-/* 215 */
+/* 214 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -70903,7 +70831,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 216 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -70972,19 +70900,19 @@ if (false) {
 }
 
 /***/ }),
-/* 217 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(218)
+  __webpack_require__(217)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(220)
+var __vue_script__ = __webpack_require__(219)
 /* template */
-var __vue_template__ = __webpack_require__(221)
+var __vue_template__ = __webpack_require__(220)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -71024,13 +70952,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 218 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(219);
+var content = __webpack_require__(218);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -71050,7 +70978,7 @@ if(false) {
 }
 
 /***/ }),
-/* 219 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(undefined);
@@ -71064,7 +70992,7 @@ exports.push([module.i, "\n.fade-enter-active, .fade-leave-active {\n  -webkit-t
 
 
 /***/ }),
-/* 220 */
+/* 219 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -71156,7 +71084,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 221 */
+/* 220 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -71261,15 +71189,15 @@ if (false) {
 }
 
 /***/ }),
-/* 222 */
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(223)
+var __vue_script__ = __webpack_require__(222)
 /* template */
-var __vue_template__ = __webpack_require__(224)
+var __vue_template__ = __webpack_require__(223)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -71309,7 +71237,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 223 */
+/* 222 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -71324,7 +71252,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 
-__webpack_require__(5);
+__webpack_require__(12);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
@@ -71375,7 +71303,7 @@ __webpack_require__(5);
 });
 
 /***/ }),
-/* 224 */
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -71412,19 +71340,19 @@ if (false) {
 }
 
 /***/ }),
-/* 225 */
+/* 224 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(226)
+  __webpack_require__(225)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(228)
+var __vue_script__ = __webpack_require__(227)
 /* template */
-var __vue_template__ = __webpack_require__(230)
+var __vue_template__ = __webpack_require__(229)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -71464,13 +71392,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 226 */
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(227);
+var content = __webpack_require__(226);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -71490,7 +71418,7 @@ if(false) {
 }
 
 /***/ }),
-/* 227 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(undefined);
@@ -71504,12 +71432,12 @@ exports.push([module.i, "\n.fade-enter-active, .fade-leave-active {\n  -webkit-t
 
 
 /***/ }),
-/* 228 */
+/* 227 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_search_search__ = __webpack_require__(229);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_search_search__ = __webpack_require__(228);
 //
 //
 //
@@ -71756,7 +71684,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 229 */
+/* 228 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -71797,7 +71725,7 @@ var Search = function () {
 /* harmony default export */ __webpack_exports__["a"] = (Search);
 
 /***/ }),
-/* 230 */
+/* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -72012,19 +71940,19 @@ if (false) {
 }
 
 /***/ }),
-/* 231 */
+/* 230 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(232)
+  __webpack_require__(231)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(234)
+var __vue_script__ = __webpack_require__(233)
 /* template */
-var __vue_template__ = __webpack_require__(236)
+var __vue_template__ = __webpack_require__(235)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -72064,13 +71992,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 232 */
+/* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(233);
+var content = __webpack_require__(232);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -72090,7 +72018,7 @@ if(false) {
 }
 
 /***/ }),
-/* 233 */
+/* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(undefined);
@@ -72104,43 +72032,12 @@ exports.push([module.i, "\n.width-over-time {\n\t-webkit-transition: all .5s; /*
 
 
 /***/ }),
-/* 234 */
+/* 233 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_ProgressBar_ProgressBar__ = __webpack_require__(235);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_ProgressBar_ProgressBar__ = __webpack_require__(234);
 //
 //
 //
@@ -72218,46 +72115,46 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	mounted: function mounted() {
 		var _this = this;
 
-		this.progressBar = new __WEBPACK_IMPORTED_MODULE_0__app_ProgressBar_ProgressBar__["a" /* default */](this.totalInputs, this.identifier);
+		this.progressBar = new __WEBPACK_IMPORTED_MODULE_0__app_ProgressBar_ProgressBar__["a" /* default */](this.totalInputs);
 
 		setTimeout(function () {
 			_this.loaded = true;
+			_this.broadcastProgressBar();
 		}, 700);
 	},
 
 	methods: {
-		save: function save() {
+
+		/**
+   * Broadcast to all inputs that there is a progressBar, send the progressBar to all inputs.
+   */
+		broadcastProgressBar: function broadcastProgressBar() {
 			var _this2 = this;
 
-			/**
-   * Tell all inputs to do their validation, if any of those
-   * inputs fail, then the data will not persist to the database.
-    */
-			Event.fire('validator:validate');
+			setTimeout(function () {
+				_.forEach(_this2.object.fields, function (attribute, attributeName) {
+					Event.fire('progressBar:get:' + attributeName, _this2.progressBar);
+				});
+			});
+		},
 
-			/**
-    * If validation has passed, than the data is persisted to the database.
-    */
-			Event.listen('progressbar:complete:' + this.identifier, function () {
 
-				// tell the add component to persist values of the inputs to the database.
-				Event.fire('input:save');
-
-				// clear all the inputs of values
-				Event.fire('progressbar:reset:' + _this2.identifier);
+		/**
+   * Save the data from the input to the database.
+   */
+		save: function save() {
+			if (this.progressBar.isComplete()) {
+				this.progressBar.reset();
+				Event.fire('input:save'); // delegate the save logic to the underlying add component.
 				Event.fire('inputs:clear');
 				Notifier.success('Het toevoegen is gelukt!');
-			});
-
-			// TODO: WHY IS THIS HERE ? Checks if all validation has passed
-			Event.fire('progressbar:isCompleted:' + this.identifier); // check if all fields are filled
-
+			}
 		}
 	}
 });
 
 /***/ }),
-/* 235 */
+/* 234 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -72266,17 +72163,36 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ProgressBar = function () {
-    function ProgressBar(identifier, totalInputs) {
+    function ProgressBar(totalInputs) {
         _classCallCheck(this, ProgressBar);
+
+        this.totalInputs = totalInputs;
+        this.completed = {};
+        this.completedInputs = 0;
+        this.currentWidth = '1';
     }
 
     _createClass(ProgressBar, [{
+        key: 'increment',
+        value: function increment(key) {
+            this.completed[key] = true;
+            this.updateProgressbar();
+        }
+    }, {
+        key: 'decrement',
+        value: function decrement(key) {
+            this.completed[key] = false;
+            this.updateProgressbar();
+        }
+    }, {
         key: 'updateProgressbar',
         value: function updateProgressbar() {
-            // we reset the completed inputs
-            this.completedInputs = 0;
 
             // we recount all the fields that are filled in 
+            this.completedInputs = _.sumBy(this.completed, function (complete) {
+                return completed ? 1 : 0;
+            });
+
             for (var attribute in this.completed) {
                 if (this.completed[attribute]) {
                     this.completedInputs++;
@@ -72291,8 +72207,8 @@ var ProgressBar = function () {
             }
         }
     }, {
-        key: 'resetProgressbar',
-        value: function resetProgressbar() {
+        key: 'reset',
+        value: function reset() {
             this.completed = {};
             this.completedInputs = 0;
         }
@@ -72300,6 +72216,19 @@ var ProgressBar = function () {
         key: 'roundPercentage',
         value: function roundPercentage(percentage) {
             return Helper.roundPercentage(percentage);
+        }
+    }, {
+        key: 'isComplete',
+        value: function isComplete() {
+            var total = 0;
+
+            for (var index in this.completed) {
+                if (this.completed[index]) {
+                    total++;
+                }
+            }
+
+            return total === this.totalInputs;
         }
     }]);
 
@@ -72309,7 +72238,7 @@ var ProgressBar = function () {
 /* harmony default export */ __webpack_exports__["a"] = (ProgressBar);
 
 /***/ }),
-/* 236 */
+/* 235 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -72381,127 +72310,15 @@ var render = function() {
                             "col-lg-12 reset-padding space-inside-left-xs"
                         },
                         [
-                          attribute.type === "textarea"
-                            ? _c("crud-textarea", {
-                                attrs: {
-                                  identifier: _vm.identifier,
-                                  attributeName: attributeName,
-                                  attribute: attribute
-                                }
-                              })
-                            : _vm._e(),
-                          _vm._v(" "),
-                          attribute.type === "text"
-                            ? _c("crud-text", {
-                                attrs: {
-                                  identifier: _vm.identifier,
-                                  type: attribute.type,
-                                  name: attributeName,
-                                  attributeName: attributeName,
-                                  attribute: attribute
-                                }
-                              })
-                            : _vm._e(),
-                          _vm._v(" "),
-                          attribute.type === "select"
-                            ? _c("crud-select", {
-                                attrs: {
-                                  identifier: _vm.identifier,
-                                  attributeName: attributeName,
-                                  attribute: attribute
-                                }
-                              })
-                            : _vm._e(),
-                          _vm._v(" "),
-                          attribute.type === "website"
-                            ? _c("crud-website", {
-                                attrs: {
-                                  identifier: _vm.identifier,
-                                  attributeName: attributeName,
-                                  attribute: attribute
-                                }
-                              })
-                            : _vm._e(),
-                          _vm._v(" "),
-                          attribute.type === "youtube"
-                            ? _c("crud-youtube", {
-                                attrs: {
-                                  identifier: _vm.identifier,
-                                  attributeName: attributeName,
-                                  attribute: attribute
-                                }
-                              })
-                            : _vm._e(),
-                          _vm._v(" "),
-                          attribute.type === "photo"
-                            ? _c("crud-photo", {
-                                attrs: {
-                                  identifier: _vm.identifier,
-                                  type: _vm.type,
-                                  attribute: attribute
-                                }
-                              })
-                            : _vm._e(),
-                          _vm._v(" "),
-                          attribute.type === "date"
-                            ? _c("crud-date", {
-                                attrs: {
-                                  identifier: _vm.identifier,
-                                  attributeName: attributeName,
-                                  attribute: attribute
-                                }
-                              })
-                            : _vm._e(),
-                          _vm._v(" "),
-                          attribute.type === "time"
-                            ? _c("crud-time", {
-                                attrs: {
-                                  identifier: _vm.identifier,
-                                  attributeName: attributeName,
-                                  attribute: attribute
-                                }
-                              })
-                            : _vm._e(),
-                          _vm._v(" "),
-                          attribute.type === "model"
-                            ? _c("crud-model", {
-                                attrs: {
-                                  identifier: _vm.identifier,
-                                  attributeName: attributeName,
-                                  attribute: attribute
-                                }
-                              })
-                            : _vm._e(),
-                          _vm._v(" "),
-                          attribute.type === "model_checkbox"
-                            ? _c("crud-model-checkbox", {
-                                attrs: {
-                                  identifier: _vm.identifier,
-                                  attributeName: attributeName,
-                                  attribute: attribute
-                                }
-                              })
-                            : _vm._e(),
-                          _vm._v(" "),
-                          attribute.type === "number"
-                            ? _c("crud-number", {
-                                attrs: {
-                                  identifier: _vm.identifier,
-                                  attributeName: attributeName,
-                                  attribute: attribute
-                                }
-                              })
-                            : _vm._e(),
-                          _vm._v(" "),
-                          attribute.type === "boolean"
-                            ? _c("crud-boolean", {
-                                attrs: {
-                                  identifier: _vm.identifier,
-                                  attributeName: attributeName,
-                                  attribute: attribute
-                                }
-                              })
-                            : _vm._e()
+                          _c("crud-" + attribute.type, {
+                            tag: "component",
+                            attrs: {
+                              attributeName: attributeName,
+                              attribute: attribute,
+                              type: _vm.type,
+                              identifier: _vm.identifier
+                            }
+                          })
                         ],
                         1
                       )
@@ -72553,19 +72370,19 @@ if (false) {
 }
 
 /***/ }),
-/* 237 */
+/* 236 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(238)
+  __webpack_require__(237)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(240)
+var __vue_script__ = __webpack_require__(239)
 /* template */
-var __vue_template__ = __webpack_require__(241)
+var __vue_template__ = __webpack_require__(240)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -72605,13 +72422,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 238 */
+/* 237 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(239);
+var content = __webpack_require__(238);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -72631,7 +72448,7 @@ if(false) {
 }
 
 /***/ }),
-/* 239 */
+/* 238 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(undefined);
@@ -72645,7 +72462,7 @@ exports.push([module.i, "\n.fade-enter-active, .fade-leave-active {\n  -webkit-t
 
 
 /***/ }),
-/* 240 */
+/* 239 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -72885,7 +72702,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 241 */
+/* 240 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -73155,15 +72972,15 @@ if (false) {
 }
 
 /***/ }),
-/* 242 */
+/* 241 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(243)
+var __vue_script__ = __webpack_require__(242)
 /* template */
-var __vue_template__ = __webpack_require__(244)
+var __vue_template__ = __webpack_require__(243)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -73203,7 +73020,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 243 */
+/* 242 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -73238,7 +73055,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 244 */
+/* 243 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -73290,15 +73107,15 @@ if (false) {
 }
 
 /***/ }),
-/* 245 */
+/* 244 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(246)
+var __vue_script__ = __webpack_require__(245)
 /* template */
-var __vue_template__ = __webpack_require__(247)
+var __vue_template__ = __webpack_require__(246)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -73338,7 +73155,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 246 */
+/* 245 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -73355,7 +73172,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
-/* 247 */
+/* 246 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -73401,17 +73218,17 @@ if (false) {
 }
 
 /***/ }),
-/* 248 */
+/* 247 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(249)
+  __webpack_require__(248)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(251)
+var __vue_script__ = __webpack_require__(250)
 /* template */
 var __vue_template__ = __webpack_require__(252)
 /* template functional */
@@ -73453,13 +73270,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 249 */
+/* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(250);
+var content = __webpack_require__(249);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -73479,7 +73296,7 @@ if(false) {
 }
 
 /***/ }),
-/* 250 */
+/* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(undefined);
@@ -73493,11 +73310,12 @@ exports.push([module.i, "\n.checkboxOne {\n\t\twidth: 40px;\n\t\theight: 10px;\n
 
 
 /***/ }),
-/* 251 */
+/* 250 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_inputController_booleanInputController__ = __webpack_require__(251);
 //
 //
 //
@@ -73572,7 +73390,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 
-__webpack_require__(5);
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: {
@@ -73584,58 +73402,99 @@ __webpack_require__(5);
 
 	data: function data() {
 		return {
-			input: null,
-			loaded: false,
-			selectedCheckBox: null
+			inputController: null
 		};
 	},
 	mounted: function mounted() {
-		this.registerListeners();
-
-		this.initInputs();
-		var value = this.selectedCheckBox ? 1 : 0;
-
-		Event.fire('progressbar:increment:' + this.identifier, this.attributeName);
-		Event.fire('input:updated:' + this.attributeName, value);
-	},
-
-
-	methods: {
-		trackInput: function trackInput() {
-
-			console.log(this.selectedCheckBox);
-
-			var value = this.selectedCheckBox ? 1 : 0;
-
-			Event.fire('input:updated:' + this.attributeName, value);
-		},
-		registerListeners: function registerListeners() {
-			var _this = this;
-
-			Event.listen('input:insertValues:' + this.identifier, function () {
-				$('#' + _this.attributeName + _this.identifier)[0].value = _this.value[_this.attributeName];
-				_this.initInputs();
-
-				// do validation
-				var value = _this.selectedCheckBox ? 1 : 0;
-
-				if (Validator.valid(_this.attribute.validation, value)) {
-					Event.fire('progressbar:increment:' + _this.identifier, _this.attributeName);
-				}
-			});
-
-			// event for clearing the input
-			Event.listen('inputs:clear', function () {
-				_this.selectedCheckBoxes = [];
-				Event.fire('progressbar:increment:' + _this.identifier, _this.attributeName);
-			});
-		},
-		initInputs: function initInputs() {
-			this.input = $('#' + this.attributeName + this.identifier)[0];
-		}
+		this.inputController = new __WEBPACK_IMPORTED_MODULE_0__app_inputController_booleanInputController__["a" /* default */](this.attributeName, this.attribute, this.identifier, this.value);
 	}
-
 });
+
+/***/ }),
+/* 251 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var BooleanInputController = function () {
+    function BooleanInputController(attributeName, attribute, identifier, value) {
+        _classCallCheck(this, BooleanInputController);
+
+        this.input = false;
+        this.progressBar = null;
+
+        this.attributeName = attributeName;
+        this.attribute = attribute;
+        this.identifier = identifier;
+
+        // In edit context
+        this.value = value;
+
+        this.registerListeners();
+
+        Event.fire('input:updated:' + this.attributeName, this.input ? 1 : 0);
+    }
+
+    _createClass(BooleanInputController, [{
+        key: 'trackInput',
+        value: function trackInput() {
+            var value = this.input ? 1 : 0;
+            Event.fire('input:updated:' + this.attributeName, value);
+        }
+
+        /**
+         * register listeners here. 	
+         */
+
+    }, {
+        key: 'registerListeners',
+        value: function registerListeners() {
+            var _this = this;
+
+            /**
+             * The cms broadcasts when a new progressbar is initialised. We can add it to our inputController,
+             * so we can call some functions on it.
+             */
+            Event.listen('progressBar:get:' + this.attributeName, function (progressBar) {
+                _this.progressBar = progressBar;
+                _this.progressBar.increment(_this.attributeName);
+            });
+
+            /**
+             * When this input is used in a edit context, we need to insert the corresponding value
+             * by listening to this event, which passed us the correct value for this input.
+             */
+            Event.listen('input:insertValues:' + this.identifier, function () {
+                _this.input = _this.value[_this.attributeName];
+
+                var value = _this.input ? 1 : 0;
+
+                if (Validator.valid(_this.attribute.validation, value)) {
+                    _this.progressBar.increment(_this.attributeName);
+                }
+
+                // Tell the CMS the input has changed.
+                Event.fire('input:updated:' + _this.attributeName, _this.input);
+            });
+
+            /**
+             * 	Clear inputs when a new model is persisted.
+             */
+            Event.listen('inputs:clear', function () {
+                _this.input = false;
+
+                _this.progressBar.increment(_this.attributeName);
+            });
+        }
+    }]);
+
+    return BooleanInputController;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (BooleanInputController);
 
 /***/ }),
 /* 252 */
@@ -73645,98 +73504,82 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "space-inside-down-md" },
-    [
-      _c(
+  return _vm.inputController !== null
+    ? _c(
         "div",
-        {
-          staticClass: "col-lg-12 reset-padding ",
-          staticStyle: { height: "100%" }
-        },
+        { staticClass: "space-inside-down-md" },
         [
-          _c(
-            "p",
-            {
-              staticClass:
-                "font-sm  text-bold inline-block  text-color-dark  space-inside-up-xs space-inside-down-sm",
-              staticStyle: {
-                width: "100%",
-                height: "100%",
-                "text-transform": "capitalize"
-              }
-            },
-            [_vm._v(_vm._s(_vm.attribute.translation))]
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-lg-2 " }, [
-        _c("p", { staticClass: "space-inside-down-xs" }, [
-          _vm._v("actief & inactief")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "checkboxOne" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.selectedCheckBox,
-                expression: "selectedCheckBox"
-              }
-            ],
-            attrs: {
-              type: "checkbox",
-              id: _vm.attributeName + _vm.identifier,
-              name: _vm.attributeName + _vm.identifier
-            },
-            domProps: {
-              checked: Array.isArray(_vm.selectedCheckBox)
-                ? _vm._i(_vm.selectedCheckBox, null) > -1
-                : _vm.selectedCheckBox
-            },
-            on: {
-              change: [
-                function($event) {
-                  var $$a = _vm.selectedCheckBox,
-                    $$el = $event.target,
-                    $$c = $$el.checked ? true : false
-                  if (Array.isArray($$a)) {
-                    var $$v = null,
-                      $$i = _vm._i($$a, $$v)
-                    if ($$el.checked) {
-                      $$i < 0 && (_vm.selectedCheckBox = $$a.concat([$$v]))
-                    } else {
-                      $$i > -1 &&
-                        (_vm.selectedCheckBox = $$a
-                          .slice(0, $$i)
-                          .concat($$a.slice($$i + 1)))
-                    }
-                  } else {
-                    _vm.selectedCheckBox = $$c
-                  }
-                },
-                function($event) {
-                  _vm.trackInput()
-                }
-              ]
-            }
-          }),
+          _c("attribute-title", { attrs: { attribute: _vm.attribute } }),
           _vm._v(" "),
-          _c("label", { attrs: { for: _vm.attributeName + _vm.identifier } })
-        ])
-      ]),
-      _vm._v(" "),
-      _vm.attribute.validation !== undefined
-        ? _c("validation-display", {
-            attrs: { errors: _vm.attribute.validation.errors }
-          })
-        : _vm._e()
-    ],
-    1
-  )
+          _c("div", { staticClass: "col-lg-2 " }, [
+            _c("p", { staticClass: "space-inside-down-xs" }, [
+              _vm._v("actief & inactief")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "checkboxOne" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.inputController.input,
+                    expression: "inputController.input"
+                  }
+                ],
+                attrs: {
+                  type: "checkbox",
+                  id: _vm.attributeName + _vm.identifier,
+                  name: _vm.attributeName + _vm.identifier
+                },
+                domProps: {
+                  checked: Array.isArray(_vm.inputController.input)
+                    ? _vm._i(_vm.inputController.input, null) > -1
+                    : _vm.inputController.input
+                },
+                on: {
+                  change: [
+                    function($event) {
+                      var $$a = _vm.inputController.input,
+                        $$el = $event.target,
+                        $$c = $$el.checked ? true : false
+                      if (Array.isArray($$a)) {
+                        var $$v = null,
+                          $$i = _vm._i($$a, $$v)
+                        if ($$el.checked) {
+                          $$i < 0 &&
+                            (_vm.inputController.input = $$a.concat([$$v]))
+                        } else {
+                          $$i > -1 &&
+                            (_vm.inputController.input = $$a
+                              .slice(0, $$i)
+                              .concat($$a.slice($$i + 1)))
+                        }
+                      } else {
+                        _vm.$set(_vm.inputController, "input", $$c)
+                      }
+                    },
+                    function($event) {
+                      _vm.inputController.trackInput()
+                    }
+                  ]
+                }
+              }),
+              _vm._v(" "),
+              _c("label", {
+                attrs: { for: _vm.attributeName + _vm.identifier }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _vm.attribute.validation !== undefined
+            ? _c("validation-display", {
+                attrs: { errors: _vm.attribute.validation.errors }
+              })
+            : _vm._e()
+        ],
+        1
+      )
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -73887,6 +73730,7 @@ var DateInputController = function () {
         this.day = "";
 
         this.input = "";
+        this.progressBar = null;
 
         this.attributeName = attributeName;
         this.attribute = attribute;
@@ -73909,12 +73753,12 @@ var DateInputController = function () {
 
             // Do validation on the input's value.
             if (!Validator.valid(this.attribute.validation, this.input)) {
-                Event.fire('progressbar:decrement:' + this.identifier, this.attributeName);
+                this.progressBar.decrement(this.attributeName);
                 return;
             }
 
             // if nog validation error, we tell the progressbar to increment.
-            Event.fire('progressbar:increment:' + this.identifier, this.attributeName);
+            this.progressBar.increment(this.attributeName);
         }
 
         /**
@@ -73927,6 +73771,14 @@ var DateInputController = function () {
             var _this = this;
 
             this.createFinalDate();
+
+            /**
+             * The cms broadcasts when a new progressbar is initialised. We can add it to our inputController,
+             * so we can call some functions on it.
+             */
+            Event.listen('progressBar:get:' + this.attributeName, function (progressBar) {
+                _this.progressBar = progressBar;
+            });
 
             /**
              * When this input is used in a edit context, we need to insert the corresponding value
@@ -73943,7 +73795,7 @@ var DateInputController = function () {
 
                 // do validation
                 if (Validator.valid(_this.attribute.validation, _this.input)) {
-                    Event.fire('progressbar:increment:' + _this.identifier, _this.attributeName);
+                    _this.progressBar.increment(_this.attributeName);
                 }
             });
 
@@ -73954,6 +73806,8 @@ var DateInputController = function () {
                 _this.hour = "";
                 _this.minutes = "";
 
+                _this.progressBar.decrement(_this.attributeName);
+
                 _this.checkRequired();
             });
 
@@ -73962,7 +73816,9 @@ var DateInputController = function () {
              *	to be persisted to the database.
                 */
             Event.listen('validator:validate', function () {
-                Validator.valid(_this.attribute.validation, _this.input);
+                if (Validator.valid(_this.attribute.validation, _this.input)) {
+                    Event.fire('validator:no-errors');
+                }
             });
         }
 
@@ -73974,7 +73830,7 @@ var DateInputController = function () {
         key: "checkRequired",
         value: function checkRequired() {
             if (!Validator.required(this.attribute.validation, this.input)) {
-                Event.fire('progressbar:increment:' + this.identifier, this.attributeName);
+                this.progressBar.increment(this.attributeName);
             }
         }
     }, {
@@ -74271,7 +74127,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 
-__webpack_require__(5);
+__webpack_require__(12);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: {
@@ -74441,7 +74297,7 @@ var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(263)
 /* template */
-var __vue_template__ = __webpack_require__(264)
+var __vue_template__ = __webpack_require__(265)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -74526,7 +74382,7 @@ exports.push([module.i, "\n.checkboxOne {\n\t\twidth: 40px;\n\t\theight: 10px;\n
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_inputController_modelCheckboxController__ = __webpack_require__(264);
 //
 //
 //
@@ -74603,7 +74459,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 
-__webpack_require__(5);
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: {
@@ -74615,158 +74471,275 @@ __webpack_require__(5);
 
 	data: function data() {
 		return {
-			checkboxes: [],
-			select: null,
-			loaded: false,
-			selectedCheckBoxes: []
+			inputController: null
 		};
 	},
 	mounted: function mounted() {
-		var _this = this;
-
-		this.registerListeners();
-
-		Factory.getStaticInstance(this.attribute.model).all().then(function (objects) {
-
-			_this.checkboxes = _.map(objects, function (object) {
-				return {
-					id: object.id,
-					value: object[_this.attribute.attributeDisplay]
-				};
-			});
-		});
+		this.inputController = new __WEBPACK_IMPORTED_MODULE_0__app_inputController_modelCheckboxController__["a" /* default */](this.attributeName, this.attribute, this.identifier, this.value);
 	},
 
 
-	methods: {
-		trackInput: function trackInput() {
-
-			if (Validator.required(this.attribute.validation)) {
-				if (this.selectedCheckBoxes.length > 0) {
-					Event.fire('progressbar:increment:' + this.identifier, this.attributeName);
-					Event.fire('input:updated:' + this.attributeName, this.selectedCheckBoxes);
-				} else {
-					Event.fire('progressbar:decrement:' + this.identifier, this.attributeName);
-				}
-			}
-		},
-		registerListeners: function registerListeners() {
-			var _this2 = this;
-
-			Event.listen('input:insertValues:' + this.identifier, function () {
-				$('#' + _this2.attributeName + _this2.identifier + ' option[value=' + _this2.value[_this2.attributeName] + ']').attr('selected', 'selected');
-			});
-
-			// event for clearing the input
-			Event.listen('inputs:clear', function () {
-				_this2.selectedCheckBoxes = [];
-				Event.fire('progressbar:increment:' + _this2.identifier, _this2.attributeName);
-			});
-		}
-	}
+	methods: {}
 });
 
 /***/ }),
 /* 264 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ModelCheckboxController = function () {
+    function ModelCheckboxController(attributeName, attribute, identifier, value) {
+        _classCallCheck(this, ModelCheckboxController);
+
+        this.selectedCheckboxes = {};
+        this.checkboxes = [];
+
+        this.progressBar = null;
+
+        this.attributeName = attributeName;
+        this.attribute = attribute;
+        this.identifier = identifier;
+
+        // In edit context
+        this.value = value;
+
+        this.registerListeners();
+        this.checkRequired();
+        this.checkboxValues();
+    }
+
+    _createClass(ModelCheckboxController, [{
+        key: 'checkboxValues',
+        value: function checkboxValues() {
+            var _this = this;
+
+            Factory.getStaticInstance(this.attribute.model).all().then(function (objects) {
+
+                _this.checkboxes = _.map(objects, function (object) {
+                    return {
+                        id: object.id,
+                        value: object[_this.attribute.attributeDisplay]
+                    };
+                });
+            });
+        }
+    }, {
+        key: 'trackInput',
+        value: function trackInput() {
+            var selected = [];
+
+            for (var index in this.selectedCheckboxes) {
+                var checkbox = this.selectedCheckboxes[index];
+
+                if (checkbox) {
+                    selected.push(index);
+                }
+            }
+
+            // Tell the CMS the input has changed.
+            Event.fire('input:updated:' + this.attributeName, selected);
+
+            // Do validation on the input's value.
+            if (selected.length === 0) {
+                this.progressBar.decrement(this.attributeName);
+                return;
+            }
+
+            // if nog validation error, we tell the progressbar to increment.
+            this.progressBar.increment(this.attributeName);
+        }
+
+        /**
+         * register listeners here. 	
+         */
+
+    }, {
+        key: 'registerListeners',
+        value: function registerListeners() {
+            var _this2 = this;
+
+            /**
+             * The cms broadcasts when a new progressbar is initialised. We can add it to our inputController,
+             * so we can call some functions on it.
+             */
+            Event.listen('progressBar:get:' + this.attributeName, function (progressBar) {
+                _this2.progressBar = progressBar;
+            });
+
+            /**
+             * When this input is used in a edit context, we need to insert the corresponding value
+             * by listening to this event, which passed us the correct value for this input.
+             */
+            Event.listen('input:insertValues:' + this.identifier, function () {
+
+                _this2.input = _this2.value[_this2.attributeName];
+
+                // Tell the CMS the input has changed.
+                Event.fire('input:updated:' + _this2.attributeName, _this2.input);
+
+                // do validation
+                if (Validator.valid(_this2.attribute.validation, _this2.input)) {
+                    _this2.progressBar.increment(_this2.attributeName);
+                }
+            });
+
+            /**
+             * 	Clear inputs when a new model is persisted.
+             */
+            Event.listen('inputs:clear', function () {
+                _this2.selectedCheckboxes = [];
+
+                _this2.progressBar.increment(_this2.attributeName);
+            });
+        }
+
+        /**
+         * Checks if the input is required. 	
+         */
+
+    }, {
+        key: 'checkRequired',
+        value: function checkRequired() {
+            if (!Validator.required(this.attribute.validation, this.input)) {
+                this.progressBar.increment(this.attributeName);
+            }
+        }
+    }]);
+
+    return ModelCheckboxController;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (ModelCheckboxController);
+
+/***/ }),
+/* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "space-inside-down-md" },
-    [
-      _c("attribute-title", { attrs: { attribute: _vm.attribute } }),
-      _vm._v(" "),
-      _vm._l(_vm.checkboxes, function(checkbox) {
-        return _vm.checkboxes.length !== 0
-          ? _c("div", { staticClass: "col-lg-2 " }, [
-              _c("p", { staticClass: "space-inside-down-xs" }, [
-                _vm._v(_vm._s(checkbox.value))
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "checkboxOne" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.selectedCheckBoxes,
-                      expression: "selectedCheckBoxes"
-                    }
-                  ],
-                  attrs: {
-                    type: "checkbox",
-                    id: checkbox.id + _vm.attributeName,
-                    name: _vm.attributeName
-                  },
-                  domProps: {
-                    value: checkbox.id,
-                    checked: Array.isArray(_vm.selectedCheckBoxes)
-                      ? _vm._i(_vm.selectedCheckBoxes, checkbox.id) > -1
-                      : _vm.selectedCheckBoxes
-                  },
-                  on: {
-                    change: [
-                      function($event) {
-                        var $$a = _vm.selectedCheckBoxes,
-                          $$el = $event.target,
-                          $$c = $$el.checked ? true : false
-                        if (Array.isArray($$a)) {
-                          var $$v = checkbox.id,
-                            $$i = _vm._i($$a, $$v)
-                          if ($$el.checked) {
-                            $$i < 0 &&
-                              (_vm.selectedCheckBoxes = $$a.concat([$$v]))
-                          } else {
-                            $$i > -1 &&
-                              (_vm.selectedCheckBoxes = $$a
-                                .slice(0, $$i)
-                                .concat($$a.slice($$i + 1)))
-                          }
-                        } else {
-                          _vm.selectedCheckBoxes = $$c
+  return _vm.inputController !== null
+    ? _c(
+        "div",
+        { staticClass: "space-inside-down-md" },
+        [
+          _c("attribute-title", { attrs: { attribute: _vm.attribute } }),
+          _vm._v(" "),
+          _vm._l(_vm.inputController.checkboxes, function(checkbox) {
+            return _vm.inputController.checkboxes.length !== 0
+              ? _c("div", { staticClass: "col-lg-2 " }, [
+                  _c("p", { staticClass: "space-inside-down-xs" }, [
+                    _vm._v(_vm._s(checkbox.value))
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "checkboxOne" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value:
+                            _vm.inputController.selectedCheckboxes[checkbox.id],
+                          expression:
+                            "inputController.selectedCheckboxes[checkbox.id]"
                         }
+                      ],
+                      attrs: {
+                        type: "checkbox",
+                        id: checkbox.id + _vm.attributeName,
+                        name: _vm.attributeName
                       },
-                      function($event) {
-                        _vm.trackInput()
+                      domProps: {
+                        checked: Array.isArray(
+                          _vm.inputController.selectedCheckboxes[checkbox.id]
+                        )
+                          ? _vm._i(
+                              _vm.inputController.selectedCheckboxes[
+                                checkbox.id
+                              ],
+                              null
+                            ) > -1
+                          : _vm.inputController.selectedCheckboxes[checkbox.id]
+                      },
+                      on: {
+                        change: [
+                          function($event) {
+                            var $$a =
+                                _vm.inputController.selectedCheckboxes[
+                                  checkbox.id
+                                ],
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = null,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  (_vm.inputController.selectedCheckboxes[
+                                    checkbox.id
+                                  ] = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.inputController.selectedCheckboxes[
+                                    checkbox.id
+                                  ] = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.$set(
+                                _vm.inputController.selectedCheckboxes,
+                                checkbox.id,
+                                $$c
+                              )
+                            }
+                          },
+                          function($event) {
+                            _vm.inputController.trackInput()
+                          }
+                        ]
                       }
-                    ]
-                  }
-                }),
-                _vm._v(" "),
-                _c("label", { attrs: { for: checkbox.id + _vm.attributeName } })
-              ])
-            ])
-          : _vm._e()
-      }),
-      _vm._v(" "),
-      _vm.checkboxes.length === 0
-        ? _c(
-            "p",
-            {
-              staticClass: "space-inside-sides-sm text-danger text-bold font-md"
-            },
-            [
-              _vm._v(
-                "Geen " +
-                  _vm._s(_vm.attribute.translation) +
-                  " gevonden. Voeg eerst één toe. "
+                    }),
+                    _vm._v(" "),
+                    _c("label", {
+                      attrs: { for: checkbox.id + _vm.attributeName }
+                    })
+                  ])
+                ])
+              : _vm._e()
+          }),
+          _vm._v(" "),
+          _vm.inputController.checkboxes.length === 0
+            ? _c(
+                "p",
+                {
+                  staticClass:
+                    "space-inside-sides-sm text-danger text-bold font-md"
+                },
+                [
+                  _vm._v(
+                    "Geen " +
+                      _vm._s(_vm.attribute.translation) +
+                      " gevonden. Voeg eerst één toe. "
+                  )
+                ]
               )
-            ]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.attribute.validation !== undefined
-        ? _c("validation-display", {
-            attrs: { errors: _vm.attribute.validation.errors }
-          })
-        : _vm._e()
-    ],
-    2
-  )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.attribute.validation !== undefined
+            ? _c("validation-display", {
+                attrs: { errors: _vm.attribute.validation.errors }
+              })
+            : _vm._e()
+        ],
+        2
+      )
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -74779,15 +74752,15 @@ if (false) {
 }
 
 /***/ }),
-/* 265 */
+/* 266 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(266)
+var __vue_script__ = __webpack_require__(267)
 /* template */
-var __vue_template__ = __webpack_require__(267)
+var __vue_template__ = __webpack_require__(268)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -74827,7 +74800,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 266 */
+/* 267 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -74928,7 +74901,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 267 */
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -74987,15 +74960,15 @@ if (false) {
 }
 
 /***/ }),
-/* 268 */
+/* 269 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(269)
+var __vue_script__ = __webpack_require__(270)
 /* template */
-var __vue_template__ = __webpack_require__(271)
+var __vue_template__ = __webpack_require__(272)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -75035,12 +75008,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 269 */
+/* 270 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_inputController_photoInputController__ = __webpack_require__(270);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_inputController_photoInputController__ = __webpack_require__(271);
 //
 //
 //
@@ -75097,7 +75070,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 270 */
+/* 271 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -75110,6 +75083,7 @@ var PhotoInputController = function () {
         _classCallCheck(this, PhotoInputController);
 
         this.photo = null;
+        this.progressBar = null;
 
         this.attribute = attribute;
         this.identifier = identifier;
@@ -75129,19 +75103,27 @@ var PhotoInputController = function () {
             var _this = this;
 
             /**
+             * The cms broadcasts when a new progressbar is initialised. We can add it to our inputController,
+             * so we can call some functions on it.
+             */
+            Event.listen('progressBar:get:' + this.attributeName, function (progressBar) {
+                _this.progressBar = progressBar;
+            });
+
+            /**
              * When this input is used in a edit context, we can always increment the progressbar, since either the 
-             * photo is set, or not mendatory. In both cases the progressbar should be incremented.
+             * photo is set, or not mendatory. In both cases the progressbar should be incremented for the photo input.
              * 
              */
             Event.listen('input:insertValues:' + this.identifier, function () {
-                Event.fire('progressbar:increment:' + _this.identifier, 'photo');
+                _this.progressBar.increment('photo');
             });
 
             /**
              * When the uploaded file is ready for upload, we can increment the progressbar.
              */
             Event.listen('file:ready', function () {
-                Event.fire('progressbar:increment:' + _this.identifier, 'photo');
+                _this.progressBar.increment(_this.attributeName);
             });
 
             /**
@@ -75149,6 +75131,11 @@ var PhotoInputController = function () {
              */
             Event.listen('file:uploaded', function (photo) {
                 _this.photo = photo;
+            });
+
+            Event.listen('inputs:clear', function () {
+                _this.progressBar.decrement(_this.attributeName);
+                _this.checkRequired();
             });
         }
 
@@ -75160,7 +75147,7 @@ var PhotoInputController = function () {
         key: 'checkRequired',
         value: function checkRequired() {
             if (!Validator.required(this.attribute.validation)) {
-                Event.fire('progressbar:increment:' + this.identifier, 'photo');
+                this.progressBar.increment(this.attributeName);
             }
         }
     }]);
@@ -75171,7 +75158,7 @@ var PhotoInputController = function () {
 /* harmony default export */ __webpack_exports__["a"] = (PhotoInputController);
 
 /***/ }),
-/* 271 */
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -75261,15 +75248,15 @@ if (false) {
 }
 
 /***/ }),
-/* 272 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(273)
+var __vue_script__ = __webpack_require__(274)
 /* template */
-var __vue_template__ = __webpack_require__(274)
+var __vue_template__ = __webpack_require__(275)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -75309,7 +75296,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 273 */
+/* 274 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -75397,7 +75384,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 274 */
+/* 275 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -75462,15 +75449,15 @@ if (false) {
 }
 
 /***/ }),
-/* 275 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(276)
+var __vue_script__ = __webpack_require__(277)
 /* template */
-var __vue_template__ = __webpack_require__(278)
+var __vue_template__ = __webpack_require__(279)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -75510,12 +75497,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 276 */
+/* 277 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_inputController_timeInputController__ = __webpack_require__(277);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_inputController_timeInputController__ = __webpack_require__(278);
 //
 //
 //
@@ -75572,7 +75559,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 277 */
+/* 278 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -75587,6 +75574,7 @@ var TimeInputController = function () {
         this.hour = "";
         this.minutes = "";
         this.input = "";
+        this.progressBar = null;
 
         this.attributeName = attributeName;
         this.attribute = attribute;
@@ -75609,12 +75597,12 @@ var TimeInputController = function () {
 
             // Do validation on the input's value.
             if (!Validator.valid(this.attribute.validation, this.input)) {
-                Event.fire('progressbar:decrement:' + this.identifier, this.attributeName);
+                this.progressBar.decrement(this.attributeName);
                 return;
             }
 
             // if nog validation error, we tell the progressbar to increment.
-            Event.fire('progressbar:increment:' + this.identifier, this.attributeName);
+            this.progressBar.increment(this.attributeName);
         }
 
         /**
@@ -75643,7 +75631,7 @@ var TimeInputController = function () {
 
                 // do validation
                 if (Validator.valid(_this.attribute.validation, _this.input)) {
-                    Event.fire('progressbar:increment:' + _this.identifier, _this.attributeName);
+                    _this.progressBar.increment(_this.attributeName);
                 }
             });
 
@@ -75662,7 +75650,9 @@ var TimeInputController = function () {
              *	to be persisted to the database.
                 */
             Event.listen('validator:validate', function () {
-                Validator.valid(_this.attribute.validation, _this.input);
+                if (Validator.valid(_this.attribute.validation, _this.input)) {
+                    Event.fire('validator:no-errors');
+                }
             });
         }
 
@@ -75674,7 +75664,7 @@ var TimeInputController = function () {
         key: "checkRequired",
         value: function checkRequired() {
             if (!Validator.required(this.attribute.validation, this.input)) {
-                Event.fire('progressbar:increment:' + this.identifier, this.attributeName);
+                this.progressBar.increment(this.attributeName);
             }
         }
     }, {
@@ -75694,7 +75684,7 @@ var TimeInputController = function () {
 /* harmony default export */ __webpack_exports__["a"] = (TimeInputController);
 
 /***/ }),
-/* 278 */
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -75850,15 +75840,15 @@ if (false) {
 }
 
 /***/ }),
-/* 279 */
+/* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(280)
+var __vue_script__ = __webpack_require__(281)
 /* template */
-var __vue_template__ = __webpack_require__(281)
+var __vue_template__ = __webpack_require__(282)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -75898,12 +75888,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 280 */
+/* 281 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_inputController_inputController__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_inputController_inputController__ = __webpack_require__(8);
 //
 //
 //
@@ -75951,7 +75941,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 281 */
+/* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -76028,15 +76018,15 @@ if (false) {
 }
 
 /***/ }),
-/* 282 */
+/* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(283)
+var __vue_script__ = __webpack_require__(284)
 /* template */
-var __vue_template__ = __webpack_require__(284)
+var __vue_template__ = __webpack_require__(285)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -76076,12 +76066,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 283 */
+/* 284 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_inputController_inputController__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_inputController_inputController__ = __webpack_require__(8);
+//
 //
 //
 //
@@ -76130,7 +76121,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 284 */
+/* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -76201,15 +76192,15 @@ if (false) {
 }
 
 /***/ }),
-/* 285 */
+/* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(286)
+var __vue_script__ = __webpack_require__(287)
 /* template */
-var __vue_template__ = __webpack_require__(287)
+var __vue_template__ = __webpack_require__(288)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -76249,12 +76240,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 286 */
+/* 287 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_inputController_inputController__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_inputController_inputController__ = __webpack_require__(8);
 //
 //
 //
@@ -76306,7 +76297,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 287 */
+/* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -76392,15 +76383,15 @@ if (false) {
 }
 
 /***/ }),
-/* 288 */
+/* 289 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(289)
+var __vue_script__ = __webpack_require__(290)
 /* template */
-var __vue_template__ = __webpack_require__(290)
+var __vue_template__ = __webpack_require__(291)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -76440,12 +76431,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 289 */
+/* 290 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_inputController_inputController__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_inputController_inputController__ = __webpack_require__(8);
 //
 //
 //
@@ -76503,7 +76494,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 290 */
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -76590,15 +76581,15 @@ if (false) {
 }
 
 /***/ }),
-/* 291 */
+/* 292 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(292)
+var __vue_script__ = __webpack_require__(293)
 /* template */
-var __vue_template__ = __webpack_require__(293)
+var __vue_template__ = __webpack_require__(294)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -76638,7 +76629,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 292 */
+/* 293 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -76735,7 +76726,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 293 */
+/* 294 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -76809,15 +76800,15 @@ if (false) {
 }
 
 /***/ }),
-/* 294 */
+/* 295 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(295)
+var __vue_script__ = __webpack_require__(296)
 /* template */
-var __vue_template__ = __webpack_require__(296)
+var __vue_template__ = __webpack_require__(297)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -76857,7 +76848,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 295 */
+/* 296 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -76957,7 +76948,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 296 */
+/* 297 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -77030,15 +77021,15 @@ if (false) {
 }
 
 /***/ }),
-/* 297 */
+/* 298 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(298)
+var __vue_script__ = __webpack_require__(299)
 /* template */
-var __vue_template__ = __webpack_require__(299)
+var __vue_template__ = __webpack_require__(300)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -77078,7 +77069,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 298 */
+/* 299 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -77095,7 +77086,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
-/* 299 */
+/* 300 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -77115,19 +77106,19 @@ if (false) {
 }
 
 /***/ }),
-/* 300 */
+/* 301 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(301)
+  __webpack_require__(302)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(303)
+var __vue_script__ = __webpack_require__(304)
 /* template */
-var __vue_template__ = __webpack_require__(305)
+var __vue_template__ = __webpack_require__(306)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -77167,13 +77158,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 301 */
+/* 302 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(302);
+var content = __webpack_require__(303);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -77193,7 +77184,7 @@ if(false) {
 }
 
 /***/ }),
-/* 302 */
+/* 303 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(undefined);
@@ -77207,12 +77198,12 @@ exports.push([module.i, "\nimg {\n    max-width: 100%;\n}\n", ""]);
 
 
 /***/ }),
-/* 303 */
+/* 304 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__App_Uploader__ = __webpack_require__(304);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__App_Uploader__ = __webpack_require__(305);
 //
 //
 //
@@ -77256,7 +77247,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 304 */
+/* 305 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -77348,7 +77339,7 @@ var Uploader = function () {
 /* harmony default export */ __webpack_exports__["a"] = (Uploader);
 
 /***/ }),
-/* 305 */
+/* 306 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -77372,15 +77363,15 @@ if (false) {
 }
 
 /***/ }),
-/* 306 */
+/* 307 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(307)
+var __vue_script__ = __webpack_require__(308)
 /* template */
-var __vue_template__ = __webpack_require__(308)
+var __vue_template__ = __webpack_require__(309)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -77420,7 +77411,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 307 */
+/* 308 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -77578,7 +77569,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 308 */
+/* 309 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -77680,19 +77671,19 @@ if (false) {
 }
 
 /***/ }),
-/* 309 */
+/* 310 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(310)
+  __webpack_require__(311)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(312)
+var __vue_script__ = __webpack_require__(313)
 /* template */
-var __vue_template__ = __webpack_require__(313)
+var __vue_template__ = __webpack_require__(314)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -77732,13 +77723,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 310 */
+/* 311 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(311);
+var content = __webpack_require__(312);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -77758,7 +77749,7 @@ if(false) {
 }
 
 /***/ }),
-/* 311 */
+/* 312 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(undefined);
@@ -77772,7 +77763,7 @@ exports.push([module.i, "\n.fade-enter-active, .fade-leave-active {\n  -webkit-t
 
 
 /***/ }),
-/* 312 */
+/* 313 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -77812,7 +77803,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 313 */
+/* 314 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -77859,19 +77850,19 @@ if (false) {
 }
 
 /***/ }),
-/* 314 */
+/* 315 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(315)
+  __webpack_require__(316)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(317)
+var __vue_script__ = __webpack_require__(318)
 /* template */
-var __vue_template__ = __webpack_require__(318)
+var __vue_template__ = __webpack_require__(319)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -77911,13 +77902,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 315 */
+/* 316 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(316);
+var content = __webpack_require__(317);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -77937,7 +77928,7 @@ if(false) {
 }
 
 /***/ }),
-/* 316 */
+/* 317 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(undefined);
@@ -77951,7 +77942,7 @@ exports.push([module.i, "\n.test {\n\t\tposition: relative;\n\t    display: inli
 
 
 /***/ }),
-/* 317 */
+/* 318 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -78053,7 +78044,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 318 */
+/* 319 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -78188,15 +78179,15 @@ if (false) {
 }
 
 /***/ }),
-/* 319 */
+/* 320 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(320)
+var __vue_script__ = __webpack_require__(321)
 /* template */
-var __vue_template__ = __webpack_require__(321)
+var __vue_template__ = __webpack_require__(322)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -78236,7 +78227,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 320 */
+/* 321 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -78288,7 +78279,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 321 */
+/* 322 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -78322,15 +78313,15 @@ if (false) {
 }
 
 /***/ }),
-/* 322 */
+/* 323 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(323)
+var __vue_script__ = __webpack_require__(324)
 /* template */
-var __vue_template__ = __webpack_require__(324)
+var __vue_template__ = __webpack_require__(325)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -78370,7 +78361,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 323 */
+/* 324 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -78395,7 +78386,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 324 */
+/* 325 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -78415,13 +78406,13 @@ if (false) {
 }
 
 /***/ }),
-/* 325 */
+/* 326 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 326 */
+/* 327 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

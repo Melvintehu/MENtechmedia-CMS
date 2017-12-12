@@ -30,40 +30,9 @@
 					<!-- Each attribute has one input associated with it. You can find those inputs associations in every specific model. -->
 					<div class="col-lg-12 reset-padding space-inside-left-xs">
 
-						<crud-textarea :identifier="identifier" v-if="attribute.type === 'textarea'" :attributeName="attributeName" :attribute="attribute"> </crud-textarea>
-						
-						<!-- Render text input  -->
-						<crud-text :identifier="identifier"	v-if="attribute.type === 'text'" :type="attribute.type" :name="attributeName" :attributeName="attributeName" :attribute="attribute"> </crud-text>
+						<!-- Dynamically load the associated model -->
+						<component :attributeName="attributeName" :attribute="attribute" :type="type"  :identifier="identifier" :is="'crud-' + attribute.type"></component>
 
-						<!-- Render text input  -->
-						<crud-select :identifier="identifier" v-if="attribute.type === 'select'" :attributeName="attributeName" :attribute="attribute"> </crud-select>
-						
-						<!-- Render website input  -->
-						<crud-website :identifier="identifier" v-if="attribute.type === 'website'" :attributeName="attributeName" :attribute="attribute"> </crud-website>
-
-						<!-- Render youtube input  -->
-						<crud-youtube :identifier="identifier" v-if="attribute.type === 'youtube'" :attributeName="attributeName" :attribute="attribute"> </crud-youtube>
-
-						<!-- Render photo input  -->
-						<crud-photo :identifier="identifier" v-if="attribute.type === 'photo'" :type="type" :attribute="attribute"> </crud-photo>
-
-						<!-- Render date input  -->
-						<crud-date :identifier="identifier" v-if="attribute.type === 'date'" :attributeName="attributeName" :attribute="attribute"> </crud-date>
-						
-						<!-- Render time input  -->
-						<crud-time :identifier="identifier" v-if="attribute.type === 'time'" :attributeName="attributeName" :attribute="attribute"> </crud-time>
-						
-						<!-- Render model input  -->
-						<crud-model :identifier="identifier"  v-if="attribute.type === 'model'" :attributeName="attributeName" :attribute="attribute"> </crud-model>
-
-						<!-- Render modelCheckbox input  -->
-						<crud-model-checkbox :identifier="identifier" v-if="attribute.type === 'model_checkbox'" :attributeName="attributeName" :attribute="attribute"> </crud-model-checkbox>
-						
-						<!-- Render number input  -->
-						<crud-number :identifier="identifier" v-if="attribute.type === 'number'" :attributeName="attributeName" :attribute="attribute" > </crud-number>
-
-						<!-- Render boolean input  -->
-						<crud-boolean :identifier="identifier" v-if="attribute.type === 'boolean'" :attributeName="attributeName" :attribute="attribute"></crud-boolean>
 					</div>
 
 				</div>
@@ -104,40 +73,39 @@
 			}
 		}, 
 		mounted() {
-			this.progressBar = new ProgressBar(this.totalInputs, this.identifier);
+			this.progressBar = new ProgressBar(this.totalInputs);
 
 			setTimeout(() => {
 				this.loaded = true;
+				this.broadcastProgressBar();
 			}, 700)
 
 		},
 		methods: {
+
+
+			/**
+			 * Broadcast to all inputs that there is a progressBar, send the progressBar to all inputs.
+			 */
+			broadcastProgressBar() {
+				setTimeout(() => {
+					_.forEach(this.object.fields, (attribute, attributeName) => {
+						Event.fire('progressBar:get:' + attributeName, this.progressBar);
+					});
+				});
+			},
+
+
+			/**
+			 * Save the data from the input to the database.
+			 */
 			save() {
-				
-				/**
-				* Tell all inputs to do their validation, if any of those
-				* inputs fail, then the data will not persist to the database.
-				 */
-				Event.fire('validator:validate');
-
-				/**
-				 * If validation has passed, than the data is persisted to the database.
-				 */
-				Event.listen('progressbar:complete:' + this.identifier, () => {	
-
-					// tell the add component to persist values of the inputs to the database.
-					Event.fire('input:save');
-
-					// clear all the inputs of values
-					Event.fire('progressbar:reset:' + this.identifier);
+				if(this.progressBar.isComplete()) {
+					this.progressBar.reset();
+					Event.fire('input:save'); // delegate the save logic to the underlying add component.
 					Event.fire('inputs:clear');
 					Notifier.success('Het toevoegen is gelukt!');
-				});
-
-				// TODO: WHY IS THIS HERE ? Checks if all validation has passed
-				Event.fire('progressbar:isCompleted:' + this.identifier); // check if all fields are filled
-
-				
+				}				
 			},
 
 		}

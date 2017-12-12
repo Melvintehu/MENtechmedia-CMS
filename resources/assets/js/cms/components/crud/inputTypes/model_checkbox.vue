@@ -1,19 +1,18 @@
 <template>
-<div class="space-inside-down-md">
+<div v-if="inputController !== null" class="space-inside-down-md">
 
 
 	<attribute-title :attribute="attribute"></attribute-title>
 
-	<div v-if="checkboxes.length !== 0" v-for="checkbox in checkboxes" class="col-lg-2 ">
+	<div v-if="inputController.checkboxes.length !== 0" v-for="checkbox in inputController.checkboxes" class="col-lg-2 ">
 						
 			<p class="space-inside-down-xs">{{checkbox.value}}</p>
 
 			<div class="checkboxOne">		
 				<input 
-					@change="trackInput()"
-					v-model="selectedCheckBoxes"
+					@change="inputController.trackInput()"
+					v-model="inputController.selectedCheckboxes[checkbox.id]"
 					type="checkbox"  
-					:value="checkbox.id" 
 					:id="checkbox.id + attributeName" 
 					:name="attributeName"
 				/>
@@ -23,7 +22,7 @@
 	
 	</div>
 
-	<p class="space-inside-sides-sm text-danger text-bold font-md" v-if="checkboxes.length === 0">Geen {{ attribute.translation }} gevonden. Voeg eerst één toe. </p>
+	<p class="space-inside-sides-sm text-danger text-bold font-md" v-if="inputController.checkboxes.length === 0">Geen {{ attribute.translation }} gevonden. Voeg eerst één toe. </p>
 
 	<!-- A display to display the errors -->
 	<validation-display  v-if="attribute.validation !== undefined" :errors="attribute.validation.errors"> </validation-display>
@@ -75,7 +74,7 @@ input[type=checkbox] {
 
 <script type="text/javascript">
 
-	require('../../../Objects');
+	import ModelCheckboxController from '../../../app/inputController/modelCheckboxController';
 
 	export default {
 		props: {
@@ -87,63 +86,17 @@ input[type=checkbox] {
 
 		data() {
 			return {
-				checkboxes: [],
-				select: null,
-				loaded: false,
-				selectedCheckBoxes: [],
+				inputController: null,
 			}
 		},
 
 		mounted() {
-			this.registerListeners();
-
-			Factory.getStaticInstance(this.attribute.model)
-				   .all()
-				   .then((objects) => {
-
-						this.checkboxes = _.map(objects, (object) => {
-							return {
-								id: object.id,
-								value: object[this.attribute.attributeDisplay]
-							}
-						});
-
-					});
-
+			this.inputController = new ModelCheckboxController(this.attributeName, this.attribute, this.identifier, this.value);
 		},
 
 		methods: {
 	
 
-			trackInput() {
-
-
-				if(Validator.required(this.attribute.validation)) {
-					if(this.selectedCheckBoxes.length > 0) {
-						Event.fire('progressbar:increment:' + this.identifier, this.attributeName); 
-						Event.fire('input:updated:' + this.attributeName, this.selectedCheckBoxes);
-
-					} else {
-						Event.fire('progressbar:decrement:' + this.identifier, this.attributeName);
-					}
-				}
-			},
-
-
-			registerListeners() {
-
-				Event.listen('input:insertValues:' + this.identifier, () => {
-					$('#'+ this.attributeName + this.identifier + ' option[value='+ this.value[this.attributeName] +']').attr('selected','selected');
-				});
-
-				// event for clearing the input
-				Event.listen('inputs:clear', () => {
-					this.selectedCheckBoxes = [];
-					Event.fire('progressbar:increment:' + this.identifier, this.attributeName); 
-				});
-
-				
-			}
 		}
 	}
 </script>

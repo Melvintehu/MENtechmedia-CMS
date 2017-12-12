@@ -1,6 +1,7 @@
 <template>
 	<div v-if="inputController !== null" @keyup.9.capture.prevent.stop>
-
+	
+		<!-- Attribute title and walkThrough -->
 		<attribute-title :attribute="attribute"></attribute-title>
 
 		<!-- The input -->

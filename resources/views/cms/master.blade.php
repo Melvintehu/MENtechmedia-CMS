@@ -19,6 +19,10 @@
 
             window.user_id = <?php echo json_encode(Auth::user()->id); ?>
         </script>
+
+        <style> 
+            
+        </style>
     </head>
     <body class="bg-secondary">
         <!-- top bar -->

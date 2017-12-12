@@ -30,22 +30,17 @@ class Section extends Model {
                 ]),
             },
 
-            body: {
-                type: 'textarea',
-                translation: 'De body van de sectie',
-                validation: new Validator({
-                    required: true,
-                }),
-            },
+            
+			facility_id: {
+				type: 'model-checkbox',
+				model: 'section',
+				attributeDisplay: 'title',
+				translation: 'Secties test',
+				validation: new Validator({
+					required: true,
+				}),
+			},
 
-            photo: {
-                type: 'photo',
-                translation: 'Kies een foto',
-                dimensions: {"1x1": 'portrait'},
-                validation: new Validator({
-                    required: true
-                }),
-            },
 
         };
 

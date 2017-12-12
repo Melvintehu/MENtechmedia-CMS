@@ -7,7 +7,7 @@ class DateInputController {
             this.day = "";
 
             this.input = "";
-
+            this.progressBar = null;
 
             this.attributeName = attributeName;
             this.attribute = attribute;
@@ -29,12 +29,12 @@ class DateInputController {
                 
             // Do validation on the input's value.
             if(!Validator.valid(this.attribute.validation, this.input)) {
-                Event.fire('progressbar:decrement:' + this.identifier, this.attributeName);
+                this.progressBar.decrement(this.attributeName);
                 return;
             }
     
             // if nog validation error, we tell the progressbar to increment.
-            Event.fire('progressbar:increment:' + this.identifier, this.attributeName);
+            this.progressBar.increment(this.attributeName);
         }
     
     
@@ -43,6 +43,14 @@ class DateInputController {
          */
         registerListeners() {
             this.createFinalDate();
+
+            /**
+             * The cms broadcasts when a new progressbar is initialised. We can add it to our inputController,
+             * so we can call some functions on it.
+             */
+            Event.listen('progressBar:get:' + this.attributeName, (progressBar) => {
+                this.progressBar = progressBar;
+            });
 
             /**
              * When this input is used in a edit context, we need to insert the corresponding value
@@ -59,7 +67,7 @@ class DateInputController {
                
                 // do validation
                 if(Validator.valid(this.attribute.validation, this.input)) {
-                    Event.fire('progressbar:increment:' + this.identifier, this.attributeName); 
+                    this.progressBar.increment(this.attributeName); 
                 }
     
             });
@@ -71,6 +79,8 @@ class DateInputController {
                 this.hour = "";
                 this.minutes = "";
                 
+                this.progressBar.decrement(this.attributeName);
+
                 this.checkRequired();
             });
     
@@ -79,7 +89,9 @@ class DateInputController {
              *	to be persisted to the database.
                 */
             Event.listen('validator:validate', () => {
-                Validator.valid(this.attribute.validation, this.input);
+                if(Validator.valid(this.attribute.validation, this.input)) {
+                    Event.fire('validator:no-errors');
+                }
             });
         }
     
@@ -88,7 +100,7 @@ class DateInputController {
          */
         checkRequired() {
             if(!Validator.required(this.attribute.validation, this.input)) {
-                Event.fire('progressbar:increment:' + this.identifier, this.attributeName );
+                this.progressBar.increment(this.attributeName);
             }
         }
 

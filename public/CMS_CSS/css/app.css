@@ -22146,6 +22146,15 @@ button.toast-close-button {
   position: fixed;
 }
 
+.navbar-default .navbar-nav > .open > a:focus {
+  background-color: #354052;
+  color: #fff;
+}
+
+.nav .open > a:focus {
+  background-color: #354052;
+}
+
 /* Large desktops and laptops */
 
 /* Landscape tablets and medium desktops */

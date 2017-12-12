@@ -1,14 +1,28 @@
 class ProgressBar {
-    constructor(identifier, totalInputs) {
+    constructor(totalInputs) {
+        this.totalInputs = totalInputs;
+        this.completed = {};
+        this.completedInputs = 0;
+        this.currentWidth = '1';
+    }
 
+    increment(key) {
+        this.completed[key] = true;
+        this.updateProgressbar();
+    }
+
+    decrement(key) {
+        this.completed[key] = false;
+        this.updateProgressbar();
     }
 
     updateProgressbar() {
-        // we reset the completed inputs
-        this.completedInputs = 0;
-
 
         // we recount all the fields that are filled in 
+        this.completedInputs = _.sumBy(this.completed, (complete) => {
+            return completed? 1:0;
+        });
+
         for(let attribute in this.completed) {
             if(this.completed[attribute]) {
                 this.completedInputs++;
@@ -24,13 +38,26 @@ class ProgressBar {
     }
 
 
-    resetProgressbar() {
+    reset() {
         this.completed = {};
         this.completedInputs = 0;  
+    
     }
 
     roundPercentage(percentage) {
         return Helper.roundPercentage(percentage) 
+    }
+
+    isComplete() {
+        let total = 0;
+
+        for(let index in this.completed) {
+            if(this.completed[index]) {
+                total++;
+            }
+        }
+        
+        return total === this.totalInputs;
     }
 }
 

@@ -1,8 +1,8 @@
 <template>
-<div class="space-inside-down-md">
-	<div class="col-lg-12 reset-padding " style="height: 100%;">
-		<p style="width: 100%; height: 100%;text-transform: capitalize" class="font-sm  text-bold inline-block  text-color-dark  space-inside-up-xs space-inside-down-sm">{{ attribute.translation }}</p>
-	</div>
+<div v-if="inputController !== null" class="space-inside-down-md">
+
+	<!-- Attribute title and walkThrough -->
+	<attribute-title :attribute="attribute"></attribute-title>
 
 	<div class="col-lg-2 ">
 						
@@ -10,10 +10,10 @@
 
 			<div class="checkboxOne">		
 				<input 
-					@change="trackInput()"
-					v-model="selectedCheckBox"
+					@change="inputController.trackInput()"
+					v-model="inputController.input"
 					type="checkbox"  
-					:id="attributeName + identifier" 
+					:id="attributeName + identifier"
 					:name="attributeName + identifier"
 				/>
 				<label :for="attributeName + identifier"> </label>
@@ -72,8 +72,9 @@ input[type=checkbox] {
 
 <script type="text/javascript">
 
-	require('../../../Objects');
+	import BooleanInputController from '../../../app/inputController/booleanInputController';
 
+	
 	export default {
 		props: {
 			attributeName: null,
@@ -84,62 +85,15 @@ input[type=checkbox] {
 
 		data() {
 			return {
-				input: null,
-				loaded: false,
-                selectedCheckBox: null,
+				inputController: null,
 			}
 		},
 
 		mounted() {
-			this.registerListeners();
-
-            this.initInputs();
-            let value = this.selectedCheckBox ? 1 : 0;
-
-            Event.fire('progressbar:increment:' + this.identifier, this.attributeName); 
-            Event.fire('input:updated:' + this.attributeName,  value);
+			this.inputController = new BooleanInputController(this.attributeName, this.attribute, this.identifier, this.value);
 		},
 
-		methods: {
-            trackInput() {
-         
-                console.log(this.selectedCheckBox);
-
-                let value = this.selectedCheckBox ? 1 : 0;
-
-				Event.fire('input:updated:' + this.attributeName,  value);
-			},
-
-		
-
-			registerListeners() {
-
-				
-				Event.listen('input:insertValues:' + this.identifier, () => {
-					$('#' + this.attributeName + this.identifier)[0].value = this.value[this.attributeName];
-					this.initInputs();
-
-					// do validation
-                    let value = this.selectedCheckBox ? 1 : 0;
-
-					if(Validator.valid(this.attribute.validation,  value)) {
-						Event.fire('progressbar:increment:' + this.identifier, this.attributeName); 
-					}
-
-				});
-
-				// event for clearing the input
-				Event.listen('inputs:clear', () => {
-					this.selectedCheckBoxes = [];
-					Event.fire('progressbar:increment:' + this.identifier, this.attributeName); 
-				});
-
-				
-			},
-            initInputs() {
-                this.input = $('#' + this.attributeName + this.identifier)[0];
-            },
-		},
+	
 
         
 

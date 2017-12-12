@@ -1,8 +1,10 @@
-class InputController {
+class ModelCheckboxController {
 
 
     constructor(attributeName, attribute, identifier, value) {
-        this.input = "";
+        this.selectedCheckboxes = {};
+        this.checkboxes = [];
+
         this.progressBar = null;
         
         this.attributeName = attributeName;
@@ -14,24 +16,49 @@ class InputController {
 
         this.registerListeners();
         this.checkRequired();
+        this.checkboxValues();
+    }
+
+    checkboxValues() {
+        Factory.getStaticInstance(this.attribute.model)
+        .all()
+        .then((objects) => {
+
+             this.checkboxes = _.map(objects, (object) => {
+                 return {
+                     id: object.id,
+                     value: object[this.attribute.attributeDisplay]
+                 }
+             });
+
+         });
     }
 
 
     trackInput() {
-        
-       
+        let selected = [];
+
+        for(let index in this.selectedCheckboxes) {
+            let checkbox = this.selectedCheckboxes[index];
+
+            if(checkbox) {
+                selected.push(index);
+            }
+        }   
+
         // Tell the CMS the input has changed.
-        Event.fire('input:updated:' + this.attributeName, this.input);
-            
+        Event.fire('input:updated:' + this.attributeName, selected);
+        
         // Do validation on the input's value.
-        if(!Validator.valid(this.attribute.validation, this.input)) {
-            this.progressBar.decrement(this.attributeName);
+        if(selected.length === 0) {
+            this.progressBar.decrement(this.attributeName);            
             return;
-        }
+        } 
 
         // if nog validation error, we tell the progressbar to increment.
         this.progressBar.increment(this.attributeName);
     }
+
 
 
     /**
@@ -71,20 +98,11 @@ class InputController {
          * 	Clear inputs when a new model is persisted.
          */
         Event.listen('inputs:clear', () => {
-            this.input = "";
+            this.selectedCheckboxes = [];
 
-            this.progressBar.decrement(this.attributeName);
-            
-            this.checkRequired();
+            this.progressBar.increment(this.attributeName);
         });
 
-        /**
-         * 	When the save button is pressed, we check if this input meets the requirements 
-         *	to be persisted to the database.
-            */
-        Event.listen('validator:validate', () => {
-            Validator.valid(this.attribute.validation, this.input);
-        });
     }
 
     /**
@@ -98,4 +116,4 @@ class InputController {
 }
 
 
-export default InputController;
+export default ModelCheckboxController;
