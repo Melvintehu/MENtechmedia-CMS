@@ -6,7 +6,6 @@ class PhotoInputController {
             this.progressBar = null;
 
             this.attribute = attribute;
-            this.identifier = identifier;
 
             this.registerListeners();
             this.checkRequired();
@@ -32,7 +31,7 @@ class PhotoInputController {
              * photo is set, or not mendatory. In both cases the progressbar should be incremented for the photo input.
              * 
              */
-            Event.listen('input:insertValues:' + this.identifier, () => {
+            Event.listen('input:insertValues', () => {
                 this.progressBar.increment('photo');
             });
 

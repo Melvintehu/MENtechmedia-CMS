@@ -7,7 +7,7 @@ class InputController {
         
         this.attributeName = attributeName;
         this.attribute = attribute;
-        this.identifier = identifier;
+        
 
         // In edit context
         this.value = value;
@@ -22,7 +22,7 @@ class InputController {
        
         // Tell the CMS the input has changed.
         Event.fire('input:updated:' + this.attributeName, this.input);
-            
+        
         // Do validation on the input's value.
         if(!Validator.valid(this.attribute.validation, this.input)) {
             this.progressBar.decrement(this.attributeName);
@@ -53,7 +53,7 @@ class InputController {
          * When this input is used in a edit context, we need to insert the corresponding value
          * by listening to this event, which passed us the correct value for this input.
          */
-        Event.listen('input:insertValues:' + this.identifier, () => {
+        Event.listen('input:insertValues', () => {
             
             this.input = this.value[this.attributeName];
             

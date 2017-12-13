@@ -31,15 +31,7 @@ class Section extends Model {
             },
 
             
-			facility_id: {
-				type: 'model-checkbox',
-				model: 'section',
-				attributeDisplay: 'title',
-				translation: 'Secties test',
-				validation: new Validator({
-					required: true,
-				}),
-			},
+	
 
 
         };

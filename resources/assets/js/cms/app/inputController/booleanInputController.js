@@ -7,7 +7,6 @@ class BooleanInputController {
             
             this.attributeName = attributeName;
             this.attribute = attribute;
-            this.identifier = identifier;
     
             // In edit context
             this.value = value;
@@ -45,7 +44,7 @@ class BooleanInputController {
              * When this input is used in a edit context, we need to insert the corresponding value
              * by listening to this event, which passed us the correct value for this input.
              */
-            Event.listen('input:insertValues:' + this.identifier, () => {
+            Event.listen('input:insertValues', () => {
                 this.input = this.value[this.attributeName];
               
                 let value = this.input ? 1 : 0;

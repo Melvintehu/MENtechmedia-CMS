@@ -49,13 +49,6 @@
 	</div>
 </template>
 
-<style type="text/css">
-	.width-over-time {
-		-webkit-transition: all .5s; /* Safari */
-	    transition: all .5s;
-	}
-</style>
-
 <script type="text/javascript" >
 	import ProgressBar from '../app/ProgressBar/ProgressBar';
 
@@ -100,6 +93,10 @@
 			 * Save the data from the input to the database.
 			 */
 			save() {
+
+				// Check inputs
+				// Event.fire('validator:validate');
+
 				if(this.progressBar.isComplete()) {
 					this.progressBar.reset();
 					Event.fire('input:save'); // delegate the save logic to the underlying add component.

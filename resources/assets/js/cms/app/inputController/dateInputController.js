@@ -11,7 +11,6 @@ class DateInputController {
 
             this.attributeName = attributeName;
             this.attribute = attribute;
-            this.identifier = identifier;
             this.value = value;
             
             this.createFinalDate();
@@ -56,7 +55,7 @@ class DateInputController {
              * When this input is used in a edit context, we need to insert the corresponding value
              * by listening to this event, which passed us the correct value for this input.
              */
-            Event.listen('input:insertValues:' + this.identifier, () => {
+            Event.listen('input:insertValues', () => {
                 
                 let values = this.value[this.attributeName].split(":");
                 this.hour = values[0];

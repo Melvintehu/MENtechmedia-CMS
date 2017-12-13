@@ -7,7 +7,6 @@ window.Factory = new class{
 	getInstanceOf(className, data = null) {   
 		
         className = Helper.lcfirst(className);
-		this.classNames.push(className);
         
 		return new models[className](data);
 	}

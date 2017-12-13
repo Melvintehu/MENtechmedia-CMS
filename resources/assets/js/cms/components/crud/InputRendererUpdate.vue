@@ -21,7 +21,7 @@
         <!-- progressbar -->
         <div class="col-lg-6">
             <transition name="fade">
-                <progressbar :identifier='identifier' :totalInputs="totalInputs"> </progressbar>
+                <progressbar :progressBar="progressBar" :identifier='identifier' :totalInputs="totalInputs"> </progressbar>
             </transition>
         </div>
 
@@ -168,6 +168,7 @@
 
 
 <script type="text/javascript">
+    import ProgressBar from '../../app/ProgressBar/ProgressBar';
 
     export default {
         props: {
@@ -185,24 +186,48 @@
                 model_id: null,
                 loaded: false,
                 innerValue: null,
+
+                progressBar: null,
             }
         }, 
         mounted() {
-            this.innerValue = JSON.parse(this.value);
             this.object = Factory.getInstanceOf(this.type);
+            this.innerValue = JSON.parse(this.value);
             this.totalInputs = Object.keys(this.object.fields).length;
-            setTimeout(() => {
-                 Event.fire('input:insertValues:' + this.identifier);
-                 
-            })
 
+            // init progress bar
+            this.progressBar = new ProgressBar(this.totalInputs);
+                
+            this.broadcastProgressBar();
             this.registerListeners();
+
+
+            setTimeout(() => {
+                Event.fire('input:insertValues');
+            }, 200);
+
             setTimeout(() => {
                 this.loaded = true;
+             
+
+              
             }, 500);
         },
 
         methods: {
+
+            /**
+			 * Broadcast to all inputs that there is a progressBar, send the progressBar to all inputs.
+			 */
+			broadcastProgressBar() {
+				setTimeout(() => {
+					_.forEach(this.object.fields, (attribute, attributeName) => {
+						Event.fire('progressBar:get:' + attributeName, this.progressBar);
+					});
+				});
+			},
+
+
             registerListeners() {
                 let attributeExceptions = [
 					'photo',
