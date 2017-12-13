@@ -14,3 +14,4 @@ yarn-error.log
 .env
 2017-12-06 50-dubai.jpg
 Cropper.vue
+/public/js/app.js
