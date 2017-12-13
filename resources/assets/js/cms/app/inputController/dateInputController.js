@@ -2,12 +2,15 @@ class DateInputController {
     
     
         constructor(attributeName, attribute, identifier, value) {
+            this.progressBar = null;
+            
+            
+            
             this.year = "";
             this.month = "";
             this.day = "";
 
             this.input = "";
-            this.progressBar = null;
 
             this.attributeName = attributeName;
             this.attribute = attribute;
@@ -86,11 +89,9 @@ class DateInputController {
             /**
              * 	When the save button is pressed, we check if this input meets the requirements 
              *	to be persisted to the database.
-                */
+            */
             Event.listen('validator:validate', () => {
-                if(Validator.valid(this.attribute.validation, this.input)) {
-                    Event.fire('validator:no-errors');
-                }
+                Validator.valid(this.attribute.validation, this.input);
             });
         }
     

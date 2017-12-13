@@ -2,8 +2,10 @@ class BooleanInputController {
     
     
         constructor(attributeName, attribute, identifier, value) {
-            this.input = false;
             this.progressBar = null;
+            
+            
+            this.input = false;
             
             this.attributeName = attributeName;
             this.attribute = attribute;
@@ -64,6 +66,14 @@ class BooleanInputController {
                 this.input = false;
 
                 this.progressBar.increment(this.attributeName);
+            });
+
+            /**
+             * 	When the save button is pressed, we check if this input meets the requirements 
+             *	to be persisted to the database.
+            */
+            Event.listen('validator:validate', () => {
+                Validator.valid(this.attribute.validation, this.input);
             });
     
      

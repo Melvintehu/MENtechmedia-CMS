@@ -2,8 +2,9 @@ class InputController {
 
 
     constructor(attributeName, attribute, identifier, value) {
-        this.input = "";
         this.progressBar = null;
+        
+        this.input = "";
         
         this.attributeName = attributeName;
         this.attribute = attribute;

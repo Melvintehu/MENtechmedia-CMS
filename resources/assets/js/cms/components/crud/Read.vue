@@ -4,78 +4,77 @@
 	<!-- Loading spinner -->
 	<loading v-if="!visible && emptyData"></loading>
 
-
 	<transition name="fade">
 
 		<div v-if="visible && Object.keys(data).length != 0" 
 			class="space-inside-sides-md space-outside-up-lg ">
+			<div class="">
+			
 				
-				<div class="col-lg-12 reset-padding space-outside-down-md">
+				<div class="col-lg-12 reset-padding ">
 					<input @keyup="filterData" placeholder="Typ in dit zoekvak om te zoeken in de onderstaande gegevens." class="
-							border border-secondary border-curved outline-none
+							border border-secondary border-curved-up outline-none
 							space-inside-sides-md space-inside-sm 
 							inline-block 
 							full-width
-							text-color-light
-							bg-main
+							text-color-tertiary
+							bg-secondary
 							" />
 				</div>
 			
-			<table v-if="data != null" class="table ">
-				<tr>
-					<th v-for="(attributeValue, attributeName ) in object.fields" 
+				<table v-if="data != null" class="table ">
+					<tr>
+						<th v-if="notHidden(attributeName)" v-for="(attributeValue, attributeName ) in object.fields" 
+							class="
+								bg-tertiary 
+								text-color-light font-md 
+								space-inside-sm space-inside-sides-sm 
+								"
+						>{{ (attributeValue.description !== undefined ) ? attributeValue.description : attributeValue.translation }}</th>
+
+						<th class="
+								bg-tertiary 
+								text-color-light font-md 
+								space-inside-sm space-inside-sides-sm 
+								"> </th>
+
+						<th class="
+								bg-tertiary 
+								text-color-light font-md 
+								space-inside-sm space-inside-sides-sm 
+								"> </th>
+					</tr>
+
+					<tr v-for="(row, key) in data" 
 						class="
-							bg-tertiary 
-							text-color-light font-md 
-							space-inside-sm space-inside-sides-sm 
+							space-inside-xs 
+							border 
+							bg-hover-secondary border-secondary 
+							transition-normal 
 							"
-					>{{ attributeValue.translation }}</th>
+					>
+						<!-- Attributes -->
+						<td v-if="notHidden(attribute)"  
+							class="space-inside-sm space-inside-sides-sm" 
+							v-for="(value, attribute) in object.fields">
+								<div > {{ needsToBeConverted(attribute, row) }} </div>
 
-					<th class="
-							bg-tertiary 
-							text-color-light font-md 
-							space-inside-sm space-inside-sides-sm 
-							"> </th>
-
-					<th class="
-							bg-tertiary 
-							text-color-light font-md 
-							space-inside-sm space-inside-sides-sm 
-							"> </th>
-				</tr>
-
-				<tr v-for="(field, key) in data" 
-					class="
-						space-inside-xs 
-						border 
-						bg-hover-secondary border-secondary 
-						transition-normal 
-						"
-				>
-					<!-- Attributes -->
-					<td v-if="notHidden(attribute)"  
-						class="space-inside-sm space-inside-sides-sm" 
-						v-for="(value, attribute) in field">
-							<div > {{ needsToBeConverted(attribute, field) }} </div>
-
-					</td>
-					<!-- End of attributes -->
+						</td>
+						<!-- End of attributes -->
 
 
-					<td @click="remove(field)"
-						class="space-inside-sm space-inside-sides-sm"> 
-						<i style="position: relative; top: 2px;" class="material-icons text-color-danger pointer">clear</i>
-					</td>
-					<td class="space-inside-sm space-inside-sides-sm"> 
-				
-						<a :href="'/cms/edit?type=' + type + '&id=' + field.id ">
-							<i   class="material-icons pointer">mode_edit</i> 
-						</a>
-					</td>
-				</tr>
+						<td style="width: 50px;" @click="remove(row)"
+							class="space-inside-sm space-inside-sides-sm bg-danger pointer border-right border-secondary border-sm"> 
+							<i style="position: relative; top: 2px;" class="material-icons text-color-light pointer">clear</i>
+						</td>
+						<td @click="edit(row)" style="width: 50px;" class="space-inside-sm space-inside-sides-sm bg-secondary pointer"> 
+							<i   class="material-icons pointer text-color-tertiary">mode_edit</i> 
+						</td>
+					</tr>
 
 
-			</table>
+				</table>
+			</div>	
 		</div>
 	</transition>
 
@@ -206,8 +205,12 @@
 			},
 
 			notHidden(key) {
-				
-				return key in this.object.fields;
+				if(this.object.fields[key] !== undefined) {
+					if(this.object.fields[key].hidden !== undefined) {
+						return !this.object.fields[key].hidden;
+					}
+				}
+				return true;
 			},
 			
 			loadData() {
@@ -234,13 +237,17 @@
 			remove(object) {
 				Notifier.askConfirmation('Weet u zeker dat u dit wilt verwijderen ?', () => {
 					console.log('werkt dit niet meer?');
-					object.delete(this.type, () => {
+					object.delete().then(() => {
 						setTimeout(() => {
 							Event.fire(this.type + ':deleted');
 							Notifier.success('Het verwijderen is gelukt!');
 						}, 500);
 					});
 				});
+			},
+
+			edit(row) {
+				window.location.href= '/cms/edit?type=' + this.type + '&id=' + row.id; 
 			},
 
 			presentPopover() {

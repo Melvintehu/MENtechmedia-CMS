@@ -2,8 +2,10 @@ class PhotoInputController {
     
     
         constructor(attribute, identifier) {
-            this.photo = null;
             this.progressBar = null;
+            
+            
+            this.photo = null;
 
             this.attribute = attribute;
 
@@ -21,7 +23,8 @@ class PhotoInputController {
              * The cms broadcasts when a new progressbar is initialised. We can add it to our inputController,
              * so we can call some functions on it.
              */
-            Event.listen('progressBar:get:' + this.attributeName, (progressBar) => {
+            Event.listen('progressBar:get:' + 'photo', (progressBar) => {
+                console.log(progressBar, 'photo');
                 this.progressBar = progressBar;
             });
 
@@ -39,7 +42,7 @@ class PhotoInputController {
              * When the uploaded file is ready for upload, we can increment the progressbar.
              */
             Event.listen('file:ready', () => {
-                this.progressBar.increment(this.attributeName);
+                this.progressBar.increment('photo');
             });
 
 
@@ -51,10 +54,17 @@ class PhotoInputController {
             });
 
             Event.listen('inputs:clear', () => {
-                this.progressBar.decrement(this.attributeName);
+                this.progressBar.decrement('photo');
                 this.checkRequired();
             });
-            
+
+            // /**
+            //  * 	When the save button is pressed, we check if this input meets the requirements 
+            //  *	to be persisted to the database.
+            // */
+            // Event.listen('validator:validate', () => {
+            //     Validator.valid(this.attribute.validation, this.photo);
+            // });            
         }
     
         /**
@@ -62,7 +72,7 @@ class PhotoInputController {
          */
         checkRequired() {
             if(!Validator.required(this.attribute.validation)) {
-                this.progressBar.increment(this.attributeName);
+                this.progressBar.increment('photo');
             }
         }
 }

@@ -24,7 +24,7 @@
 
 			<!-- Loop through all the attributes of a certain object -->
 
-			<div v-for="(attribute, attributeName) in object.fields" class="col-lg-12 space-inside-xs reset-padding">
+			<div v-for="(attribute, attributeName) in object.fields" class="col-lg-12 space-inside-xs ">
 				<div class="row ">
 				
 					<!-- Each attribute has one input associated with it. You can find those inputs associations in every specific model. -->
@@ -39,8 +39,8 @@
 			</div>
 
 			<!-- Button for persisting the input data to the database -->
-			<div class="row">
-				<div class="col-lg-12 space-inside-sides-xs space-inside-up-sm">
+			<div class="row space-inside-sides-xs">
+				<div class="col-lg-12 space-inside-sides-sm space-inside-up-sm">
 					<button  @click="save()" class="border-none outline-none bg-main shadow-xs text-color-light space-inside-sm space-inside-sides-md">Toevoegen</button>
 				</div>
 			</div>
@@ -95,7 +95,7 @@
 			save() {
 
 				// Check inputs
-				// Event.fire('validator:validate');
+				Event.fire('validator:validate');
 
 				if(this.progressBar.isComplete()) {
 					this.progressBar.reset();

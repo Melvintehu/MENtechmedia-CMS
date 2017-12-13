@@ -2,10 +2,11 @@ class ModelCheckboxController {
 
 
     constructor(attributeName, attribute, identifier, value) {
+        this.progressBar = null;
+        
         this.selectedCheckboxes = {};
         this.checkboxes = [];
 
-        this.progressBar = null;
         
         this.attributeName = attributeName;
         this.attribute = attribute;
@@ -101,6 +102,14 @@ class ModelCheckboxController {
             this.selectedCheckboxes = [];
 
             this.progressBar.increment(this.attributeName);
+        });
+
+        /**
+         * 	When the save button is pressed, we check if this input meets the requirements 
+         *	to be persisted to the database.
+        */
+        Event.listen('validator:validate', () => {
+            Validator.valid(this.attribute.validation, this.input);
         });
 
     }

@@ -1,9 +1,11 @@
 class ModelInputController {
     
     
-        constructor(attributeName, attribute, identifier, value) {
-            this.select = "NOTVALID";
+    constructor(attributeName, attribute, identifier, value) {
             this.progressBar = null;
+            
+            
+            this.select = "NOTVALID";
             this.optionValues = [];
 
             this.attributeName = attributeName;
