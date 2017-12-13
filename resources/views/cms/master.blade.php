@@ -35,6 +35,9 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
+                    <button type="button" class="toggle-nav bg-tertiary border-none outline-none text-color-light" style="margin-top: 12px;"  >
+                        <i class="material-icons">menu</i>
+                    </button>
                     <a class="navbar-brand space-inside-left-md"  href="https://mentechmedia.nl" target="_blank">
                         <img src="/images/cms/logo_m.png" style="width: 20px;"/>
                     </a>
@@ -67,9 +70,9 @@
             </div>
         </nav>
         <div id="app" class="container-fluid no-overflow" >
-            <div class="cms-navigation col-lg-2 col-md-2 col-xs-12 vertical-scrollbar no-overflow-x reset-padding bg-tertiary full-height  shadow-xs">
+            <div class=" cms-navigation  col-lg-2 col-md-2 col-xs-12 vertical-scrollbar no-overflow-x reset-padding bg-tertiary full-height shadow-xs ">
 
-                <div class="row space-inside-up-md">
+                <div class="row space-inside-up-md ">
  
 
                     <!-- content divider -->
@@ -89,7 +92,7 @@
 
 
             <!--  all content -->
-            <div  class="col-lg-10 col-md-10 col-xs-12 reset-padding ">
+            <div  class="body transition-normal col-lg-10 col-md-10 col-xs-12 reset-padding ">
                 <div class="row"> 
                     <div class="col-lg-12 col-md-12 space-outside-down-sm">
                        @yield('content')

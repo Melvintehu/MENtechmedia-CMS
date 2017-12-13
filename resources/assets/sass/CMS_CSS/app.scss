@@ -48,6 +48,7 @@
 
 .cms-navigation {
   position: fixed;
+  height: 100%;
 }
 
 .navbar-default .navbar-nav > .open > a:focus {
@@ -74,7 +75,7 @@
     
     .cms-navigation {
       position: relative;
-      height: 500px;
+   
     }
 
   }
@@ -84,7 +85,13 @@
     
     .cms-navigation {
       position: relative;
-      height: 500px;
+      
     }
 
+   }
+
+
+
+   .hideNav {
+     display: none;
    }

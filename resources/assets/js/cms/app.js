@@ -170,3 +170,30 @@
     | 
     |
     */
+
+
+    $(document).ready(() => {
+
+        $('.toggle-nav').on('click', () => {
+            
+            
+
+            if($('.cms-navigation').is(":hidden")) {
+                $('.body').removeClass('col-lg-12 col-md-12 col-sm-12 col-xs-12');
+                $('.body').addClass('col-lg-10 col-md-10 col-sm-10 col-xs-10');
+                setTimeout(() => {
+                    $('.cms-navigation').animate({width:'toggle'}, 500);
+                }, 500);
+                // $('.body').removeClass('transition-normal');
+            } else {
+                $('.cms-navigation').animate({width:'toggle'}, 500, () => {
+                    // $('.body').addClass('transition-normal');
+                    $('.body').addClass('col-lg-12 col-md-12 col-sm-12 col-xs-12');
+                    $('.body').removeClass('col-lg-10 col-md-10 col-sm-10 col-xs-10');
+                });
+    
+            }
+            
+        });
+        
+    });

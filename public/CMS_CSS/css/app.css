@@ -22144,6 +22144,7 @@ button.toast-close-button {
 
 .cms-navigation {
   position: fixed;
+  height: 100%;
 }
 
 .navbar-default .navbar-nav > .open > a:focus {
@@ -22166,7 +22167,6 @@ button.toast-close-button {
 @media (max-width: 767px) {
   .cms-navigation {
     position: relative;
-    height: 500px;
   }
 }
 
@@ -22175,7 +22175,10 @@ button.toast-close-button {
 @media (max-width: 480px) {
   .cms-navigation {
     position: relative;
-    height: 500px;
   }
+}
+
+.hideNav {
+  display: none;
 }
 
