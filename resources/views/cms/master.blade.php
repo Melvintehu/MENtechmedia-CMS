@@ -42,11 +42,19 @@
                         <img src="/images/cms/logo_m.png" style="width: 20px;"/>
                     </a>
                 </div>
-
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group space-inside-left-md">
+                        <input type="text" class="form-control space-inside-sides-sm" placeholder="Zoek in CMS...">
+                    </div>
+                </form>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right space-inside-right-md">
                         <li class="dropdown">
-                        <a href="#" class="dropdown-toggle text-color-light" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle text-color-light" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            {{ Auth::user()->name }} 
+                            <div class="bg-success circle inline-block shadow-xs space-outside-sides-xs border border-light" style="width: 15px; height: 15px; position: relative; top: 5px;"></div>
+                            <span class="caret inline-block"></span>
+                        </a>
                         <ul class="dropdown-menu space-inside-sides-md space-inside-md">
                             <!-- user -->
                             <li class="space-inside-down-sm">

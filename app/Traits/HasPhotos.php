@@ -28,7 +28,7 @@ trait HasPhotos{
     {
 
         if($this->photo() == null) {
-            return "";
+            return 'http://www.bakkerijkosters.nl/afbeeldingen/geen_afbeelding_beschikbaar_gr.gif';
         }
 
         $className = explode("\\", __CLASS__)[1];
@@ -38,7 +38,7 @@ trait HasPhotos{
     public function getPortraitAttribute()
     {
         if($this->photo() == null) {
-            return "";
+            return 'http://www.bakkerijkosters.nl/afbeeldingen/geen_afbeelding_beschikbaar_gr.gif';
         }
 
         $className = explode("\\", __CLASS__)[1];
@@ -48,7 +48,7 @@ trait HasPhotos{
     public function getOriginalAttribute()
     {
         if($this->photo() == null) {
-            return "";
+            return 'http://www.bakkerijkosters.nl/afbeeldingen/geen_afbeelding_beschikbaar_gr.gif';
         }
 
         $className = explode("\\", __CLASS__)[1];
@@ -58,7 +58,7 @@ trait HasPhotos{
     public function getThumbnailAttribute()
     {
         if($this->photo() == null) {
-            return "";
+            return 'http://www.bakkerijkosters.nl/afbeeldingen/geen_afbeelding_beschikbaar_gr.gif';
         }
 
         $className = explode("\\", __CLASS__)[1];
