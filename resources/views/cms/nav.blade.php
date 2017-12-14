@@ -4,7 +4,7 @@
     <!-- header -->
     <p class="space-inside-sides-md text-color-main text-semi-bold font-xs space-outside-sm pointer collapseAble" data-toggle="collapse" data-target="#core-admin">
         Superadmin  
-        <i class="material-icons pointer text-hover-light transition-fast" style="position: relative; top: 9px; left: 20px;">keyboard_arrow_down</i>
+        <i id="core-admin-caret-right" class="material-icons pointer text-hover-light transition-fast" style="position: relative; top: 9px; left: 20px;">keyboard_arrow_right</i>
     </p>
 
     <div id="core-admin" class="collapse in">
@@ -25,7 +25,7 @@
     <!-- header -->
     <p class="collapseAble space-inside-sides-md text-color-main text-semi-bold font-xs space-outside-sm pointer collapseAble" data-toggle="collapse" data-target="#{{ $navGroup->name }}">
         {{ $navGroup->name }} 
-        <i class="material-icons pointer text-hover-light transition-fast" style="position: relative; top: 9px; left: 20px;">keyboard_arrow_down</i>
+        <i id="{{ $navGroup->name }}-caret-right" class="material-icons pointer text-hover-light transition-fast" style="position: relative; top: 9px; left: 20px;">keyboard_arrow_right</i>
     </p>
     
     <div id="{{ $navGroup->name }}" class="collapse in">
