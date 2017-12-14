@@ -29,6 +29,66 @@ class FileGenerator {
         ]);
 
     }
+
+    public static function generateEntitiesFile($entities) 
+    {
+        $path_to_file = '../resources/assets/js/cms/Objects.js';
+        unlink($path_to_file);    
+        
+        $contents = "
+        /*
+        |--------------------------------------------------------------------------
+        | Import
+        |--------------------------------------------------------------------------
+        |
+        | Import your models here
+        | 
+        | 
+        |
+        */
+        
+        ";
+
+        foreach($entities as $key => $entity) {
+            $contents .= "import {$entity->name} from './models/" . lcfirst($entity->name) . "';\n        "; 
+        }
+
+        $contents .= "
+    
+        /*
+        |--------------------------------------------------------------------------
+        | Insert
+        |--------------------------------------------------------------------------
+        |
+        | Insert your models in the models object below.
+        | 
+        | 
+        |
+        */
+    
+        window.models = {";
+ 
+        foreach($entities as $key => $entity) {
+            $contents .= "\n            " .lcfirst($entity->name) . ": " . $entity->name . ','; 
+        } 
+    
+        $contents .= "\n        };
+            
+        ";
+
+        FileGenerator::createFile([
+            'fileName' =>  'Objects.js', 
+            'directory' => '../resources/assets/js/cms/', 
+            'contents' => $contents
+        ]);
+    }
+
+    public static function generateApi($entity) 
+    {
+        $contents = file_get_contents('../routes/api.php');
+        $contents .= "\n Route::resource('" . lcfirst($entity->name) . "', 'api\\" . $entity->name . "Controller');";
+        \file_put_contents('../routes/api.php', $contents);
+    }
     
     public static function setContents()
     {
