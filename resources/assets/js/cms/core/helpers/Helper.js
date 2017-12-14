@@ -9,8 +9,7 @@ window.Helper = new class
 
 
 
-   constructor()
-      {}
+   constructor(){}
       /**
        * Capitalizes strings
        * @param  {[string]}
@@ -21,6 +20,18 @@ window.Helper = new class
          return string
             // @todo : Cannot read property '0' of undefined
             // return string[0].toUpperCase() + string.slice(1);
+      }
+
+      parseBool(boolean){
+        if(boolean === 'true') {
+          return true;
+        } 
+
+        if(boolean === 'false') {
+          return false;
+        }
+        
+        return boolean;
       }
 
       makeID() {
