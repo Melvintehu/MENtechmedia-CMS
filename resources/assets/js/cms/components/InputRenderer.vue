@@ -7,7 +7,7 @@
 		<div v-if="loaded" >	
 
 			<!-- Title -->
-			<div class="col-lg-7 reset-padding space-inside-md" >
+			<div class="col-lg-7 col-md-7 reset-padding space-inside-md" >
 				<h1 class="text-color-dark text-left text-uppercase letter-spacing-sm text-bold">Toevoegen</h1>
 				<p class="space-inside-sm text-color-accent">
 					<slot> 

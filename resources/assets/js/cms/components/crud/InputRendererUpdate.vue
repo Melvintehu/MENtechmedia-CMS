@@ -1,10 +1,10 @@
 <template>
-<div class="bg-white space-inside-sides-sm">
+<div class="bg-light space-inside-sides-sm">
 
-        <!-- CONTENT HERE -->
+    <!-- CONTENT HERE -->
 
-        <!-- Loading spinner -->
-        <loading v-if="!loaded"></loading>
+    <!-- Loading spinner -->
+    <loading v-if="!loaded"></loading>
 
     <div v-show="loaded">
 
@@ -130,16 +130,14 @@
 
             </div>
         </div>
+
         <div v-if="innerValue !== null && innerValue.original !== undefined && innerValue.original !== '' && innerValue.original !== null " 
             class="col-lg-12 space-outside-up-lg reset-padding bg-main">
                 <p style="width: 100%; height: 100%;text-transform: capitalize" class="font-sm  text-bold inline-block  text-color-light  space-inside-sm space-inside-sides-sm ">De bijhorende foto</p>
                 <img style="width: 100%;" :src="innerValue.original">
         </div>
 
-
-
         <!-- END OF CONTENT -->
-       
         <div class="col-lg-12 space-inside-sides-xs space-inside-up-sm">
             <button  @click="update()" class=" inline-block border-none outline-none bg-main shadow-xs text-color-light space-inside-sm space-inside-sides-md">Aanpassen</button>
             <button class="

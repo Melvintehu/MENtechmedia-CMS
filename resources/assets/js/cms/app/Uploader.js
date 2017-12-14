@@ -25,8 +25,12 @@ class Uploader {
 			// remove the file after the upload of the file has finished
 			
 			this.dropzone.on('addedfile', () => {
-			
 				Event.fire('file:ready');
+			});
+
+			this.dropzone.on('error', (errorMessage) => {
+				Event.fire('file:failed');
+				Notifier.warning('Bestandsformaat wordt niet ondersteund. Ondersteunde bestandsformaten: .jpg, .png, .jpeg', errorMessage);
 			});
 
 			// handle the response if the file is uploaded
