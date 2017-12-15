@@ -18,6 +18,7 @@ class CreateSettingsTable extends Migration
             $table->boolean('setup');
             
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

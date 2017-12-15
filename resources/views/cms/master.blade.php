@@ -68,7 +68,7 @@
                                 </li>
                                 <li><a href="/cms/profile/edit">Profiel bewerken</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="/cms/logout">Uitloggen</a></li>
+                                <li><a href="/cms/logout"><i style="position: relative; top: 8px; right: 6px;" class="material-icons">exit_to_app</i>Uitloggen</a></li>
                                 <!-- end of user -->
                             </ul>
                             </li>
