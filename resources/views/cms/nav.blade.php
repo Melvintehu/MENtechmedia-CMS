@@ -36,7 +36,8 @@
                     block
                     transition-fast 
                     outline-none
-                    text-color-secondary-darken-sm text-hover-light text-bold-hover text-bold font-sm ">Geen beheerbare items gevonden.</p>
+                    text-color-secondary-darken-sm text-hover-light text-bold-hover text-bold font-sm
+                    pointer ">Geen beheerbare items gevonden.</p>
         @endforelse
     </div>
 </div>
