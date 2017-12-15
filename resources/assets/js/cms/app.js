@@ -33,11 +33,29 @@
     // progress
     Vue.component('progressbar', require('./components/crud/progress/progressbar.vue'));
     
-    // Password forget
+    /*
+    |--------------------------------------------------------------------------
+    | Forgot password components
+    |--------------------------------------------------------------------------
+    |
+    | Components that are used for the forgot password functionality.
+    | 
+    |
+    */
     Vue.component('forgot-password', require('./components/password-forget/forgot-password.vue'));
     
-    // navigation
+    /*
+    |--------------------------------------------------------------------------
+    | Navigation components
+    |--------------------------------------------------------------------------
+    |
+    | Components that compose the navigation. They support the navigation with
+    | Vue fuctionality
+    | 
+    |
+    */
     Vue.component('nav-link', require('./components/nav/nav-link.vue'));
+    Vue.component('nav-search', require('./components/nav/nav-search.vue'));
     Vue.component('pull-menu-cms', require('./components/menu/pull-menu-cms.vue'));
     
     Vue.component('overlay', require('./components/overlay/overlay.vue'));
