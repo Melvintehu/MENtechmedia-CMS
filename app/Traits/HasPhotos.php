@@ -18,7 +18,7 @@ trait HasPhotos{
 
     public function getPhotoNotFound()
     {
-        return 'http://www.bakkerijkosters.nl/afbeeldingen/geen_afbeelding_beschikbaar_gr.gif';
+        return '/images/cms/geen_afbeelding_beschikbaar_gr.gif';
     }
 
     public function getPhoto($type)
