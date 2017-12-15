@@ -76,7 +76,13 @@ export default {$entity->name};
             'contents' => $txt
         ]);
 
-
+        /**
+         * Get all the entities and generate a Objects.js file
+         */
+        $entities = Entity::all();
+        FileGenerator::generateEntitiesFile($entities);
+        FileGenerator::generateApi($entity);
+            
         return Response()->json($entity, 200);
     }
 
