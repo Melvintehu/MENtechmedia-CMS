@@ -16,19 +16,24 @@ trait HasPhotos{
         ])->first();
     }
 
+    public function getPhotoNotFound()
+    {
+        return 'http://www.bakkerijkosters.nl/afbeeldingen/geen_afbeelding_beschikbaar_gr.gif';
+    }
+
     public function getPhoto($type)
     {
         if(file_exists(public_path() . $this->$type)){
             return $this->$type;
         }
-        return 'http://www.bakkerijkosters.nl/afbeeldingen/geen_afbeelding_beschikbaar_gr.gif';
+        return $this->getPhotoNotFound();
     }
 
     public function getLandscapeAttribute()
     {
 
         if($this->photo() == null) {
-            return 'http://www.bakkerijkosters.nl/afbeeldingen/geen_afbeelding_beschikbaar_gr.gif';
+            return $this->getPhotoNotFound();
         }
 
         $className = explode("\\", __CLASS__)[1];
@@ -38,7 +43,7 @@ trait HasPhotos{
     public function getPortraitAttribute()
     {
         if($this->photo() == null) {
-            return 'http://www.bakkerijkosters.nl/afbeeldingen/geen_afbeelding_beschikbaar_gr.gif';
+            return $this->getPhotoNotFound();
         }
 
         $className = explode("\\", __CLASS__)[1];
@@ -48,7 +53,7 @@ trait HasPhotos{
     public function getOriginalAttribute()
     {
         if($this->photo() == null) {
-            return 'http://www.bakkerijkosters.nl/afbeeldingen/geen_afbeelding_beschikbaar_gr.gif';
+            return $this->getPhotoNotFound();
         }
 
         $className = explode("\\", __CLASS__)[1];
@@ -58,7 +63,7 @@ trait HasPhotos{
     public function getThumbnailAttribute()
     {
         if($this->photo() == null) {
-            return 'http://www.bakkerijkosters.nl/afbeeldingen/geen_afbeelding_beschikbaar_gr.gif';
+            return $this->getPhotoNotFound();
         }
 
         $className = explode("\\", __CLASS__)[1];
