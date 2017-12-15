@@ -4,6 +4,11 @@
 	<!-- Loading spinner -->
 	<loading v-if="!visible && emptyData"></loading>
 
+
+
+	<sortable :object="object"></sortable>
+
+
 	<transition name="fade">
 
 		<div v-if="visible && Object.keys(data).length != 0" 
@@ -137,6 +142,10 @@
 
 				Event.listen(this.type + ':deleted', () => {
 					this.loadData();
+				});
+
+				Event.listen('sortable:changed', (sortedData) => {
+					this.data = sortedData;
 				});
 
 			}, 500)

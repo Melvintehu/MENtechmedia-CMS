@@ -46,6 +46,19 @@
     
     /*
     |--------------------------------------------------------------------------
+    | Read components
+    |--------------------------------------------------------------------------
+    |
+    | Components that give extra functionality to the read.vue component
+    | 
+    | 
+    |
+    */
+
+    Vue.component('sortable', require('./components/crud/read/sortable.vue'));
+
+    /*
+    |--------------------------------------------------------------------------
     | Navigation components
     |--------------------------------------------------------------------------
     |
@@ -54,6 +67,8 @@
     | 
     |
     */
+
+
     Vue.component('nav-link', require('./components/nav/nav-link.vue'));
     Vue.component('nav-search', require('./components/nav/nav-search.vue'));
     Vue.component('pull-menu-cms', require('./components/menu/pull-menu-cms.vue'));
@@ -103,6 +118,7 @@
     Vue.component('crud-text', require('./components/crud/inputTypes/text.vue'));
     Vue.component('crud-website', require('./components/crud/inputTypes/website.vue'));
     Vue.component('crud-youtube', require('./components/crud/inputTypes/youtube.vue'));
+    Vue.component('crud-multi-photo', require('./components/crud/inputTypes/multi_photo.vue'));
     
     
     /*

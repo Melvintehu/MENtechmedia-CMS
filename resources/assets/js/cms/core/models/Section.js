@@ -16,6 +16,9 @@ class Section extends Model {
                 validation: new Validator({
                     required: true,
                 }),
+
+                sortBy: 'alphabetical',
+
                 walkThrough: new WalkThrough([
                     "Het onderstaande invoerveld is bedoeld om tekst in te voeren." +
                     "Klik met de muis op het vak. U kunt vervolgens beginnen met typen." + 
@@ -34,9 +37,7 @@ class Section extends Model {
             body: {
                 type: 'textarea',
                 translation: 'Beschrijving',
-                validation: new Validator({
-                    required: true,
-                }),
+                validation: new Validator({ required: true }),
             },
 
             photo: {

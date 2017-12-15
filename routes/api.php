@@ -32,3 +32,4 @@ Route::resource('user', 'api\UserController');
  /**
   * Custom routes here
   */
+ Route::resource('article', 'api\ArticleController');

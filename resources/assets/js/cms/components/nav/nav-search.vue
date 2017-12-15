@@ -8,7 +8,7 @@
                     transition-normal" 
         placeholder="Zoek in CMS...">
 
-        <div class="bg-light search-results full-width border-top border-secondary border-curved-down">
+        <div v-if="entities !== null" class="bg-light search-results full-width border-top border-secondary border-curved-down no-overflow">
             <a data-type="notCloseable" class="block 
                     space-inside-sides-sm space-inside-xs
                     border-bottom border-secondary
@@ -44,9 +44,6 @@
     import Search from '../../app/search/search';
 
    export default {
-       props: {
-           
-       },
 
        data() {
            return {
