@@ -14,7 +14,8 @@
 		<div v-if="visible && Object.keys(data).length != 0" 
 			class="space-inside-sides-md space-outside-up-lg ">
 			<div class="">
-			
+
+				<paginator :referenceData="referenceData"></paginator>
 				
 				<div class="col-lg-12 reset-padding ">
 					<input @keyup="filterData" placeholder="Typ in dit zoekvak om te zoeken in de onderstaande gegevens." class="
@@ -146,6 +147,10 @@
 
 				Event.listen('sortable:changed', (sortedData) => {
 					this.data = sortedData;
+				});
+
+				Event.listen('paginator:changed', (paginatedData) => {
+					this.data = paginatedData;
 				});
 
 			}, 500)

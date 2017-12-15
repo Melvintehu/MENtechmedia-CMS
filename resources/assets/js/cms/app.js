@@ -56,6 +56,7 @@
     */
 
     Vue.component('sortable', require('./components/crud/read/sortable.vue'));
+    Vue.component('paginator', require('./components/crud/read/paginator.vue'));
 
     /*
     |--------------------------------------------------------------------------
