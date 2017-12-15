@@ -6,7 +6,10 @@
                     space-inside-xs search-bar 
                     outline-none
                     transition-normal" 
-        placeholder="Zoek in CMS...">
+        :placeholder="placeholderText">
+        <transition name="fade">
+            <span v-if="searchIconVisible" style="position: absolute; left: 8px; top: 7px;"><i class="material-icons" style='font-size: 20px;'>search</i></span>
+        </transition>
 
         <div class="bg-light search-results full-width border-top border-secondary border-curved-down">
             <a data-type="notCloseable" class="block 
@@ -39,6 +42,14 @@
         width: 300px;
     }
 
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .5s
+    }
+
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+      opacity: 0
+    }
+
 </style>
 <script>
     import Search from '../../app/search/search';
@@ -55,6 +66,8 @@
                 referenceEntities: null,
                 expanded: false,
                 searchValue: '',
+                placeholderText: '',
+                searchIconVisible: true,
            }
        },
 
@@ -82,9 +95,16 @@
           expand() {
               this.searchEntities();
               this.expanded = true;
+              this.searchIconVisible = false;
+              setTimeout(() => {
+                this.placeholderText = "Zoek in CMS...";
+              }, 300)
           },
 
           retract(event) {
+              this.placeholderText = "";
+              this.searchIconVisible = true;
+
               if(event.relatedTarget !== null && event.relatedTarget.attributes[0] !== undefined &&  event.relatedTarget.attributes[0].nodeValue === 'notCloseable'){
                 event.preventDefault();
               }else{
