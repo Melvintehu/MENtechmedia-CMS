@@ -37,7 +37,14 @@
   background-color: #2ecc71 !important;
 }
 
+.bg-warning{
+  background-color: #e67e22 !important;
+}
 
+.bg-error{
+  background-color: #e74c3c !important;
+}
+ 
 // components
 @import "toastr";
 

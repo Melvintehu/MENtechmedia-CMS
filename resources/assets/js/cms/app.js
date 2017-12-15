@@ -72,6 +72,7 @@
 
     Vue.component('nav-link', require('./components/nav/nav-link.vue'));
     Vue.component('nav-search', require('./components/nav/nav-search.vue'));
+    Vue.component('nav-user-active', require('./components/nav/nav-user-active.vue'));
     Vue.component('pull-menu-cms', require('./components/menu/pull-menu-cms.vue'));
     
     Vue.component('overlay', require('./components/overlay/overlay.vue'));
