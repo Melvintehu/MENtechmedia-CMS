@@ -10,9 +10,7 @@
         |
         */
         
-        import Melvin from './models/melvin';
-        import Kak from './models/kak';
-        import Werkend from './models/werkend';
+
         
     
         /*
@@ -27,9 +25,7 @@
         */
     
         window.models = {
-            melvin: Melvin,
-            kak: Kak,
-            werkend: Werkend,
+           
         };
             
         
