@@ -9,11 +9,12 @@
     |
     */
 
+    // require('material-design-icons');
     require('./core/helpers/Classes');
     require('./core/imports');
     require('./Objects');
     require('./core/models/objects');
-    
+
 
     /*
     |--------------------------------------------------------------------------

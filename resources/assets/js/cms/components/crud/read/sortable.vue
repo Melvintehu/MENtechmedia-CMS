@@ -1,7 +1,11 @@
 <template>
-    <div>
-        <select v-model="sorter.selectedSortType" @change="sorter.sort()">
-            <option v-for="option in sorter.options"></option>
+    <div >
+        <select 
+            @change="sorter.sort()"
+            v-model="sorter.selectedSortType" 
+            class="space-inside-xs space-inside-sides-sm outline-none border-tertiary" v-if="sorter.initialized">
+            <option disabled value="">Kies een optie.</option>
+            <option class="space-inside-xs space-inside-sides-sm block" :value="key" v-for="(option, key) in sorter.options">{{key}}</option>
         </select>
     </div>
 </template>
@@ -12,11 +16,13 @@
     export default {
         props: {
             object: null,
+            data: null,
         },
 
         data() {
             return {
-                sorter: new Sortable(),
+                sorter: new Sortable(this.data),
+                loaded: false,
             }
         }, 
 

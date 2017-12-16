@@ -33,7 +33,7 @@
              * wait for the entity to be persisted to the database. After that the model_id becomes available. 
              */
             Event.listen(this.type.toLowerCase() + ":added", (model_id) => {
-                console.log(model_id);
+                
                 this.uploader.processQueue(model_id, this.type.toLowerCase());
             });
         },

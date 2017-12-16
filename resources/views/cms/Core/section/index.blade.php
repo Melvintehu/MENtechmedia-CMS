@@ -3,7 +3,7 @@
 @section('content')
     @component('cms.base')
         @slot('icon')
-           
+           dashboard
         @endslot
         @slot('title')
             Secties

@@ -1,49 +1,85 @@
 class Sortable {
 
-    types() {
+    getTypes() {
         return {
-            alphabetical: [
-                'A-Z',
-                'Z-A',
-            ],
-            numerical: [
-                'Laag - Hoog',
-                'Hoog - Laag',
-            ],
-            date: [
-                'Oud - Nieuw',
-                'Nieuw - Oud',
-            ],
-            time: [
-                'Begin - Eind',
-                'Eind - Begin',
-            ],
+            alphabetical: {                
+                'A-Z': 'alphabetical',
+                'Z-A': 'alphabetical',
+            },
+            numerical: {
+                'Laag - Hoog': 'numerical',
+                'Hoog - Laag': 'numerical',
+            },
         };
     }
 
-    constructor() {
-        this.selectedSortType = null;
-        this.options = [];
-
-        this.types = getTypes();
+    constructor(data) {
+        this.data = data;
+        this.initialized = false;
+        this.selectedSortType = '';
+        this.options = {};
+        
+        this.types = this.getTypes();
     }
 
+    /**
+     * Finds all the sortable options that have been set in the object's fields
+     * @param {*} object 
+     */
     findSortableOptions(object) {
-        for(let index in object) {
-            let attribute = object[index];
+        for(let index in object.fields) {
 
+            let attribute = object.fields[index];
+            
             if(attribute.sortBy !== undefined && this.types[attribute.sortBy] !== undefined) {
-                this.options.push(this.types[attribute.sortBy]);
+                this.activateOption(attribute.sortBy);
             }
 
         }
+        this.flatten();
+        this.initialized = true;
     }
 
+    flatten() {
+        let temp = {};
+
+        for(let index in this.options) {
+            let option = this.options[index];
+
+            for(let key in option) {
+                temp[key] = option[key];
+            }
+        }
+        this.options = temp;
+        console.log(temp);
+    }
+
+
+    /**
+     * adds a sort method to the options array
+     * @param {*} sortBy 
+     */
+    activateOption(sortBy) {
+        
+        if(this.options[sortBy] === undefined) {
+            this.options[sortBy] = this.types[sortBy];
+        }
+    }
+
+    /**
+     * Sorts the data based upon the selected sort option
+     */
     sort() {
+        console.log(this.selectedSortType);
         // implement sort function
-        this.broadCastChanges(data);
+        // this.broadCastChanges(this.data);
     }
 
+
+    /**
+     * Broadcast any changes that have been made to the data.
+     * @param {*} data 
+     */
     broadCastChanges(data) {
         Event.fire('sortable:changed', data);
     }

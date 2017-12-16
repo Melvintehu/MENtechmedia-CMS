@@ -79,7 +79,7 @@ class Model {
     }
 
     delete() {
-        console.log('werkt');
+        
         return new Promise((resolve, reject) => {
             API.delete(Helper.lcfirst(this.constructor.name), this.id).then(resolve, reject);
         });

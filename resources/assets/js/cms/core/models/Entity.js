@@ -7,10 +7,18 @@ class Entity extends Model {
         super(data);
 
         this.fields = {
+            id: {
+                type: 'number',
+                translation: 'Identifier',
+                description: 'Unieke ID',
+                sortBy: 'numerical',
+            },
+
             name: {
                 type: 'text',
                 translation: 'Naam van de entiteit',
                 description: 'Naam',
+                sortBy: 'alphabetical',
                 validation: new Validator({
                     required: true,
                 }),
@@ -26,10 +34,12 @@ class Entity extends Model {
                     required: true
                 }),
             },
+            
             title: {
                 type: 'text',
                 translation: 'Title cms',
                 description: 'Titel',
+                sortBy: 'alphabetical',
                 validation: new Validator({
                     required: true
                 }),
@@ -39,6 +49,7 @@ class Entity extends Model {
                 type: 'textarea',
                 translation: 'Beschrijving voor de entiteit',
                 description: 'Beschrijving',
+                sortBy: 'alphabetical',
                 validation: new Validator({
                     required: true,
                 }),

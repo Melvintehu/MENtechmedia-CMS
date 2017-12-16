@@ -6,7 +6,6 @@
 
 
 
-	<sortable :object="object"></sortable>
 
 
 	<transition name="fade">
@@ -17,6 +16,12 @@
 			
 				
 				<div class="col-lg-12 reset-padding ">
+
+					<!-- Shows sort options and encapsulates the sort functionality -->
+					<div class="space-inside-down-sm">
+						<sortable :object="object" :data="data"></sortable>
+					</div>
+					
 					<input @keyup="filterData" placeholder="Typ in dit zoekvak om te zoeken in de onderstaande gegevens." class="
 							border border-secondary border-curved-up outline-none
 							space-inside-sides-md space-inside-sm 
@@ -245,7 +250,6 @@
 
 			remove(object) {
 				Notifier.askConfirmation('Weet u zeker dat u dit wilt verwijderen ?', () => {
-					console.log('werkt dit niet meer?');
 					object.delete().then(() => {
 						setTimeout(() => {
 							Event.fire(this.type + ':deleted');

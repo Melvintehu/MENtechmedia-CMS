@@ -73,7 +73,7 @@
 
 
             $(document).ready(() => {
-                console.log(this.photo, 'werkt niet');
+                
                 this.setCropper(this.photo);
             });
 

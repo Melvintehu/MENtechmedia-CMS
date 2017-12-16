@@ -37,7 +37,6 @@
 			setInnerId(id) {
 
 				if(id !== '') {
-				console.log(id);
 					return '/entity'; 
 				}
 				return '/entity';

@@ -24,7 +24,7 @@ class PhotoInputController {
              * so we can call some functions on it.
              */
             Event.listen('progressBar:get:' + 'photo', (progressBar) => {
-                console.log(progressBar, 'photo');
+                
                 this.progressBar = progressBar;
             });
 
