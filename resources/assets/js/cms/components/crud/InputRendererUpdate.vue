@@ -132,7 +132,7 @@
         </div>
 
         <div v-if="innerValue !== null && innerValue.original !== undefined && innerValue.original !== '' && innerValue.original !== null " 
-            class="col-lg-12 space-outside-up-lg reset-padding bg-main">
+            class="col-lg-4 space-outside-up-lg reset-padding bg-main">
                 <p style="width: 100%; height: 100%;text-transform: capitalize" class="font-sm  text-bold inline-block  text-color-light  space-inside-sm space-inside-sides-sm ">De bijhorende foto</p>
                 <img style="width: 100%;" :src="innerValue.original">
         </div>

@@ -18,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('cms.nav', function($view) {
             $view->with('navGroups', \App\NavGroup::all());
             $view->with('entities', \App\Entity::all());
+            $view->with('settings', \App\Settings::all()->first());
         });
     }
 

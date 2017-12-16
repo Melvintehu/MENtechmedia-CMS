@@ -8,6 +8,7 @@
     </p>
 
     <div id="core-admin" class="collapse in">
+        <nav-link id="settings" icon="settings"> Settings </nav-link>
         <nav-link id="entity" icon="description"> Entiteiten </nav-link>
         <nav-link id="section" icon="description"> Secties </nav-link>
         <nav-link id="navGroup" icon="apps"> Navigatiegroep </nav-link>  
@@ -29,9 +30,16 @@
     </p>
     
     <div id="{{ $navGroup->name }}" class="collapse in">
-        @foreach($navGroup->entities as $entity)
+        @forelse($navGroup->entities as $entity)
             <nav-link id="{{ $entity->name }}" icon="{{ $entity->icon }}"> {{ $entity->title }} </nav-link>
-        @endforeach
+        @empty
+            <p class="space-inside-sides-md space-inside-sm 
+                    block
+                    transition-fast 
+                    outline-none
+                    text-color-secondary-darken-sm text-hover-light text-bold-hover text-bold font-sm
+                    pointer ">Geen beheerbare items gevonden.</p>
+        @endforelse
     </div>
 </div>
 

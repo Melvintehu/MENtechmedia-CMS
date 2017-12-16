@@ -48,29 +48,34 @@
                     </form>
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right space-inside-right-md">
-                            <li class="dropdown">
-                            <a href="#" class="dropdown-toggle text-color-light" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                {{ Auth::user()->name }} 
-                                <div class="bg-success circle inline-block shadow-xs space-outside-sides-xs border border-light" style="width: 15px; height: 15px; position: relative; top: 5px;"></div>
-                                <span class="caret inline-block"></span>
-                            </a>
-                            <ul class="dropdown-menu space-inside-sides-md space-inside-md">
-                                <!-- user -->
-                                <li class="space-inside-down-sm">
-                                    <div class="circle image shadow-sm">
-                                        <img class="height-auto" src="{{ Auth::user()->portrait }}">
-                                    </div>
-                                </li>
-                                <li class="space-inside-down-sm">               
-                                    <div class=" block bg-secondary text-center space-inside-sm ">
-                                        <p class=" text-color-tertiar text-bold"> Superadmin </p>
-                                    </div> 
-                                </li>
-                                <li><a href="/cms/profile/edit">Profiel bewerken</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="/cms/logout">Uitloggen</a></li>
-                                <!-- end of user -->
-                            </ul>
+                            <li>
+                                <a href="#" class="dropdown-toggle text-color-light" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    {{ Auth::user()->name }} 
+                                    <nav-user-active :state="true"></nav-user-active>
+                                    <span class="caret inline-block"></span>
+                                </a>
+                                <ul class="dropdown-menu space-inside-sides-md space-inside-md">
+                                    <!-- user -->
+                                    <li class="space-inside-down-sm">
+                                        <div class="circle image shadow-sm">
+                                            <img class="height-auto" src="{{ Auth::user()->portrait }}">
+                                        </div>
+                                    </li>
+                                    <li class="space-inside-down-sm">               
+                                        <div class=" block bg-secondary text-center space-inside-sm ">
+                                            <p class=" text-color-tertiar text-bold"> Superadmin </p>
+                                        </div> 
+                                    </li>
+                                    <li><a href="/cms/profile/edit">Profiel bewerken</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>
+                                        <a href="#">Beschikbaarheid</a>
+                                        <nav-user-active></nav-user-active>
+                                    </li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="/cms/logout"><i style="position: relative; top: 8px; right: 6px;" class="material-icons">exit_to_app</i>Uitloggen</a></li>
+                                    <!-- end of user -->
+                                </ul>
                             </li>
                         </ul>
                     </div>

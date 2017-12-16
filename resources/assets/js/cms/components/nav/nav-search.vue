@@ -8,7 +8,7 @@
                     transition-normal" 
         :placeholder="placeholderText">
         <transition name="fade">
-            <span v-if="searchIconVisible" style="position: absolute; left: 8px; top: 7px;"><i class="material-icons" style='font-size: 20px;'>search</i></span>
+            <span v-if="searchIconVisible" style="position: absolute; right: 8px; top: 7px;"><i class="material-icons" style='font-size: 20px;'>search</i></span>
         </transition>
 
         <div v-if="entities !== null" class="bg-light search-results full-width border-top border-secondary border-curved-down no-overflow">
@@ -28,7 +28,7 @@
     }
 
     .search-bar {
-        width: 200px;
+        width: 150px;
         position: relative;
         top: 4px;
     }

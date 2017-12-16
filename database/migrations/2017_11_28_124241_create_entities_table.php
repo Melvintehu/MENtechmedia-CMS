@@ -20,6 +20,7 @@ class CreateEntitiesTable extends Migration
             $table->string('description')->nullable();
             $table->string('icon')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
