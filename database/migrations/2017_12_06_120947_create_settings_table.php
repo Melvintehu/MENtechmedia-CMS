@@ -16,9 +16,15 @@ class CreateSettingsTable extends Migration
         Schema::create('settings', function (Blueprint $table) {
             $table->increments('id');
             $table->boolean('setup');
-            
+            $table->string('project_name')->nullable();
+            $table->integer('user_id')->unsigned()->nullable();
+            $table->integer('max_amount_users');
+            $table->date('subscription_valid_until');
+            $table->decimal('yearly_fee', 15, 2);
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

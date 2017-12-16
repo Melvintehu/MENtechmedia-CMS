@@ -8,6 +8,7 @@
     </p>
 
     <div id="core-admin" class="collapse in">
+        <nav-link id="settings" icon="settings"> Settings </nav-link>
         <nav-link id="entity" icon="description"> Entiteiten </nav-link>
         <nav-link id="section" icon="description"> Secties </nav-link>
         <nav-link id="navGroup" icon="apps"> Navigatiegroep </nav-link>  

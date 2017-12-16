@@ -22,6 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
  * Core routes here
  */
 
+Route::resource('settings', 'api\SettingsController');
 Route::resource('entity', 'api\EntityController');
 Route::resource('navGroup', 'api\NavGroupController');
 Route::resource('section', 'api\SectionController');
@@ -33,3 +34,4 @@ Route::resource('user', 'api\UserController');
   * Custom routes here
   */
  Route::resource('article', 'api\ArticleController');
+ Route::resource('settings', 'api\SettingsController');
