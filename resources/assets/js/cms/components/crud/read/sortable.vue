@@ -3,7 +3,7 @@
         <select 
             @change="sorter.sort()"
             v-model="sorter.selectedSortType" 
-            class="space-inside-xs space-inside-sides-sm outline-none border-tertiary" v-if="sorter.initialized">
+            class="space-inside-xs space-inside-sides-sm outline-none border-curved border-secondary" v-if="sorter.initialized">
             <option disabled value="">Kies een optie.</option>
             <option class="space-inside-xs space-inside-sides-sm block" :value="key" v-for="(option, key) in sorter.options">{{key}}</option>
         </select>
