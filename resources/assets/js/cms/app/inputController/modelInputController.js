@@ -1,20 +1,18 @@
 class ModelInputController {
     
     
-    constructor(attributeName, attribute, identifier, value) {
+        constructor(attributeName, attribute, value) {
             this.progressBar = null;
-            
-            
-            this.select = "NOTVALID";
-            this.optionValues = [];
-
             this.attributeName = attributeName;
             this.attribute = attribute;
-    
-            // In edit context
             this.value = value;
-
+            this.input = "";
+                
+                
+            // diff
+            this.optionValues = [];
             this.getModelOptionValues();
+            
             this.registerListeners();
             this.checkRequired();
         }
@@ -25,12 +23,16 @@ class ModelInputController {
          */
         trackInput() {
 
-            if(this.select === 'NOTVALID') {
+            if(this.input === 'NOTVALID') {
                 this.progressBar.decrement(this.attributeName);
                 return;
             } 
 
-            Event.fire('input:updated:' + this.attributeName, this.select);
+            // Tell the CMS the input has changed.
+            Event.fire('input:updated', { 
+                input: this.input, 
+                attributeName: this.attributeName 
+            });
             
             this.progressBar.increment(this.attributeName);
         }
@@ -46,9 +48,9 @@ class ModelInputController {
              * The cms broadcasts when a new progressbar is initialised. We can add it to our inputController,
              * so we can call some functions on it.
              */
-             Event.listen('progressBar:get:' + this.attributeName, (progressBar) => {
-                 this.progressBar = progressBar;
-             });
+            Event.listen('progressBar:get', (progressBar) => {
+                this.progressBar = progressBar;
+            });
     
     
             /**
@@ -56,13 +58,16 @@ class ModelInputController {
              * by listening to this event, which passed us the correct value for this input.
              */
             Event.listen('input:insertValues' , () => {
-                this.select = this.value[this.attributeName];
+                this.input = this.value[this.attributeName];
                 
-                // // Tell the CMS the input has changed.
-                Event.fire('input:updated:' + this.attributeName, this.input);
-                
+                // Tell the CMS the input has changed.
+                Event.fire('input:updated', { 
+                    input: this.input, 
+                    attributeName: this.attributeName 
+                });
+                                
                 // do validation
-                if(this.select !== 'NOTVALID') {
+                if(this.input !== 'NOTVALID') {
                     this.progressBar.increment(this.attributeName);
                     return;
                 }
@@ -73,7 +78,7 @@ class ModelInputController {
              * 	Clear inputs when a new model is persisted.
              */
             Event.listen('inputs:clear', () => {
-                this.select = "NOTVALID";
+                this.input = "NOTVALID";
                 
                 this.progressBar.decrement(this.attributeName);
                 
@@ -85,7 +90,7 @@ class ModelInputController {
              *	to be persisted to the database.
                 */
             Event.listen('validator:validate', () => {
-                Validator.valid(this.attribute.validation, this.select);
+                Validator.valid(this.attribute.validation, this.input);
             });
         }
     

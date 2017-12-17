@@ -16,6 +16,15 @@ class ProgressBar {
         this.updateProgressbar();
     }
 
+    /**
+     * Broadcast to all inputs that there is a progressBar, send the progressBar to all inputs.
+     */
+    broadcastProgressBar() {
+        setTimeout(() => {
+            Event.fire('progressBar:get', this);
+        });
+    }
+
     updateProgressbar() {
 
         // we recount all the fields that are filled in 

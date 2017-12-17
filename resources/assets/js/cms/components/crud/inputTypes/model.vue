@@ -7,14 +7,14 @@
 		
 	<select  
 		@change="inputController.trackInput()" 
-		v-model="inputController.select"
+		v-model="inputController.input"
 		style="height: 50px" 
 		:id="attributeName + identifier"  
 		class="border-curved space-inside-xs outline-none text-color-accent space-inside-sides-sm full-width border-secondary bg-secondary border" 
 
 		v-if="attribute.type == 'model'">
 
-		<option disabled  style="bg-main" class="bg-main text-color-light" value="NOTVALID">Maak een keuze</option>
+		<option disabled  style="bg-main" class="bg-main text-color-light" value="">Maak een keuze</option>
 
 		<option 
 			v-if="value !== undefined && optionValue.id === value[attributeName]" 
@@ -57,7 +57,7 @@
 		},
 
 		mounted() {
-			this.inputController = new ModelInputController(this.attributeName, this.attribute, this.identifier, this.value);
+			this.inputController = new ModelInputController(this.attributeName, this.attribute, this.value);
 		},
 
 

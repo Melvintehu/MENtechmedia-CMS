@@ -1,28 +1,37 @@
 class BooleanInputController {
     
     
-        constructor(attributeName, attribute, identifier, value) {
+        constructor(attributeName, attribute, value) {
             this.progressBar = null;
-            
-            
-            this.input = false;
-            
             this.attributeName = attributeName;
             this.attribute = attribute;
-    
-            // In edit context
             this.value = value;
+            
+            // diff
+            this.input = "";
+            
     
             this.registerListeners();
 
-                  
-            Event.fire('input:updated:' + this.attributeName,  this.input ? 1 : 0);
+            // diff
+            
+            
+            // Tell the CMS the input has changed.
+            Event.fire('input:updated', { 
+                input: this.input, 
+                attributeName: this.attributeName 
+            });
+
         }
     
     
         trackInput() {
             let value = this.input ? 1 : 0;
-            Event.fire('input:updated:' + this.attributeName,  value);
+            // Tell the CMS the input has changed.
+            Event.fire('input:updated', { 
+                input: this.input, 
+                attributeName: this.attributeName 
+            });
         }
     
     
@@ -36,10 +45,9 @@ class BooleanInputController {
              * The cms broadcasts when a new progressbar is initialised. We can add it to our inputController,
              * so we can call some functions on it.
              */
-             Event.listen('progressBar:get:' + this.attributeName, (progressBar) => {
-                 this.progressBar = progressBar;
-                 this.progressBar.increment(this.attributeName);      
-             });
+            Event.listen('progressBar:get', (progressBar) => {
+                this.progressBar = progressBar;
+            });
     
     
             /**
@@ -56,7 +64,10 @@ class BooleanInputController {
                 }
 
                 // Tell the CMS the input has changed.
-                Event.fire('input:updated:' + this.attributeName, this.input);
+                Event.fire('input:updated', { 
+                    input: this.input, 
+                    attributeName: this.attributeName 
+                });
             });
     
             /**

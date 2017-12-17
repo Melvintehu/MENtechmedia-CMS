@@ -1,32 +1,52 @@
 class TimeInputController {
     
     
-        constructor(attributeName, attribute, identifier, value) {
+        constructor(attributeName, attribute, value) {
             this.progressBar = null;
-            
-            
-            this.hour = "";
-            this.minutes = "";
             this.input = "";
-
             this.attributeName = attributeName;
             this.attribute = attribute;
-            
             this.value = value;
             
+            // diff
+            this.hour = "";
+            this.minutes = "";
+            
+            // diff
             this.createFinalTime();
 
             this.registerListeners();
             this.checkRequired();
         }
-    
-    
+        
+
+        /**
+         * The boot method is used for doing custom
+         */
+        boot() {
+            this.hour = "";
+            this.minutes = "";
+            this.createFinalTime();
+        }
+
+        /**
+         * Everytime input changes this method is called.
+         */
+        onChange() {
+            this.createFinalTime();            
+        }
+
+
         trackInput() {
             this.createFinalTime();
            
             // Tell the CMS the input has changed.
-            Event.fire('input:updated:' + this.attributeName, this.input);
-                
+            Event.fire('input:updated', { 
+                input: this.input, 
+                attributeName: this.attributeName 
+            });
+            
+            
             // Do validation on the input's value.
             if(!Validator.valid(this.attribute.validation, this.input)) {
                 this.progressBar.decrement(this.attributeName);
@@ -45,6 +65,15 @@ class TimeInputController {
             this.createFinalTime();
 
             /**
+             * The cms broadcasts when a new progressbar is initialised. We can add it to our inputController,
+             * so we can call some functions on it.
+             */
+            Event.listen('progressBar:get', (progressBar) => {
+                this.progressBar = progressBar;
+            });
+
+
+            /**
              * When this input is used in a edit context, we need to insert the corresponding value
              * by listening to this event, which passed us the correct value for this input.
              */
@@ -56,7 +85,14 @@ class TimeInputController {
 
                 // combine the hour and minutes input
                 this.createFinalTime();
-               
+                
+                // Tell the CMS the input has changed.
+                Event.fire('input:updated', { 
+                    input: this.input, 
+                    attributeName: this.attributeName 
+                });
+
+
                 // do validation
                 if(Validator.valid(this.attribute.validation, this.input)) {
                     this.progressBar.increment(this.attributeName);

@@ -50,7 +50,7 @@
 		},
 
 		mounted() {
-			this.timeInputController = new TimeInputController(this.attributeName, this.attribute, this.identifier, this.value);
+			this.timeInputController = new TimeInputController(this.attributeName, this.attribute, this.value);
 		},
 
 	}

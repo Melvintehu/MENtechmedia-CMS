@@ -27,7 +27,7 @@
 
 
 <script type="text/javascript">
-	import InputController from '../../../app/inputController/inputController';
+	import TextInputController from '../../../app/inputController/textInputController';
 
 	export default {
 		props: {
@@ -44,7 +44,7 @@
 		},
 
 		mounted() {
-			this.inputController = new InputController(this.attributeName, this.attribute, this.identifier, this.value);
+			this.inputController = new TextInputController(this.attributeName, this.attribute, this.value);
 		},
 
 	}

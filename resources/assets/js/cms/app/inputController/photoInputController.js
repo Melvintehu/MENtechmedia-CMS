@@ -1,14 +1,14 @@
 class PhotoInputController {
     
     
-        constructor(attribute, identifier) {
+        constructor(attribute) {
             this.progressBar = null;
-            
-            
-            this.photo = null;
-
             this.attribute = attribute;
-
+            
+            // diff
+            this.photo = null;
+            
+            
             this.registerListeners();
             this.checkRequired();
         }   
@@ -17,14 +17,12 @@ class PhotoInputController {
          * register listeners here. 	
          */
         registerListeners() {
-            
 
             /**
              * The cms broadcasts when a new progressbar is initialised. We can add it to our inputController,
              * so we can call some functions on it.
              */
-            Event.listen('progressBar:get:' + 'photo', (progressBar) => {
-                
+            Event.listen('progressBar:get', (progressBar) => {
                 this.progressBar = progressBar;
             });
 
@@ -57,14 +55,6 @@ class PhotoInputController {
                 this.progressBar.decrement('photo');
                 this.checkRequired();
             });
-
-            // /**
-            //  * 	When the save button is pressed, we check if this input meets the requirements 
-            //  *	to be persisted to the database.
-            // */
-            // Event.listen('validator:validate', () => {
-            //     Validator.valid(this.attribute.validation, this.photo);
-            // });            
         }
     
         /**

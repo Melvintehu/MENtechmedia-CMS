@@ -61,7 +61,7 @@
 		},
 
 		mounted() {
-			this.dateInputController = new DateInputController(this.attributeName, this.attribute, this.identifier, this.value);
+			this.dateInputController = new DateInputController(this.attributeName, this.attribute, this.value);
 		},
 
 	}

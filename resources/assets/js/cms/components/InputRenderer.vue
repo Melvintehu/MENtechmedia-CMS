@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div >
 
 		<!-- Loading spinner -->
 		<loading v-if="!loaded"></loading>
@@ -70,24 +70,11 @@
 
 			setTimeout(() => {
 				this.loaded = true;
-				this.broadcastProgressBar();
+				this.progressBar.broadcastProgressBar();
 			}, 700)
 
 		},
 		methods: {
-
-
-			/**
-			 * Broadcast to all inputs that there is a progressBar, send the progressBar to all inputs.
-			 */
-			broadcastProgressBar() {
-				setTimeout(() => {
-					_.forEach(this.object.fields, (attribute, attributeName) => {
-						Event.fire('progressBar:get:' + attributeName, this.progressBar);
-					});
-				});
-			},
-
 
 			/**
 			 * Save the data from the input to the database.

@@ -90,7 +90,7 @@ input[type=checkbox] {
 		},
 
 		mounted() {
-			this.inputController = new BooleanInputController(this.attributeName, this.attribute, this.identifier, this.value);
+			this.inputController = new BooleanInputController(this.attributeName, this.attribute, this.value);
 		},
 
 	

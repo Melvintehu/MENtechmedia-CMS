@@ -1,23 +1,23 @@
 class DateInputController {
     
     
-        constructor(attributeName, attribute, identifier, value) {
+        constructor(attributeName, attribute, value) {
             this.progressBar = null;
-            
-            
-            
-            this.year = "";
-            this.month = "";
-            this.day = "";
-
             this.input = "";
-
             this.attributeName = attributeName;
             this.attribute = attribute;
             this.value = value;
             
+            
+            // diff
+            this.year = "";
+            this.month = "";
+            this.day = "";
+
+            // diff
             this.createFinalDate();
 
+            
             this.registerListeners();
             this.checkRequired();
         }
@@ -27,7 +27,10 @@ class DateInputController {
             this.createFinalDate();
            
             // Tell the CMS the input has changed.
-            Event.fire('input:updated:' + this.attributeName, this.input);
+            Event.fire('input:updated', { 
+                input: this.input, 
+                attributeName: this.attributeName 
+            });
                 
             // Do validation on the input's value.
             if(!Validator.valid(this.attribute.validation, this.input)) {
@@ -50,7 +53,7 @@ class DateInputController {
              * The cms broadcasts when a new progressbar is initialised. We can add it to our inputController,
              * so we can call some functions on it.
              */
-            Event.listen('progressBar:get:' + this.attributeName, (progressBar) => {
+            Event.listen('progressBar:get', (progressBar) => {
                 this.progressBar = progressBar;
             });
 
@@ -66,7 +69,13 @@ class DateInputController {
 
                 // combine the hour and minutes input
                 this.createFinalDate();
-               
+                
+                // Tell the CMS the input has changed.
+                Event.fire('input:updated', { 
+                    input: this.input, 
+                    attributeName: this.attributeName 
+                });
+
                 // do validation
                 if(Validator.valid(this.attribute.validation, this.input)) {
                     this.progressBar.increment(this.attributeName); 

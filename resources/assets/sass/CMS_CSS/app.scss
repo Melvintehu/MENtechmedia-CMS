@@ -111,3 +111,26 @@
    .hideNav {
      display: none;
    }
+
+
+
+
+
+.heroicon- {
+	&outline {
+		fill: $secondary-color;
+	}
+
+	&component- {
+		&fill {
+			fill: $tertiary-color;
+		}
+		&accent {
+			fill: $tertiary-color;
+		}
+	}
+	
+	&shadows {
+		display: none;
+	}
+}

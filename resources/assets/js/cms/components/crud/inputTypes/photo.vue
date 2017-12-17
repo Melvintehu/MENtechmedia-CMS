@@ -1,6 +1,7 @@
 <template>
 
 	<div v-if="inputController !== null">
+	
 		<!-- Attribute title and walkThrough. -->
 		<attribute-title :attribute="attribute"></attribute-title>
 
@@ -49,7 +50,7 @@
 			}
 		},
 		mounted() {
-			this.inputController = new PhotoInputController(this.attribute, this.identifier);
+			this.inputController = new PhotoInputController(this.attribute);
 		},
 		
 	}

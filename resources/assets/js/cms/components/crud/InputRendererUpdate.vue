@@ -137,6 +137,11 @@
                 <img style="width: 100%;" :src="innerValue.original">
         </div>
 
+        <!-- Display the cropper here -->
+
+
+
+    
         <!-- END OF CONTENT -->
         <div class="col-lg-12 space-inside-sides-xs space-inside-up-sm">
             <button  @click="update()" class=" inline-block border-none outline-none bg-main shadow-xs text-color-light space-inside-sm space-inside-sides-md">Aanpassen</button>
@@ -196,7 +201,7 @@
             // init progress bar
             this.progressBar = new ProgressBar(this.totalInputs);
                 
-            this.broadcastProgressBar();
+            this.progressBar.broadcastProgressBar();
             this.registerListeners();
 
 
@@ -213,24 +218,20 @@
         },
 
         methods: {
-
-            /**
-			 * Broadcast to all inputs that there is a progressBar, send the progressBar to all inputs.
-			 */
-			broadcastProgressBar() {
-				setTimeout(() => {
-					_.forEach(this.object.fields, (attribute, attributeName) => {
-						Event.fire('progressBar:get:' + attributeName, this.progressBar);
-					});
-				});
-			},
-
-
             registerListeners() {
                 let attributeExceptions = [
 					'photo',
                     'id',
 				];
+
+
+                Event.listen('input:updated', ({input, attributeName}) => {
+                    if(!_.includes(attributeExceptions, attributeName)){
+                        this.object[attributeName] = input;
+                    } else {
+                        Notifier.warning("Dit kan niet aangepast worden.");
+                    }
+                });
 
                 _.each(this.object.fields, (attribute, attributeName) => {
 					if(_.indexOf(attributeExceptions, attribute.type) === -1) {
