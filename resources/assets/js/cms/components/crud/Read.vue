@@ -186,6 +186,8 @@
 
 				if(this.data.length === 0) {
 					this.data = this.referenceData;
+				} else {
+					Event.fire('search:changed', this.data);
 				}
 				
 			},
