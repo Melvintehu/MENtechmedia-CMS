@@ -41,6 +41,17 @@
 					'id',
 				];
 
+
+				Event.listen('input:updated', ({input, attributeName}) => {
+                    if(!_.includes(attributeExceptions, attributeName)){
+                        this.object[attributeName] = input;
+                    } else {
+                        Notifier.warning("Dit kan niet aangepast worden.");
+                    }
+                });
+
+
+
 				_.each(this.object.fields, (attribute, attributeName) => {
 					if(_.indexOf(attributeExceptions, attribute.type) === -1) {
 						Event.listen('input:updated:' + attributeName, (value) => {

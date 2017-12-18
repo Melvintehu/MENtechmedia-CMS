@@ -12,12 +12,12 @@ class Settings extends Model {
                 type: 'boolean',
                 translation: 'Installatie afgerond?',
                 validation: new Validator({
-                    required: true
+                    required: false,
                 }),
             },
 
             project_name: {
-                type: 'text',
+                type: 'time',
                 translation: 'Projectnaam',
                 description: 'Projectnaam',
                 validation: new Validator({

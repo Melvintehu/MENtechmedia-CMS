@@ -1,97 +1,32 @@
-class BooleanInputController {
-    
-    
-        constructor(attributeName, attribute, value) {
-            this.progressBar = null;
-            this.attributeName = attributeName;
-            this.attribute = attribute;
-            this.value = value;
-            
-            // diff
-            this.input = "";
-            
-    
-            this.registerListeners();
+import InputController from './inputController';
 
-            // diff
-            
-            
-            // Tell the CMS the input has changed.
-            Event.fire('input:updated', { 
-                input: this.input, 
-                attributeName: this.attributeName 
-            });
-
-        }
+class BooleanInputController extends InputController{
     
-    
-        trackInput() {
-            let value = this.input ? 1 : 0;
-            // Tell the CMS the input has changed.
-            Event.fire('input:updated', { 
-                input: this.input, 
-                attributeName: this.attributeName 
-            });
-        }
-    
-    
-        /**
-         * register listeners here. 	
-         */
-        registerListeners() {
-           
-    
-            /**
-             * The cms broadcasts when a new progressbar is initialised. We can add it to our inputController,
-             * so we can call some functions on it.
-             */
-            Event.listen('progressBar:get', (progressBar) => {
-                this.progressBar = progressBar;
-            });
-    
-    
-            /**
-             * When this input is used in a edit context, we need to insert the corresponding value
-             * by listening to this event, which passed us the correct value for this input.
-             */
-            Event.listen('input:insertValues', () => {
-                this.input = this.value[this.attributeName];
-              
-                let value = this.input ? 1 : 0;
-
-                if(Validator.valid(this.attribute.validation, value)) {
-                    this.progressBar.increment(this.attributeName);
-                }
-
-                // Tell the CMS the input has changed.
-                Event.fire('input:updated', { 
-                    input: this.input, 
-                    attributeName: this.attributeName 
-                });
-            });
-    
-            /**
-             * 	Clear inputs when a new model is persisted.
-             */
-            Event.listen('inputs:clear', () => {
-                this.input = false;
-
-                this.progressBar.increment(this.attributeName);
-            });
-
-            /**
-             * 	When the save button is pressed, we check if this input meets the requirements 
-             *	to be persisted to the database.
-            */
-            Event.listen('validator:validate', () => {
-                Validator.valid(this.attribute.validation, this.input);
-            });
-    
-     
-        }
-
+    boot() {
+        this.input = false;
+        
+        Event.fire('input:updated', {
+            input: this.input, 
+            attributeName: this.attributeName,
+        });
     }
     
+    /**
+     * Everytime the input gets a new value, we get a chance to change it by implementing this method. 
+     * @param {*} input 
+     */
+    setInputAttribute(input) {
+        this.input = input ? 1: 0;
+    }
     
-    export default BooleanInputController;
+
+    onReset() {
+        this.input = false;
+    }
+
+
+}
+
+
+export default BooleanInputController;
     
