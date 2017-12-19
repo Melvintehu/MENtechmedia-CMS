@@ -28,7 +28,7 @@ class Settings extends Model {
             user_id: {
                 type: 'model',
                 model: 'user',
-                attributeDisplay: 'name',
+                referenceField: 'name',
                 translation: 'Hoofdgebruiker van CMS',
                 description: 'Hoofdgebruiker van CMS',
                 validation: new Validator({

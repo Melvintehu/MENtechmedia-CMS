@@ -86,7 +86,8 @@ class SectionController extends Controller
         * @return \Illuminate\Http\Response
         */
     public function destroy($id)
-    {
+    {   
+        
         Section::find($id)->delete();
         return response()->json([], 200);
     }

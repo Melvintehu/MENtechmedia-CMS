@@ -65,7 +65,7 @@ class Model {
     save() {
         return new Promise((resolve, reject) => {
             API.post(Helper.lcfirst(this.constructor.name), this.data()).then((data) => {
-                resolve(data);
+                resolve(Factory.getInstanceOf(this.constructor.name, data));
             }, reject);
         });
     }

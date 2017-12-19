@@ -43,6 +43,9 @@ class PhotoInputController {
                 this.progressBar.increment('photo');
             });
 
+            Event.listen('overlay:closing', () => {
+                this.photo = null;
+            });
 
             /**
              * When the file is done uploading to the server, we can store it in the photos array.

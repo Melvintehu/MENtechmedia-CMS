@@ -31,9 +31,11 @@
 
             this.type = 'User';
             this.identifier = 'user';
-            
+
             Event.listen('file:ready', () => {
-                Event.fire(this.type.toLowerCase() + ":added", window.user_id);
+                Factory.getStaticInstance('user').find(window.user_id).then((user) => {
+                    Event.fire(this.type.toLowerCase() + ":added", user);
+                });
             });
 
             setTimeout(() => {

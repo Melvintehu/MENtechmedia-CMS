@@ -2,16 +2,12 @@
 <div>
 
 	<!-- Loading spinner -->
-	<loading v-if="!visible && emptyData"></loading>
-
-
-
+	<loading v-if="loading"></loading>
 
 
 	<transition name="fade">
 
-		<div v-if="visible && Object.keys(data).length != 0" 
-			class="space-inside-sides-md space-outside-up-lg ">
+		<div v-if="data.length !== 0" class="space-inside-sides-md space-outside-up-lg ">
 			<div class="">
 
 				<paginator :referenceData="referenceData"></paginator>
@@ -68,7 +64,7 @@
 						<td v-if="notHidden(attribute)"  
 							class="space-inside-sm space-inside-sides-sm" 
 							v-for="(value, attribute) in object.fields">
-								<div > {{ needsToBeConverted(attribute, row) }} </div>
+								<div v-if="modelHasAttribute(attribute)"> {{ needsToBeConverted(attribute, row) }} </div>
 
 						</td>
 						<!-- End of attributes -->
@@ -94,7 +90,7 @@
 	<transition name="fade"> 
 		<div v-if="data !== undefined">
 			
-			<div v-if="!emptyData" class="space-inside-sides-md space-outside-up-md">
+			<div v-if="data.length === 0" class="space-inside-sides-md space-outside-up-md">
 				<p style="border-width: 3px;" class="circle border-secondary border inline-block space-inside-xs space-inside-sides-sm text-color-accent text-bold">U heeft nog niks toegevoegd. </p>
 			</div>
 		</div>
@@ -124,11 +120,10 @@
 		data() {
 			return {
 				object: Factory.getInstanceOf(this.type),
-				data: null,
-				referenceData: null,
-				visible: false,
-				emptyData: true,
-				dropdowndata: {},
+				data: [],
+				referenceData: [],
+				relatedModelData: {},
+				loading: true,
 			}
 		},
 		mounted() {
@@ -138,21 +133,13 @@
 
 				this.loadData();
 
-				Event.listen(this.type + ':added', () => {
-					this.loadData();
+				Event.listen(this.type + ':added', (newObject) => {
+					
+					this.data.push(newObject);
+					this.referenceData.push(newObject);
+					console.log(this.data, 'adding');
 				});
 
-				Event.listen(this.type + ':updated', () => {
-					this.loadData();
-				});
-
-				Event.listen(this.type + ':deleted', () => {
-					this.loadData();
-				});
-
-				Event.listen('sortable:changed', (sortedData) => {
-					this.data = sortedData;
-				});
 
 				Event.listen('paginator:changed', (paginatedData) => {
 					this.data = paginatedData;
@@ -166,12 +153,9 @@
 			let relatedModels = this.getRelatedModels(foundModel);
 	
 			_.each(relatedModels, (model) => {
-
-				Factory.getStaticInstance(model)
-					   .all()
-					   .then((data) => {
-						   	this.dropdowndata[model] = data;
-					   });
+				Factory.getStaticInstance(model).all().then((data) => {
+					this.relatedModelData[model] = data;
+				});
 			});
 			
 		},
@@ -194,35 +178,22 @@
 
 			getRelatedModels(model) {
 				return _.filter(model.fields, (attribute, attributeName) => {
-					if(_.indexOf(['model'], attribute.type) !== -1 ) {
-						return true;
-					}
-
+					return _.indexOf(['model'], attribute.type) !== -1 ;
 				}).map((attribute) => {
 					return attribute.model;
 				});
 			},
 
 			needsToBeConverted(attribute, model) {
+				let attributeRef = this.object.fields[attribute];
 
-				if(this.attributeExists(attribute)) {
+				if(attributeRef.referenceField === undefined) {
+					return model[attribute];
+				}
 
-					if(this.object.fields[attribute].attributeDisplay !== undefined) {
-
-						let displayAttribute = this.object.fields[attribute].attributeDisplay;
-						let modelType = this.object.fields[attribute].model;
-
-						for(let index in this.dropdowndata[modelType]) {
-							let object = this.dropdowndata[modelType][index];
-							
-							if(object.id === model[attribute]) {
-								return object[displayAttribute];
-							}
-						}
-					}else {
-						return model[attribute];
-					}
-				} 
+				return _.find(this.relatedModelData[attributeRef.model], (object) => {
+					return object.id === model[attribute];
+				})[attributeRef.referenceField];
 			},
 
 			notHidden(key) {
@@ -231,37 +202,39 @@
 						return !this.object.fields[key].hidden;
 					}
 				}
+
 				return true;
 			},
 			
 			loadData() {
-				this.visible = false;
-				Factory.getStaticInstance(this.type)
-					   .all()
-					   .then((data) => {
-							this.data = data;
-							this.referenceData = data;
-
-							if(Object.keys(data).length !== 0) {
-								this.visible = true;
-								this.emptyData = true;
-							} else {
-								this.emptyData = false;
-							}
-
-						});
-				
+				Factory.getStaticInstance(this.type).all().then((data) => {
+					this.data = data;
+					console.log(this.data,  'loading');
+					this.referenceData = data;
+					this.loading = false;
+				});
 			}, 
 
 
 
 			remove(object) {
+				
+				object = Factory.getInstanceOf(this.type, object);
 				Notifier.askConfirmation('Weet u zeker dat u dit wilt verwijderen ?', () => {
 					object.delete().then(() => {
-						setTimeout(() => {
-							Event.fire(this.type + ':deleted');
-							Notifier.success('Het verwijderen is gelukt!');
-						}, 500);
+						Event.fire(this.type + ':deleted', object);
+						Notifier.success('Het verwijderen is gelukt!');
+						
+						for(let index in this.data) {
+							let row = this.data[index];
+							if(row.id === object.id) {
+								this.data.splice(index, 1);
+								this.referenceData.splice(index, 1);
+								this.$forceUpdate();
+							}
+						}
+
+						console.log(this.data, 'deleting');
 					});
 				});
 			},
@@ -276,7 +249,9 @@
 
 
 			// ----------- BOOLEAN FUNCTIONS ----------- //
-			attributeExists(attribute) {
+		
+
+			modelHasAttribute(attribute) {
 				return this.object.fields[attribute] !== undefined;
 			},
 		}

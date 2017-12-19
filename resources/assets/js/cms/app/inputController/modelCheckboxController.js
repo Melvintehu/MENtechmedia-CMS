@@ -28,7 +28,7 @@ class ModelCheckboxController {
              this.checkboxes = _.map(objects, (object) => {
                  return {
                      id: object.id,
-                     value: object[this.attribute.attributeDisplay]
+                     value: object[this.attribute.referenceField]
                  }
              });
 

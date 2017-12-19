@@ -65,7 +65,8 @@
 			save() {
 				// delete this.object.fields
 				this.object.save().then((object) => {
-					Event.fire(this.type + ':added', object.id);
+					console.log(object, 'saved');
+					Event.fire(this.type + ':added', object);
 				});
 			
 			}

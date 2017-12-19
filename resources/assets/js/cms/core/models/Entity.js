@@ -27,7 +27,7 @@ class Entity extends Model {
             nav_group_id: {
                 type: 'model',
                 model: 'navGroup',
-                attributeDisplay: 'name',
+                referenceField: 'name',
                 translation: 'Behoort tot Navigatiegroep',
                 description: 'Navigatie groep',
                 validation: new Validator({

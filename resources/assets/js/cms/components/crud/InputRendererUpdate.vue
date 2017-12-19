@@ -248,7 +248,7 @@
                 this.object.update().then((data) => {
                     Event.fire(this.type.toLowerCase() + ':updated');
                     Notifier.success('Het is gelukt! Aangepast')
-                    Event.fire(this.type.toLowerCase() + ':added', this.id);
+                    Event.fire(this.type.toLowerCase() + ':added', this.object);
                 });
             },
         }
