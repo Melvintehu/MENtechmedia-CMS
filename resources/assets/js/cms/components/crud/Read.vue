@@ -1,5 +1,16 @@
 <template>
-<div>
+<div style="min-height: 110px;">
+
+
+	<!-- If no records were found in the database, we display a message that tells the user to add something. -->
+	<transition name="fade"> 
+		<div v-if="data !== undefined && !loading">
+			
+			<div v-if="data.length === 0" class="space-inside-sides-md space-outside-up-md text-center">
+				<p style="border-width: 3px;" class="circle border-secondary border inline-block space-inside-xs space-inside-sides-sm text-color-dark text-bold">U heeft nog niks toegevoegd. </p>
+			</div>
+		</div>
+	</transition>
 
 	<!-- Loading spinner -->
 	<loading v-if="loading"></loading>
@@ -12,13 +23,7 @@
 
 				<paginator :referenceData="referenceData"></paginator>
 				
-				<div class="col-lg-12 reset-padding ">
-
-					<!-- Shows sort options and encapsulates the sort functionality -->
-					<div class="space-inside-down-sm">
-						<sortable :object="object" :data="data"></sortable>
-					</div>
-					
+				<div class="col-lg-12 reset-padding space-outside-down-md">
 					<input @keyup="filterData" placeholder="Typ in dit zoekvak om te zoeken in de onderstaande gegevens." class="
 							border border-secondary border-curved-up outline-none
 							space-inside-sides-md space-inside-sm 
@@ -86,15 +91,7 @@
 	</transition>
 
 
-	<!-- If no records were found in the database, we display a message that tells the user to add something. -->
-	<transition name="fade"> 
-		<div v-if="data !== undefined">
-			
-			<div v-if="data.length === 0" class="space-inside-sides-md space-outside-up-md">
-				<p style="border-width: 3px;" class="circle border-secondary border inline-block space-inside-xs space-inside-sides-sm text-color-accent text-bold">U heeft nog niks toegevoegd. </p>
-			</div>
-		</div>
-	</transition>
+	
 
 </div>
 
@@ -136,7 +133,9 @@
 				Event.listen(this.type + ':added', (newObject) => {
 					
 					this.data.push(newObject);
-					this.referenceData.push(newObject);
+					this.referenceData = this.data;
+
+					// this.referenceData.push(newObject);
 					console.log(this.data, 'adding');
 				});
 
