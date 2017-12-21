@@ -31,6 +31,8 @@ class InputController {
         this.attribute = attribute;
         this.value = value;
         this.input = "";
+        this.events = [];
+
 
         this.boot();
 

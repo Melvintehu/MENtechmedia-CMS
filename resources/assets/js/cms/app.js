@@ -141,7 +141,7 @@
 
     /*
     |--------------------------------------------------------------------------
-    | Photo edit components
+    | Photo components
     |--------------------------------------------------------------------------
     |
     | Because photos are much more complex then editing text or basic crud, we
@@ -152,7 +152,9 @@
 
     Vue.component('image-uploader', require('./components/ImageUploader.vue'));
     Vue.component('cropper', require('./components/Cropper.vue'));
-    
+    Vue.component('multi-image-uploader', require('./components/files/multiImageUploader.vue'));
+
+
     /*
     |--------------------------------------------------------------------------
     | Validation
