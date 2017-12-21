@@ -1,8 +1,11 @@
+@import "node_modules/material-design-icons/iconfont/material-icons";
 @import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
-@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 @import "node_modules/animate.css/animate.min";
 @import "node_modules/sweetalert/dist/sweetalert";
+
+
 
 @import "common_used_classes";
 @import "huisstijl";
@@ -26,12 +29,25 @@
 @import "partials/pullmenu";
 
 @import "base-rules";
+@import "navbar";
 
 
 .sweet-alert button.cancel{
   background-color: #51a351;
 }
 
+.bg-success{
+  background-color: #2ecc71 !important;
+}
+
+.bg-warning{
+  background-color: #e67e22 !important;
+}
+
+.bg-error{
+  background-color: #e74c3c !important;
+}
+ 
 // components
 @import "toastr";
 
@@ -48,6 +64,16 @@
 
 .cms-navigation {
   position: fixed;
+  height: 100%;
+}
+
+.navbar-default .navbar-nav > .open > a:focus {
+  background-color: $tertiary-color;
+  color: #fff;
+}
+
+.nav .open > a:focus {
+  background-color: $tertiary-color;
 }
 
 
@@ -65,7 +91,7 @@
     
     .cms-navigation {
       position: relative;
-      height: 500px;
+   
     }
 
   }
@@ -75,7 +101,36 @@
     
     .cms-navigation {
       position: relative;
-      height: 500px;
+      
     }
 
    }
+
+
+
+   .hideNav {
+     display: none;
+   }
+
+
+
+
+
+.heroicon- {
+	&outline {
+		fill: $secondary-color;
+	}
+
+	&component- {
+		&fill {
+			fill: $tertiary-color;
+		}
+		&accent {
+			fill: $tertiary-color;
+		}
+	}
+	
+	&shadows {
+		display: none;
+	}
+}

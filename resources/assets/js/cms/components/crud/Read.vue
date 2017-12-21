@@ -1,101 +1,100 @@
 <template>
-<div>
-	<div v-if="!visible && emptyData" class="text-center space-inside-xl">
+<div style="min-height: 110px;">
+
+
+	<!-- If no records were found in the database, we display a message that tells the user to add something. -->
+	<transition name="fade"> 
+		<div v-if="data !== undefined && !loading">
 			
-		<svg  class="spinner" width="40px" height="40px" viewBox="0 0 66 66" xmlns="https://www.w3.org/2000/svg">
-		   <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
-		</svg>
-	</div>
-
-
-
-<transition name="fade">
-
-	<div v-if="visible && Object.keys(data).length != 0" 
-		 class="space-inside-sides-md space-outside-up-lg ">
-			
-			<div class="col-lg-12 reset-padding space-outside-down-md">
-				<input @keyup="filterData" placeholder="Typ in dit zoekvak om te zoeken in de onderstaande gegevens." class="
-						border border-secondary border-curved outline-none
-						space-inside-sides-md space-inside-sm 
-						inline-block 
-						full-width
-						text-color-light
-						bg-main
-						" />
+			<div v-if="data.length === 0" class="space-inside-sides-md space-outside-up-md text-center">
+				<p style="border-width: 3px;" class="circle border-secondary border inline-block space-inside-xs space-inside-sides-sm text-color-dark text-bold">U heeft nog niks toegevoegd. </p>
 			</div>
+		</div>
+	</transition>
 
-		<table v-if="data != null" class="table ">
-			<tr>
-				<th v-for="(attributeValue, attributeName ) in object.fields" 
-					class="
-						bg-tertiary 
-						text-color-light font-md 
-						space-inside-sm space-inside-sides-sm 
-						"
-				>{{ attributeValue.translation }}</th>
-
-				<th class="
-						bg-tertiary 
-						text-color-light font-md 
-						space-inside-sm space-inside-sides-sm 
-						"> </th>
-
-				<th class="
-						bg-tertiary 
-						text-color-light font-md 
-						space-inside-sm space-inside-sides-sm 
-						"> </th>
-			</tr>
-
-			<tr v-for="(field, key) in data" 
-				class="
-					space-inside-xs 
-					border 
-					bg-hover-secondary border-secondary 
-					transition-normal 
-					"
-			>
-				<!-- Attributes -->
-				<td v-if="notHidden(attribute)"  
-					class="space-inside-sm space-inside-sides-sm" 
-					v-for="(value, attribute) in field">
-						<div > {{ needsToBeConverted(attribute, field) }} </div>
-
-				</td>
-				<!-- End of attributes -->
+	<!-- Loading spinner -->
+	<loading v-if="loading"></loading>
 
 
-				<td @click="remove(field)"
-					class="space-inside-sm space-inside-sides-sm"> 
-					<i style="position: relative; top: 2px;" class="material-icons text-color-danger pointer">clear</i>
-				</td>
-				<td class="space-inside-sm space-inside-sides-sm"> 
+	<transition name="fade">
+
+		<div v-if="data.length !== 0" class="space-inside-sides-md space-outside-up-lg ">
+			<div class="">
+
+				<paginator :referenceData="referenceData"></paginator>
+				
+				<div class="col-lg-12 reset-padding space-outside-down-md">
+					<input @keyup="filterData" placeholder="Typ in dit zoekvak om te zoeken in de onderstaande gegevens." class="
+							border border-secondary border-curved-up outline-none
+							space-inside-sides-md space-inside-sm 
+							inline-block 
+							full-width
+							text-color-tertiary
+							bg-secondary
+							" />
+				</div>
 			
-					<a :href="'/cms/edit?type=' + type + '&id=' + field.id ">
-						<i   class="material-icons pointer">mode_edit</i> 
-					</a>
-				</td>
-			</tr>
+				<table v-if="data != null" class="table ">
+					<tr>
+						<th v-if="notHidden(attributeName)" v-for="(attributeValue, attributeName ) in object.fields" 
+							class="
+								bg-tertiary 
+								text-color-light font-md 
+								space-inside-sm space-inside-sides-sm 
+								"
+						>{{ (attributeValue.description !== undefined ) ? attributeValue.description : attributeValue.translation }}</th>
+
+						<th class="
+								bg-tertiary 
+								text-color-light font-md 
+								space-inside-sm space-inside-sides-sm 
+								"> </th>
+
+						<th class="
+								bg-tertiary 
+								text-color-light font-md 
+								space-inside-sm space-inside-sides-sm 
+								"> </th>
+					</tr>
+
+					<tr v-for="(row, key) in data" 
+						class="
+							space-inside-xs 
+							border 
+							bg-hover-secondary border-secondary 
+							transition-normal 
+							"
+					>
+						<!-- Attributes -->
+						<td v-if="notHidden(attribute)"  
+							class="space-inside-sm space-inside-sides-sm" 
+							v-for="(value, attribute) in object.fields">
+								<div v-if="modelHasAttribute(attribute)"> {{ needsToBeConverted(attribute, row) }} </div>
+
+						</td>
+						<!-- End of attributes -->
 
 
-		</table>
-	</div>
-</transition>
+						<td style="width: 50px;" @click="remove(row)"
+							class="space-inside-sm space-inside-sides-sm bg-danger pointer border-right border-secondary border-sm"> 
+							<i style="position: relative; top: 2px;" class="material-icons text-color-light pointer">clear</i>
+						</td>
+						<td @click="edit(row)" style="width: 50px;" class="space-inside-sm space-inside-sides-sm bg-secondary pointer"> 
+							<i   class="material-icons pointer text-color-tertiary">mode_edit</i> 
+						</td>
+					</tr>
 
 
+				</table>
+			</div>	
+		</div>
+	</transition>
 
-<transition name="fade"> 
 
-<div v-if="data !== undefined">
 	
-	<div v-if="!emptyData" class="space-inside-sides-md space-outside-up-md">
-		<p style="border-width: 3px;" class="circle border-secondary border inline-block space-inside-xs space-inside-sides-sm text-color-accent text-bold">U heeft nog niks toegevoegd. </p>
-	</div>
-</div>
-</transition>
 
 </div>
+
 </template>
 
 <style >
@@ -118,11 +117,10 @@
 		data() {
 			return {
 				object: Factory.getInstanceOf(this.type),
-				data: null,
-				referenceData: null,
-				visible: false,
-				emptyData: true,
-				dropdowndata: {},
+				data: [],
+				referenceData: [],
+				relatedModelData: {},
+				loading: true,
 			}
 		},
 		mounted() {
@@ -132,16 +130,18 @@
 
 				this.loadData();
 
-				Event.listen(this.type + ':added', () => {
-					this.loadData();
+				Event.listen(this.type + ':added', (newObject) => {
+					
+					this.data.push(newObject);
+					this.referenceData = this.data;
+
+					// this.referenceData.push(newObject);
+					console.log(this.data, 'adding');
 				});
 
-				Event.listen(this.type + ':updated', () => {
-					this.loadData();
-				});
 
-				Event.listen(this.type + ':deleted', () => {
-					this.loadData();
+				Event.listen('paginator:changed', (paginatedData) => {
+					this.data = paginatedData;
 				});
 
 			}, 500)
@@ -152,12 +152,9 @@
 			let relatedModels = this.getRelatedModels(foundModel);
 	
 			_.each(relatedModels, (model) => {
-
-				Factory.getStaticInstance(model)
-					   .all()
-					   .then((data) => {
-						   	this.dropdowndata[model] = data;
-					   });
+				Factory.getStaticInstance(model).all().then((data) => {
+					this.relatedModelData[model] = data;
+				});
 			});
 			
 		},
@@ -172,79 +169,77 @@
 
 				if(this.data.length === 0) {
 					this.data = this.referenceData;
+				} else {
+					Event.fire('search:changed', this.data);
 				}
 				
 			},
 
 			getRelatedModels(model) {
 				return _.filter(model.fields, (attribute, attributeName) => {
-					if(_.indexOf(['model'], attribute.type) !== -1 ) {
-						return true;
-					}
-
+					return _.indexOf(['model'], attribute.type) !== -1 ;
 				}).map((attribute) => {
 					return attribute.model;
 				});
 			},
 
 			needsToBeConverted(attribute, model) {
+				let attributeRef = this.object.fields[attribute];
 
-				if(this.attributeExists(attribute)) {
+				if(attributeRef.referenceField === undefined) {
+					return model[attribute];
+				}
 
-					if(this.object.fields[attribute].attributeDisplay !== undefined) {
-
-						let displayAttribute = this.object.fields[attribute].attributeDisplay;
-						let modelType = this.object.fields[attribute].model;
-
-						for(let index in this.dropdowndata[modelType]) {
-							let object = this.dropdowndata[modelType][index];
-							
-							if(object.id === model[attribute]) {
-								return object[displayAttribute];
-							}
-						}
-					}else {
-						return model[attribute];
-					}
-				} 
+				return _.find(this.relatedModelData[attributeRef.model], (object) => {
+					return object.id === model[attribute];
+				})[attributeRef.referenceField];
 			},
 
 			notHidden(key) {
-				
-				return key in this.object.fields;
+				if(this.object.fields[key] !== undefined) {
+					if(this.object.fields[key].hidden !== undefined) {
+						return !this.object.fields[key].hidden;
+					}
+				}
+
+				return true;
 			},
 			
 			loadData() {
-				this.visible = false;
-				Factory.getStaticInstance(this.type)
-					   .all()
-					   .then((data) => {
-							this.data = data;
-							this.referenceData = data;
-
-							if(Object.keys(data).length !== 0) {
-								this.visible = true;
-								this.emptyData = true;
-							} else {
-								this.emptyData = false;
-							}
-
-						});
-				
+				Factory.getStaticInstance(this.type).all().then((data) => {
+					this.data = data;
+					console.log(this.data,  'loading');
+					this.referenceData = data;
+					this.loading = false;
+				});
 			}, 
 
 
 
 			remove(object) {
+				
+				object = Factory.getInstanceOf(this.type, object);
 				Notifier.askConfirmation('Weet u zeker dat u dit wilt verwijderen ?', () => {
-					console.log('werkt dit niet meer?');
-					object.delete(this.type, () => {
-						setTimeout(() => {
-							Event.fire(this.type + ':deleted');
-							Notifier.success('Het verwijderen is gelukt!');
-						}, 500);
+					object.delete().then(() => {
+						Event.fire(this.type + ':deleted', object);
+						Notifier.success('Het verwijderen is gelukt!');
+						
+						for(let index in this.data) {
+							let row = this.data[index];
+							if(row.id === object.id) {
+								this.data.splice(index, 1);
+								this.referenceData.splice(index, 1);
+								this.$forceUpdate();
+							}
+						}
+
+						console.log(this.data, 'deleting');
 					});
 				});
+			},
+
+			edit(row) {
+				window.location.href= '/cms/edit?type=' + this.type + '&id=' + row.id; 
 			},
 
 			presentPopover() {
@@ -253,7 +248,9 @@
 
 
 			// ----------- BOOLEAN FUNCTIONS ----------- //
-			attributeExists(attribute) {
+		
+
+			modelHasAttribute(attribute) {
 				return this.object.fields[attribute] !== undefined;
 			},
 		}

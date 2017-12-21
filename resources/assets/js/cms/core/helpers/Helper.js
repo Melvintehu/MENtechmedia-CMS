@@ -9,8 +9,7 @@ window.Helper = new class
 
 
 
-   constructor()
-      {}
+   constructor(){}
       /**
        * Capitalizes strings
        * @param  {[string]}
@@ -21,6 +20,28 @@ window.Helper = new class
          return string
             // @todo : Cannot read property '0' of undefined
             // return string[0].toUpperCase() + string.slice(1);
+      }
+
+      parseBool(boolean){
+        if(boolean === 'true') {
+          return true;
+        } 
+
+        if(boolean === 'false') {
+          return false;
+        }
+        
+        return boolean;
+      }
+
+      makeID() {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      
+        for (var i = 0; i < 5; i++)
+          text += possible.charAt(Math.floor(Math.random() * possible.length));
+      
+        return text;
       }
 
       nl2br (str, is_xhtml) {

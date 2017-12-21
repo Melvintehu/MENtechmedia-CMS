@@ -9,11 +9,12 @@
     |
     */
 
-    require('./core/imports');
+    // require('material-design-icons');
     require('./core/helpers/Classes');
+    require('./core/imports');
     require('./Objects');
     require('./core/models/objects');
-    
+
 
     /*
     |--------------------------------------------------------------------------
@@ -33,11 +34,46 @@
     // progress
     Vue.component('progressbar', require('./components/crud/progress/progressbar.vue'));
     
-    // Password forget
+    /*
+    |--------------------------------------------------------------------------
+    | Forgot password components
+    |--------------------------------------------------------------------------
+    |
+    | Components that are used for the forgot password functionality.
+    | 
+    |
+    */
     Vue.component('forgot-password', require('./components/password-forget/forgot-password.vue'));
     
-    // navigation
+    /*
+    |--------------------------------------------------------------------------
+    | Read components
+    |--------------------------------------------------------------------------
+    |
+    | Components that give extra functionality to the read.vue component
+    | 
+    | 
+    |
+    */
+
+    Vue.component('sortable', require('./components/crud/read/sortable.vue'));
+    Vue.component('paginator', require('./components/crud/read/paginator.vue'));
+
+    /*
+    |--------------------------------------------------------------------------
+    | Navigation components
+    |--------------------------------------------------------------------------
+    |
+    | Components that compose the navigation. They support the navigation with
+    | Vue fuctionality
+    | 
+    |
+    */
+
+
     Vue.component('nav-link', require('./components/nav/nav-link.vue'));
+    Vue.component('nav-search', require('./components/nav/nav-search.vue'));
+    Vue.component('nav-user-active', require('./components/nav/nav-user-active.vue'));
     Vue.component('pull-menu-cms', require('./components/menu/pull-menu-cms.vue'));
     
     Vue.component('overlay', require('./components/overlay/overlay.vue'));
@@ -59,8 +95,8 @@
     Vue.component('read', require('./components/crud/Read.vue'));
     Vue.component('input-renderer', require('./components/InputRenderer.vue'));
     Vue.component('input-renderer-update', require('./components/crud/InputRendererUpdate.vue'));
-    
-
+    Vue.component('attribute-title', require('./components/crud/attribute/attribute-title.vue'));
+    Vue.component('loading', require('./components/loading/loading.vue'));
 
     /*
     |--------------------------------------------------------------------------
@@ -85,6 +121,7 @@
     Vue.component('crud-text', require('./components/crud/inputTypes/text.vue'));
     Vue.component('crud-website', require('./components/crud/inputTypes/website.vue'));
     Vue.component('crud-youtube', require('./components/crud/inputTypes/youtube.vue'));
+    Vue.component('crud-multi-photo', require('./components/crud/inputTypes/multi_photo.vue'));
     
     
     /*
@@ -104,7 +141,7 @@
 
     /*
     |--------------------------------------------------------------------------
-    | Photo edit components
+    | Photo components
     |--------------------------------------------------------------------------
     |
     | Because photos are much more complex then editing text or basic crud, we
@@ -113,10 +150,11 @@
     |
     */
 
-    Vue.component('image-display', require('./components/ImageDisplay.vue'));
     Vue.component('image-uploader', require('./components/ImageUploader.vue'));
     Vue.component('cropper', require('./components/Cropper.vue'));
-    
+    Vue.component('multi-image-uploader', require('./components/files/multiImageUploader.vue'));
+
+
     /*
     |--------------------------------------------------------------------------
     | Validation
@@ -145,7 +183,22 @@
 
     Vue.component('tooltip', require('./components/tutorials/tooltip.vue'));
 
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Setup
+    |--------------------------------------------------------------------------
+    | 
+    | When the CMS is first loaded, the CMS guides the user through some 
+    | settings that need to be configured before the CMS is fully operational.
+    | These components provide that functionality.
+    |
+    |
+    */
 
+    Vue.component('setup', require('./components/setup/setup.vue'));
+    Vue.component('setup-page', require('./components/setup/setup-page.vue'));
+    
     /*
     |--------------------------------------------------------------------------
     | 
@@ -156,3 +209,30 @@
     | 
     |
     */
+
+
+    $(document).ready(() => {
+
+        $('.toggle-nav').on('click', () => {
+            
+            
+
+            if($('.cms-navigation').is(":hidden")) {
+                $('.body').removeClass('col-lg-12 col-md-12 col-sm-12 col-xs-12');
+                $('.body').addClass('col-lg-10 col-md-10 col-sm-10 col-xs-10');
+                setTimeout(() => {
+                    $('.cms-navigation').animate({width:'toggle'}, 500);
+                }, 500);
+                // $('.body').removeClass('transition-normal');
+            } else {
+                $('.cms-navigation').animate({width:'toggle'}, 500, () => {
+                    // $('.body').addClass('transition-normal');
+                    $('.body').addClass('col-lg-12 col-md-12 col-sm-12 col-xs-12');
+                    $('.body').removeClass('col-lg-10 col-md-10 col-sm-10 col-xs-10');
+                });
+    
+            }
+            
+        });
+        
+    });

@@ -50,7 +50,8 @@ class EntityController extends Controller
 
         // generate 
 $txt = "import Model from '../core/models/Model';
-import Validator from '../App/Validator';
+import Validator from '../app/Validator/Validator';
+import WalkThrough from '../app/WalkThrough/WalkThrough';
 
 class {$entity->name} extends Model {
 
@@ -75,7 +76,13 @@ export default {$entity->name};
             'contents' => $txt
         ]);
 
-
+        /**
+         * Get all the entities and generate a Objects.js file
+         */
+        $entities = Entity::all();
+        FileGenerator::generateEntitiesFile($entities);
+        FileGenerator::generateApi($entity);
+            
         return Response()->json($entity, 200);
     }
 

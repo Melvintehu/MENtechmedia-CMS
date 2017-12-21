@@ -1,6 +1,7 @@
 @extends('cms.master')
 
 @section('content')
+    
     @component('cms.base')
         @slot('icon')
             {{ $entity->icon }}

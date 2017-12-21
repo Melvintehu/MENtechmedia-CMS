@@ -21,7 +21,7 @@
     </script>
         <div id="app">
 
-            <div class="col-lg-6 space-inside-right-xl full-height bg-secondary reset-padding" style="position: fixed;">
+            <div class="hidden-xs col-lg-6 space-inside-right-xl full-height bg-secondary reset-padding" style="position: fixed;">
 
                 
                 <div class="text-right space-inside-lg">
@@ -46,7 +46,7 @@
 
             </div>
 
-            <div class="col-lg-6 full-height bg-tertiary reset-padding" style="position: fixed; right: 0px;">
+            <div class="hidden-xs col-lg-6 full-height bg-tertiary reset-padding" style="position: fixed; right: 0px;">
 
                 <pull-menu-cms>
                     <h2 slot="pull-menu-title">Wachtwoord vergeten?</h2>
@@ -111,6 +111,10 @@
                     
                 </div>
                 
+            </div>
+
+            <div class="col-lg-12 visible-xs space-inside-sides-sm text-center space-outside-xl space-inside-xl"> 
+                <h1>Mobiele apparaten worden op dit moment niet ondersteund. U kunt van de websitebeheertool gebruik maken op uw computer in de browser chrome. </h1>
             </div>
 
         </div>

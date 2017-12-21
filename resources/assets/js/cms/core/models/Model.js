@@ -1,4 +1,5 @@
 import Validator from '../../app/Validator/Validator';
+import WalkThrough from '../../app/WalkThrough/WalkThrough';
 
 class Model {
 
@@ -63,23 +64,25 @@ class Model {
 
     save() {
         return new Promise((resolve, reject) => {
-            API.post(this.constructor.name.toLowerCase(), this.data()).then((data) => {
-                resolve(data);
+            API.post(Helper.lcfirst(this.constructor.name), this.data()).then((data) => {
+                resolve(Factory.getInstanceOf(this.constructor.name, data));
             }, reject);
         });
     }
 
     update() {
         return new Promise((resolve, reject) => {
-            API.put(`${this.constructor.name.toLowerCase()}/` + this.id, this.data()).then((data) => {
+            API.put(`${Helper.lcfirst(this.constructor.name)}/` + this.id, this.data()).then((data) => {
                 resolve(data);
             }, reject);
         });
     }
 
-    delete(className, success) {
-        API.delete(className.toLowerCase(), this.id);
-        success();
+    delete() {
+        
+        return new Promise((resolve, reject) => {
+            API.delete(Helper.lcfirst(this.constructor.name), this.id).then(resolve, reject);
+        });
     }
 
     belongsToMany(relation) {

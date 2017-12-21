@@ -19,6 +19,7 @@ class CreatePhotosTable extends Migration
             $table->string('type')->nullable();
             $table->integer('model_id')->unsigned();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

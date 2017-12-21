@@ -20,7 +20,6 @@
 		data() {
 			return {
 				object: Factory.getInstanceOf(this.type),
-				objectValue: Factory.getInstanceOf(this.type),
 				identifier: 'add',
 			}
 		},
@@ -42,10 +41,21 @@
 					'id',
 				];
 
+
+				Event.listen('input:updated', ({input, attributeName}) => {
+                    if(!_.includes(attributeExceptions, attributeName)){
+                        this.object[attributeName] = input;
+                    } else {
+                        Notifier.warning("Dit kan niet aangepast worden.");
+                    }
+                });
+
+
+
 				_.each(this.object.fields, (attribute, attributeName) => {
 					if(_.indexOf(attributeExceptions, attribute.type) === -1) {
 						Event.listen('input:updated:' + attributeName, (value) => {
-							this.objectValue[attributeName] = value;
+							this.object[attributeName] = value;
 						});
 					}
 				});
@@ -53,9 +63,10 @@
 			},
 
 			save() {
-				// delete this.objectValue.fields
-				this.objectValue.save().then((object) => {
-					Event.fire(this.type + ':added', object.id);
+				// delete this.object.fields
+				this.object.save().then((object) => {
+					console.log(object, 'saved');
+					Event.fire(this.type + ':added', object);
 				});
 			
 			}

@@ -9,9 +9,19 @@ use Illuminate\Support\Facades\Schema;
 use Symfony\Component\Process\Process;
 use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Photo extends Model
 {
+	use SoftDeletes;    
+	
+	/**
+	 * The attributes that should be mutated to dates.
+	 *
+	 * @var array
+	 */
+	protected $dates = ['deleted_at'];
+
 	public $multiple;
 
 	protected $fillable = [

@@ -10,15 +10,6 @@ class Validator{
 		this.errors = {};
 	}
 
-	valid(value) {
-		return window.Validator.valid(this, value);
-	}
-
-	required() {
-		return window.Validator.required(this);
-	}
-
-
 }
 
 export default Validator;

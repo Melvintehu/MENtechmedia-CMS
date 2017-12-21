@@ -12,12 +12,18 @@
     import Entity from './Entity';
     import Section from './Section';
     import UserRole from './UserRole';
+    import User from './User';
+    import NavGroup from './NavGroup';
+    import Settings from './Settings';
     
 
     let models = {
         entity: Entity,
         section: Section,
         userRole: UserRole,
+        navGroup: NavGroup,
+        user: User,
+        settings: Settings,
     }
 
     /*

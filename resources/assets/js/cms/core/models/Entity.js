@@ -7,18 +7,39 @@ class Entity extends Model {
         super(data);
 
         this.fields = {
+            id: {
+                type: 'number',
+                translation: 'Identifier',
+                description: 'Unieke ID',
+                sortBy: 'numerical',
+            },
+
             name: {
                 type: 'text',
                 translation: 'Naam van de entiteit',
+                description: 'Naam',
+                sortBy: 'alphabetical',
                 validation: new Validator({
                     required: true,
                 }),
 
             },
-
+            nav_group_id: {
+                type: 'model',
+                model: 'navGroup',
+                referenceField: 'name',
+                translation: 'Behoort tot Navigatiegroep',
+                description: 'Navigatie groep',
+                validation: new Validator({
+                    required: true
+                }),
+            },
+            
             title: {
                 type: 'text',
                 translation: 'Title cms',
+                description: 'Titel',
+                sortBy: 'alphabetical',
                 validation: new Validator({
                     required: true
                 }),
@@ -27,6 +48,8 @@ class Entity extends Model {
             description: {
                 type: 'textarea',
                 translation: 'Beschrijving voor de entiteit',
+                description: 'Beschrijving',
+                sortBy: 'alphabetical',
                 validation: new Validator({
                     required: true,
                 }),
@@ -35,11 +58,16 @@ class Entity extends Model {
             icon: {
                 type: 'text',
                 translation: 'Kies een material design icon',
+                description: 'Icon',
                 validation: new Validator({
                     required: true
                 }),
-            }
+            },
 
+
+           
+
+        
            
         };
 

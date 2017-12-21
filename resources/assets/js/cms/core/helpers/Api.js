@@ -50,15 +50,9 @@
      * @return {[void]}
      */
      delete(base, id) {
-       
-         window.axios.delete(this.version() + base + '/' + id,
-         {}).then(function()
-         {
-            
-         }, function()
-         {
-            
-         });
+        return new Promise((resolve, reject) => {
+          window.axios.delete(this.version() + base + '/' + id, {}).then(resolve, reject);
+        });
       }
         
 

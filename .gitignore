@@ -9,4 +9,13 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+/public/images/section/*
+/public/images/user/*
 .env
+2017-12-06 50-dubai.jpg
+Cropper.vue
+/public/js/app.js
+/public/mix-manifest.json
+/public/fonts/vendor/bootstrap-sass/bootstrap/glyphicons-halflings-regular.svg
+/public/css/app.css
+/public/CMS_CSS/css/app.css

@@ -2,6 +2,7 @@ window.Validator = new class{
 
 
 	constructor() {
+		
 	}
 
 	reset(validator) {
@@ -10,7 +11,7 @@ window.Validator = new class{
 		}
 	}
 
-	valid(validator, value) {
+	valid(validator, value = null) {
 		if(validator === undefined) {
 			return true;
 		}
