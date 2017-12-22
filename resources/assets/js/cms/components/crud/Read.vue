@@ -136,7 +136,7 @@
 					this.referenceData = this.data;
 
 					// this.referenceData.push(newObject);
-					console.log(this.data, 'adding');
+				
 				});
 
 
@@ -208,7 +208,7 @@
 			loadData() {
 				Factory.getStaticInstance(this.type).all().then((data) => {
 					this.data = data;
-					console.log(this.data,  'loading');
+				
 					this.referenceData = data;
 					this.loading = false;
 				});
@@ -233,7 +233,7 @@
 							}
 						}
 
-						console.log(this.data, 'deleting');
+	
 					});
 				});
 			},

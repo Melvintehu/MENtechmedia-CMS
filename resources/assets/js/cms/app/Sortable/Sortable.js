@@ -51,7 +51,7 @@ class Sortable {
             }
         }
         this.options = temp;
-        console.log(temp);
+   
     }
 
 
@@ -70,7 +70,7 @@ class Sortable {
      * Sorts the data based upon the selected sort option
      */
     sort() {
-        console.log(this.selectedSortType);
+        
         // implement sort function
         // this.broadCastChanges(this.data);
     }

@@ -127,8 +127,7 @@
                 let containerData = this.cropper.getContainerData();
                 let cropBoxData = this.cropper.getCropBoxData();
 
-                // console.log(containerData, 'containerData');
-                // console.log(cropBoxData, 'cropboxData');
+    
                 let imageWidth = containerData.width;
                 let imageHeight = containerData.height;
 

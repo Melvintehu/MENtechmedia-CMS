@@ -25,7 +25,7 @@ class MultiPhotoUploader {
 
             
 			this.dropzone.on('addedfile', () => {
-                console.log('werkt dit ouwe lul');
+           
 				Event.fire('file:ready');
 			});
 
