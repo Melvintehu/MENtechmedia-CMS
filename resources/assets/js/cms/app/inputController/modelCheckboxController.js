@@ -46,7 +46,7 @@ class ModelCheckboxController {
                 selected.push(index);
             }
         }   
-
+        
         // Tell the CMS the input has changed.
         Event.fire('input:updated:' + this.attributeName, selected);
         
@@ -72,7 +72,7 @@ class ModelCheckboxController {
          * The cms broadcasts when a new progressbar is initialised. We can add it to our inputController,
          * so we can call some functions on it.
          */
-         Event.listen('progressBar:get:' + this.attributeName, (progressBar) => {
+         Event.listen('progressBar:get', (progressBar) => {
              this.progressBar = progressBar;
          });
 
