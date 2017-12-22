@@ -136,9 +136,10 @@
     |
     */
     
-    Vue.component('editable-section', require('./components/crud/live-text-editors/editable-section.vue'));
-    Vue.component('editable-title', require('./components/crud/live-text-editors/editable-title.vue'));
-    Vue.component('editable-text', require('./components/crud/live-text-editors/text.vue'));
+    Vue.component('editable-section', require('./components/crud/editable/editable-section.vue'));
+    Vue.component('editable-title', require('./components/crud/editable/editable-title.vue'));
+    Vue.component('editable-text', require('./components/crud/editable/text.vue'));
+    Vue.component('editable-photo', require('./components/crud/editable/editable-photo.vue'));
 
     /*
     |--------------------------------------------------------------------------
