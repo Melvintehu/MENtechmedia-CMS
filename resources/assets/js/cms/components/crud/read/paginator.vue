@@ -11,10 +11,10 @@
             <div class="inline-block right space-inside-up-sm">
                 <span class="space-outside-sides-xs">Items per pagina:</span>
                 <select v-model="paginator.itemsPerPage" class="border-curved space-inside-sides-sm space-inside-xs" @change="paginator.changeItemsPerPage()">
-                    <option>5</option>
                     <option>10</option>
-                    <option>25</option>
+                    <option>20</option>
                     <option>50</option>
+                    <option>100</option>
                 </select>
             </div>
         </div>
