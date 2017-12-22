@@ -29,7 +29,7 @@ class Section extends Model {
             },
 
             photo: {
-                type: 'multi-photo',
+                type: 'photo',
                 hidden: true,
                 translation: 'Kies een foto',
                 dimensions: {"1x1": 'portrait'},
