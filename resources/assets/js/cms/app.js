@@ -13,20 +13,16 @@
     // require('material-design-icons');
     require('./core/helpers/Classes');
     require('./core/imports');
+
+    // custom models for cms
     require('./Objects');
+    
     require('./core/models/objects');
+    require('./core/plugins/index');
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | Base CMS components
-    |--------------------------------------------------------------------------
-    |
-    | The components below are part of the core of the CMS. They are used to 
-    | dynamiccaly provide the crud operations required in almost every  
-    | project.
-    |
-    */
+
+    
     
 
     // dashboard
@@ -35,6 +31,10 @@
     // progress
     Vue.component('progressbar', require('./components/crud/progress/progressbar.vue'));
     
+    // Plugin entrypoint
+    Vue.component('plugin', require('./components/plugin/plugin.vue'));
+
+
     /*
     |--------------------------------------------------------------------------
     | Forgot password components
@@ -76,7 +76,7 @@
     Vue.component('nav-search', require('./components/nav/nav-search.vue'));
     Vue.component('nav-user-active', require('./components/nav/nav-user-active.vue'));
     Vue.component('pull-menu-cms', require('./components/menu/pull-menu-cms.vue'));
-    
+    Vue.component('plugin-nav', require('./components/nav/plugin-nav.vue'));
     Vue.component('overlay', require('./components/overlay/overlay.vue'));
     
        

@@ -6,7 +6,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Entity;
 class FrontController extends Controller
-{
+{   
+
+    public function plugin() 
+    {
+        return view('cms.Core.plugin.index');
+    }
+
     /**
      * Display a listing of the resource.
      *
