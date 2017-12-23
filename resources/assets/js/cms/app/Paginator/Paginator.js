@@ -4,7 +4,7 @@ class Paginator {
         this.referenceData = referenceData;
         this.maximumPages = 0;
         this.currentPage =  1;
-        this.itemsPerPage = 5;
+        this.itemsPerPage = 10;
 
         this.setMaximumPages();
         this.paginate(this.itemsPerPage, this.currentPage, this.referenceData);
