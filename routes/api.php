@@ -22,16 +22,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
  * Core routes here
  */
 
-Route::resource('settings', 'api\SettingsController');
-Route::resource('entity', 'api\EntityController');
-Route::resource('navGroup', 'api\NavGroupController');
-Route::resource('section', 'api\SectionController');
-Route::resource('userRole', 'api\UserRoleController');
-Route::resource('user', 'api\UserController');
+foreach (File::glob(base_path('routes/api/core/*.php')) as $filename) {
+    if (isset($filename) && file_exists($filename)) {
+        require $filename;
+    }
+}
 
 
- /**
-  * Custom routes here
-  */
- Route::resource('article', 'api\ArticleController');
- Route::resource('settings', 'api\SettingsController');
+
+

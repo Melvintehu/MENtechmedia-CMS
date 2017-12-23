@@ -30,21 +30,15 @@ Route::group(['prefix' => 'cms'],  function () {
 
     Route::group(['middleware' => ['auth']], function(){
 
-        // --- CORE ROUTES ONLY
-        Route::get('/profile/edit', 'cms\ProfileController@edit');
-        Route::get('/logout', 'cms\LogoutController@logout');
-   		Route::get('/', 'cms\DashBoardController@index');
-        Route::get('/edit', 'cms\FrontController@edit');
-        
-        // --- CORE POSt ROUTES ONLY
-        Route::post('/step1', 'cms\SetupController@step1');
+        /**
+         * Routes for CMS front-end here
+         */
 
-
-        // ----------------- GENERIC ROUTES FOR EVERY PROJECT GO HERE ----------
-
-
-        // ------ CUSTOM ROUTES GO UNDERNEATH HERE ----------------
-        Route::resource('entity', 'cms\FrontController');
+        foreach (File::glob(base_path('routes/cms/core/*.php')) as $filename) {
+            if (isset($filename) && file_exists($filename)) {
+                require $filename;
+            }
+        }
 
     });
 });
