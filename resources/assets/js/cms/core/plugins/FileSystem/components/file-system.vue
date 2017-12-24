@@ -17,7 +17,6 @@
                     <i class="material-icons text-color-accent">file_download</i>
                 </div>
 
-
             </div>
         </div>
 
@@ -77,6 +76,7 @@
         }, 
 
         mounted() {
+        
             $(document).ready(function() {
                 $(window).resize(function(){
                     // If there are multiple elements with the same class, "main"
