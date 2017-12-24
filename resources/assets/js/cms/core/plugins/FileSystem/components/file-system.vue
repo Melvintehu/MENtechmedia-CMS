@@ -45,7 +45,6 @@
         position: absolute;
         bottom: 0px;
         left: 0px;
-        
     }
 
     .operationButton {
