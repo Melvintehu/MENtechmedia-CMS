@@ -6,27 +6,31 @@
                 Vul hieronder de velden in, en klik op: verstuur.
             </p>
 
-            <div class="col-lg-12 space-inside-xs reset-padding">
+            <div class="col-lg-12 space-inside-xs">
 				<div class="row ">
 					<div class="col-lg-12 reset-padding">
-                        <div class="col-lg-12 space-inside-up-sm" @click="openOverlay()">
-                            <!-- add recipients -->
-                            <div class="transition-normal border-curved bg-secondary operationButton bg-hover-main inline-block 
-                            space-inside-sm space-inside-sides-sm pointer">
-                                <i class="material-icons text-color-accent">add_circle_outline</i>
-                            </div>
-                            <div class="inline-block pointer">
-                                <p style="position: absolute; top: 35px;" class="space-inside-left-xs">Voeg ontvangers toe</p>
-                            </div>
-                        </div>
-
-                        <div v-if="recipients !== null">
-                        
-                            <div v-for="recipient in recipients">
-                                {{ recipient.name }}
+                        <div class="row">
+                            <div class="col-lg-12 space-inside-up-sm" @click="openOverlay()">
+                                <!-- add recipients -->
+                                <div class="transition-normal border-curved bg-secondary operationButton bg-hover-main inline-block 
+                                space-inside-sm space-inside-sides-sm pointer">
+                                    <i class="material-icons text-color-accent">add_circle_outline</i>
+                                </div>
+                                <div class="inline-block pointer">
+                                    <p style="position: absolute; top: 35px;" class="space-inside-left-xs">Voeg ontvangers toe</p>
+                                </div>
                             </div>
                         </div>
 
+                        <div class="row" v-if="recipients !== null">
+                            <div class="col-lg-2 space-inside-sides-xs space-inside-sm pointer" v-for="(recipient, index) in recipients">
+                                <div class="bg-secondary border-curved" @click="removeRecipient(index)">
+                                    <p class="space-inside-down-sm space-inside-left-sm text-hover-light bg-hover-delete transition-normal">
+                                        <i style="position: relative; top: 7px;" class="material-icons space-inside-sides-xs">remove_circle</i> {{ recipient.name }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -35,6 +39,7 @@
 				<div class="row ">
 					<div class="col-lg-12 reset-padding">
                         <!-- The input -->
+                        <p class="text-bold space-inside-sm">Onderwerp</p>
                         <input 
                             placeholder="Onderwerp"
                             v-model="subject"
@@ -55,6 +60,7 @@
 				<div class="row ">
 					<div class="col-lg-12 reset-padding">
                         <!-- The input -->
+                        <p class="text-bold space-inside-sm">Inhoud</p>
                         <textarea 
                             placeholder="Inhoud"
                             v-model="content"
@@ -82,34 +88,30 @@
             <overlay>
                 <div class="col-lg-12 reset-padding">
 						
-                    <h1 class="text-color-dark text-left text-uppercase letter-spacing-sm text-bold">Selecteer personen</h1>
+                    <h1 class="text-color-dark text-left text-uppercase letter-spacing-sm text-bold space-inside-md">Selecteer personen</h1>
                     
 
                     <!-- Select users to send mail to. -->
-                    <div class="row space-inside-md ">	
+                    <div class="row" v-if="users.length > 0">	
                         <h2>Selecteer users</h2>
-                        <div class="col-lg-2 space-inside-sides-xs space-inside-sm pointer" v-for="user in users">
-                            <transition name="fade">
-                                <div class="bg-secondary border-curved" @click="toggleUser(user)">
-                                    <p class="space-inside-down-sm space-inside-left-sm">
-                                        <i style="position: relative; top: 7px;" class="material-icons space-inside-sides-xs">person_add</i> {{ user.name }}
-                                    </p>
-                                </div>
-                            </transition>
+                        <div class="col-lg-2 space-inside-sides-xs space-inside-sm pointer" v-for="(user, index) in users">
+                            <div class="bg-secondary border-curved" @click="addRecipient(index)">
+                                <p class="space-inside-down-sm space-inside-left-sm">
+                                    <i style="position: relative; top: 7px;" class="material-icons space-inside-sides-xs">person_add</i> {{ user.name }}
+                                </p>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Selected users to send mail to. -->
-                    <div class="row space-inside-md ">	
+                    <div class="row space-inside-up-sm" v-if="recipients.length > 0">	
                         <h2>Geselecteerde users</h2>
-                        <div class="col-lg-2 space-inside-sides-xs space-inside-sm pointer" v-for="user in recipients">
-                            <transition name="fade">
-                                <div class="bg-secondary border-curved" @click="toggleUser(user)">
-                                    <p class="space-inside-down-sm space-inside-left-sm">
-                                        <i style="position: relative; top: 7px;" class="material-icons space-inside-sides-xs">person</i> {{ user.name }}
-                                    </p>
-                                </div>
-                            </transition>   
+                        <div class="col-lg-2 space-inside-sides-xs space-inside-sm pointer" v-for="(user, index) in recipients">
+                            <div class="bg-secondary border-curved" @click="removeRecipient(index)">
+                                <p class="space-inside-down-sm space-inside-left-sm text-hover-light bg-hover-delete transition-normal">
+                                    <i style="position: relative; top: 7px;" class="material-icons space-inside-sides-xs">remove_circle</i> {{ user.name }}
+                                </p>
+                            </div>
                         </div>
                     </div>
 
@@ -133,6 +135,10 @@
     .operationButton:hover > i{
         color: white !important;
     }
+
+    .bg-hover-delete:hover {
+        background-color: #e74c3c;
+    }
 </style>
 <script>
     import Mail from '../models/Mail';
@@ -147,47 +153,28 @@
                recipients: [],
                subject: null,
                content: null,
-               referenceUsers: null,
                users: [],
            }
        },
 
        mounted() {
            Factory.getStaticInstance('user').all().then((data) => {
-               this.users = data;
-               this.referenceUsers = data;
+               this.users = collect(data);
            });
        },
 
-       methods: {
-          toggleUser(user) {
+        methods: {
+            addRecipient(index) {
+                this.recipients.push(_.head(this.users.splice(index, 1)));
+            },
 
-            //  Find index of user in recipients
-            let index = _.findIndex(this.recipients, {
-                'id': user.id
-            });
+            removeRecipient(index) {
+                this.users.push(_.head(this.recipients.splice(index, 1)));
+            },
 
-            //  Find index of user in users 
-            let indexUser = _.findIndex(this.users, {
-                'id': user.id
-            });
-
-            // If user not in recipients, splice from user array and push on recipients array
-            if(index === -1) {
-                this.users.splice(indexUser, 1);
-                this.recipients.push(user);
+            openOverlay() {
+                Event.fire('overlay:open');
             }
-
-            // if user not in user array, splice from recipients and push on user array
-            if(indexUser === -1) {
-                this.recipients.splice(index, 1);
-                this.users.push(user);
-            }
-          },
-
-          openOverlay() {
-              Event.fire('overlay:open');
-          }
-       }
+        }
    }   
 </script>

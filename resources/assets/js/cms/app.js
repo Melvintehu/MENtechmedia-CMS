@@ -21,7 +21,9 @@
     require('./core/plugins/index');
 
 
+    
 
+    window.collect = require('collect.js');
     
     
 

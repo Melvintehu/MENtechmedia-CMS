@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "animate.css": "^3.5.2",
+    "collect.js": "^4.0.1",
     "cropperjs": "1.0.0-beta",
     "dropzone": "4.3.0",
     "image-scale": "^2.1.0",
