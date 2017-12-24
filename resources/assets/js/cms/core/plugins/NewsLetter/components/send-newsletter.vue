@@ -85,8 +85,8 @@
                     <!-- Select users to send mail to. -->
                     <div class="row space-inside-md ">	
                         <h2>Selecteer users</h2>
-                        <div class="col-lg-2 space-inside-sides-xs space-inside-sm pointer" v-for="user in users">
-                            <div class="bg-secondary border-curved" @click="toggleUser(user)">
+                        <div class="col-lg-2 space-inside-sides-xs space-inside-sm pointer" v-for="(user, index) in users">
+                            <div class="bg-secondary border-curved" @click="addRecipient(index)">
                                 <p class="space-inside-down-sm space-inside-left-sm">
                                     <i style="position: relative; top: 7px;" class="material-icons space-inside-sides-xs">person_add</i> {{ user.name }}
                                 </p>
@@ -97,8 +97,8 @@
                     <!-- Selected users to send mail to. -->
                     <div class="row space-inside-md ">	
                         <h2>Geselecteerde users</h2>
-                        <div class="col-lg-2 space-inside-sides-xs space-inside-sm pointer" v-for="user in recipients">
-                            <div class="bg-secondary border-curved" @click="toggleUser(user)">
+                        <div class="col-lg-2 space-inside-sides-xs space-inside-sm pointer" v-for="(user, index) in recipients">
+                            <div class="bg-secondary border-curved" @click="removeRecipient(index)">
                                 <p class="space-inside-down-sm space-inside-left-sm">
                                     <i style="position: relative; top: 7px;" class="material-icons space-inside-sides-xs">person</i> {{ user.name }}
                                 </p>
@@ -136,35 +136,18 @@
            });
        },
 
-       methods: {
-          toggleUser(user) {
+        methods: {
+            addRecipient(index) {
+                this.recipients.push(this.users.splice(index, 1));
+            },
 
-            //  Find index of user in recipients
-            let index = _.findIndex(this.recipients, {
-                'id': user.id
-            });
-
-            //  Find index of user in users 
-            let indexUser = _.findIndex(this.users, {
-                'id': user.id
-            });
-
-            // If user not in recipients, splice from user array and push on recipients array
-            if(index === -1) {
-                this.users.splice(indexUser, 1);
-                this.recipients.push(user);
+            removeRecipient(index) {
+                this.users.push(this.recipients.splice(index, 1));
             }
 
-            // if user not in user array, splice from recipients and push on user array
-            if(indexUser === -1) {
-                this.recipients.splice(index, 1);
-                this.users.push(user);
+            openOverlay() {
+                Event.fire('overlay:open');
             }
-          },
-
-          openOverlay() {
-              Event.fire('overlay:open');
-          }
-       }
+        }
    }   
 </script>
