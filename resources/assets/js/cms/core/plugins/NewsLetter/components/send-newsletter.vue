@@ -6,24 +6,27 @@
                 Vul hieronder de velden in, en klik op: verstuur.
             </p>
 
-            <div class="col-lg-12 space-inside-xs ">
+            <div class="col-lg-12 space-inside-xs reset-padding">
 				<div class="row ">
 					<div class="col-lg-12 reset-padding">
-                        <!-- The input -->
-                        <input 
-                            @click="openOverlay()"
-                            placeholder="Versturen naar.."
-                            v-model="recipients"
-                            type="text"
-                            class="
-                                border border-secondary border-curved outline-none
-                                space-inside-sides-md space-inside-sm 
-                                inline-block 
-                                full-width
-                                bg-secondary
-                                pointer
-                                " 
-                        required>
+                        <div class="col-lg-12 space-inside-up-sm" @click="openOverlay()">
+                            <!-- add recipients -->
+                            <div class="transition-normal border-curved bg-secondary operationButton bg-hover-main inline-block 
+                            space-inside-sm space-inside-sides-sm pointer">
+                                <i class="material-icons text-color-accent">add_circle_outline</i>
+                            </div>
+                            <div class="inline-block pointer">
+                                <p style="position: absolute; top: 35px;" class="space-inside-left-xs">Voeg ontvangers toe</p>
+                            </div>
+                        </div>
+
+                        <div v-if="recipients !== null">
+                        
+                            <div v-for="recipient in recipients">
+                                {{ recipient.name }}
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -86,11 +89,13 @@
                     <div class="row space-inside-md ">	
                         <h2>Selecteer users</h2>
                         <div class="col-lg-2 space-inside-sides-xs space-inside-sm pointer" v-for="user in users">
-                            <div class="bg-secondary border-curved" @click="toggleUser(user)">
-                                <p class="space-inside-down-sm space-inside-left-sm">
-                                    <i style="position: relative; top: 7px;" class="material-icons space-inside-sides-xs">person_add</i> {{ user.name }}
-                                </p>
-                            </div>
+                            <transition name="fade">
+                                <div class="bg-secondary border-curved" @click="toggleUser(user)">
+                                    <p class="space-inside-down-sm space-inside-left-sm">
+                                        <i style="position: relative; top: 7px;" class="material-icons space-inside-sides-xs">person_add</i> {{ user.name }}
+                                    </p>
+                                </div>
+                            </transition>
                         </div>
                     </div>
 
@@ -98,11 +103,13 @@
                     <div class="row space-inside-md ">	
                         <h2>Geselecteerde users</h2>
                         <div class="col-lg-2 space-inside-sides-xs space-inside-sm pointer" v-for="user in recipients">
-                            <div class="bg-secondary border-curved" @click="toggleUser(user)">
-                                <p class="space-inside-down-sm space-inside-left-sm">
-                                    <i style="position: relative; top: 7px;" class="material-icons space-inside-sides-xs">person</i> {{ user.name }}
-                                </p>
-                            </div>
+                            <transition name="fade">
+                                <div class="bg-secondary border-curved" @click="toggleUser(user)">
+                                    <p class="space-inside-down-sm space-inside-left-sm">
+                                        <i style="position: relative; top: 7px;" class="material-icons space-inside-sides-xs">person</i> {{ user.name }}
+                                    </p>
+                                </div>
+                            </transition>   
                         </div>
                     </div>
 
@@ -111,6 +118,22 @@
         </div>
     </div>
 </template>
+<style type="text/css">
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .5s
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+      opacity: 0
+    }
+
+    .operationButton {
+        line-height: 10px;
+    }
+
+    .operationButton:hover > i{
+        color: white !important;
+    }
+</style>
 <script>
     import Mail from '../models/Mail';
 
