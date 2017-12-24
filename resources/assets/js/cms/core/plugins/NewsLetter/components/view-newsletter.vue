@@ -6,9 +6,6 @@
                 Bekijk hieronder de verstuurde nieuwsbrieven.
             </p>
 
-            <read type="mail"> 
-                   
-            </read>
         </div>
    </div>
 </template>
