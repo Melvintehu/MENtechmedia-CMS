@@ -10,6 +10,7 @@
     */  
     
     import FileSystem from './FileSystem/FileSystem';
+    import NewsLetter from './NewsLetter/NewsLetter';
 
 
     /*
@@ -25,6 +26,7 @@
 
     window.Plugins = {
         fileSystem: FileSystem,
+        newsLetter: NewsLetter,
     };
 
  
