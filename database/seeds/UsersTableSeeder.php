@@ -13,6 +13,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        App\User::truncate();
         $user = new User();
         
         $user->name = "Admin";
@@ -20,5 +21,7 @@ class UsersTableSeeder extends Seeder
         $user->password = bcrypt("password");
 
         $user->save();
+
+        Bouncer::assign('admin')->to($user);
     }
 }
