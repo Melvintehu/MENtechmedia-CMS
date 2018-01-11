@@ -23,6 +23,16 @@ class User extends Model {
             //         required: true
             //     }),
             // }, 
+            role_id: { 
+				type: 'model-checkbox',
+				model: 'userRole',
+				referenceField: 'name',
+				translation: 'Rolnaam', 
+				validation: new Validator({
+					required: true
+                }),
+                hidden: true,
+			},
 
             photo: {
                 type: 'photo',
