@@ -31,6 +31,7 @@ class User extends Model {
                 validation: new Validator({
                     required: true
                 }),
+                hidden: true,
             },
         };
 
