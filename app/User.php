@@ -47,4 +47,21 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Settings');
     }
+
+    public function hasRoles($roles) 
+    {
+      
+        
+        if($this->isAn('admin')) {
+            return true;
+        }
+        
+        foreach($roles as $index => $role) {
+            if($this->isA(lcfirst($role->name) . '-user')) {
+                return true;
+            }
+        }
+
+        return false;
+    }   
 }
