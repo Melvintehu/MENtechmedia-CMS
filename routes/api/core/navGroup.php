@@ -1,5 +1,5 @@
 <?php
 
-Route::resource('navGroup', 'api\NavGroupController');
+Route::resource('navGroup', $api_namespace . 'NavGroupController');
 
 ?>

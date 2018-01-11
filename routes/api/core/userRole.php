@@ -1,5 +1,5 @@
 <?php
 
-Route::resource('userRole', 'api\UserRoleController');
+Route::resource('userRole', $api_namespace . 'UserRoleController');
 
 ?>

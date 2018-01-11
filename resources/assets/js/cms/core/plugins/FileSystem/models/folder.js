@@ -7,25 +7,23 @@ class Folder extends Model {
 
     constructor(data = {}) {
         super(data);
-
-        let folder = new Folder();
-        folder.children().then((children) => {
-            this.children = children;
-        });
         
+   
     }
     
 
     children() {
-        return Folder.where([
-            ['parent_id', '=', this.id],
+        return Factory.getStaticInstance('folder').where([
+            ['id', '=', 1]
         ]);
-       }
+    }
 
     files() {
+        
 
     }
 
+   
 
 }
 

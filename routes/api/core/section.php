@@ -1,5 +1,5 @@
 <?php
 
-Route::resource('section', 'api\SectionController');
+Route::resource('section', $api_namespace . 'SectionController');
 
 ?>

@@ -64,6 +64,7 @@
     post(base, parameters) {
 
       return new Promise((resolve, reject) => {
+
         parameters.user_id = this.user_id;
 
           window.axios.post(this.version() + base, parameters).then( (response) => {

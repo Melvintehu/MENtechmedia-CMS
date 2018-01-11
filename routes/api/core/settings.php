@@ -1,5 +1,5 @@
 <?php
 
-Route::resource('settings', 'api\SettingsController');
+Route::resource('settings', $api_namespace . 'SettingsController');
 
 ?>

@@ -46,4 +46,5 @@
         let plugin = new window.Plugins[index];
 
         require("./" + plugin.constructor.name + '/' + plugin.entry);
+        require("./" + plugin.constructor.name + '/models/index');
     }
