@@ -16,13 +16,30 @@ class User extends Model {
                 }),
             },
 
-            // email: {
-            //     type: 'text',
-            //     translation: 'Email',
-            //     validation: new Validator({
-            //         required: true
-            //     }),
-            // }, 
+            email: {
+                type: 'text',
+                translation: 'Email',
+                validation: new Validator({
+                    required: true
+                }),
+            }, 
+
+            password: {
+                type: 'text',
+                translation: 'Wachtwoord',
+                validation: new Validator({
+                    required: true
+                }),
+            }, 
+
+            phone_number: { 
+				type: 'text', 
+				translation: 'Telefoonnummer',
+				validation: new Validator({
+					required: true
+				})  
+            },
+            
             role_id: { 
 				type: 'model-checkbox',
 				model: 'userRole',
