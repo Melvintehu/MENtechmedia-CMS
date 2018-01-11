@@ -39,8 +39,19 @@ class UserController extends Controller
         */
     public function store(Request $request)
     {
-        $object = User::create($request->all());
-        return response()->json($object, 200);
+        $user = User::create([
+            "name" => $request->get('name'),
+            "email" => $request->get('email'),
+            "password" => bcrypt($request->get('password')),
+            "phone_number" => $request->get('phone_number'), 
+        ]);
+
+        foreach($request->get('role_id') as $key =>  $value) {
+            $role = Bouncer::role()->find($value);
+            $user->assign($role);
+        }
+
+        return response()->json($user, 200);
     }
     
     /**
