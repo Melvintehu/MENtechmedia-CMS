@@ -1,4 +1,3 @@
-    
     /*
     |--------------------------------------------------------------------------
     | Require modules
@@ -26,17 +25,12 @@
 
     /*
     |--------------------------------------------------------------------------
-    | CMS and Vue entrypoint
+    | Front-end components
     |--------------------------------------------------------------------------
     |
-    | 
-    | 
-    | 
+    |   Register your front-end components here.
     |
     */
-    
-    require('./cms/component-library/index');
-    require('./cms/app.js');
     
     const app = new Vue({
         el: '#app',

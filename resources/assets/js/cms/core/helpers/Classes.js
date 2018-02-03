@@ -4,8 +4,7 @@
 
 // Global Factory class
 require('./Factory');
-// Global Exception helper class
-require('./Exception');
+
 
 // Helper class 
 require('./Helper');
@@ -19,17 +18,8 @@ require('./Event');
 // Global Notifier class
 require('./Notifier');
 
-// Global message class
-require('./Message');
-
 // Global datehelper class
 require('./Date');
-
-// Global formhelper class
-require('./Form');
-
-// Global date-picker class
-require('./DatePicker');
 
 // Global Validator class
 require('./Validator');
