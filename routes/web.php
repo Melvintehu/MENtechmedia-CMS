@@ -15,8 +15,8 @@ $web_namespace = "App\\Http\\Controllers\\";
 $cms_namespace = "App\\Http\\Controllers\\cms\\";
 $auth_namespace = "App\\http\\Controllers\Auth\\";
 
-Route::get('/', function () {
-    return view('cms.Core.setup.index');
+Route::get('/test', function () {
+    return view('cms.Core.component-library.index');
 });
 
 

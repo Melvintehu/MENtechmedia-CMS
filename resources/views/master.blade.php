@@ -70,7 +70,7 @@
         @yield('content')
 
     </div>
-    <script type="text/javascript" src="/js/app.js"></script>
+    <script type="text/javascript" src="/js/front-end.js"></script>
     
 </body>
 </html>
